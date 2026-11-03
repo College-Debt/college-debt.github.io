@@ -1,0 +1,353 @@
+/* Custom Layout Fixes for College Debt SMP */
+
+html, body {
+  min-height: 100vh;
+  margin: 0;
+}
+
+.wp-site-blocks {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure main content area fills screen minus header height so footer sits below the fold */
+main,
+.wp-site-blocks > main {
+  min-height: calc(100vh - 83px);
+  box-sizing: border-box;
+}
+
+/* Remove unwanted top margin/spacing above header */
+.wp-site-blocks > :first-child,
+.wp-site-blocks > .is-position-sticky:first-of-type,
+.wp-site-blocks > div:first-of-type,
+header.wp-block-template-part {
+  margin-block-start: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Header Layout classes (replacing dynamically generated wp-container-core-* classes) */
+.site-header-nav-wrapper { justify-content: flex-start; }
+.site-header-nav { gap: var(--wp--preset--spacing--20); justify-content: flex-end; }
+.site-header-row { justify-content: space-between; }
+.site-header-group > .alignfull { margin-right: calc(var(--wp--preset--spacing--50) * -1); margin-left: calc(var(--wp--preset--spacing--50) * -1); }
+
+/* Footer Layout classes (replacing dynamically generated wp-container-core-* classes) */
+.site-footer-wrapper {
+  /* Removed margin-top: auto to allow footer to stay below fold on short pages */
+}
+.site-footer-group > .alignfull { margin-right: calc(var(--wp--preset--spacing--50) * -1); margin-left: calc(var(--wp--preset--spacing--50) * -1); }
+.site-footer-row { justify-content: space-between; }
+.site-footer-col-left { gap: var(--wp--preset--spacing--10); flex-direction: column; align-items: flex-start; }
+.site-footer-col-right { flex-direction: column; align-items: flex-start; }
+.site-footer-nav { justify-content: flex-end; }
+
+/* Post Layout classes */
+.post-navigation-row { flex-wrap: nowrap; justify-content: space-between; align-items: center; }
+.post-navigation-link { display: flex; align-items: center; }
+
+/* Arrow indicator for navigation links (e.g. Discord ↗, YouTube Playlist ↗) */
+.is-style-arrow-link .wp-block-navigation-item__label:after {
+  content: "\2197" !important;
+  padding-inline-start: 0.25rem !important;
+  vertical-align: middle !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+}
+
+/* Mobile Navigation Overlay Adjustments */
+.wp-block-navigation__responsive-container-close {
+  position: fixed !important;
+  top: 29.5px !important;
+  right: var(--wp--preset--spacing--40) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 100001 !important;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open {
+  padding-right: var(--wp--preset--spacing--40) !important;
+  animation: overlay-menu__fade-in-only .1s ease-out !important;
+  animation-fill-mode: forwards !important;
+}
+
+@keyframes overlay-menu__fade-in-only {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item,
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item a,
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content,
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__label {
+  font-size: clamp(1.4rem, 4vw, 2.2rem) !important;
+  line-height: 2 !important;
+  padding-right: 0 !important;
+}
+
+/* Custom Fonts & Heading Overrides */
+@font-face {
+  font-family: 'Minecraft';
+  src: url('/assets/fonts/MinecraftRegular-Bmg3.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cardo';
+  src: url('/assets/fonts/cardo/cardo_normal_400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cardo';
+  src: url('/assets/fonts/cardo/cardo_italic_400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cardo';
+  src: url('/assets/fonts/cardo/cardo_normal_700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+h1, h2,
+.has-minecraft-font-family,
+.has-minecraft-font-family *,
+.site-header-nav,
+.site-header-nav * {
+  font-family: 'Minecraft', monospace !important;
+  -webkit-font-smoothing: none !important;
+  -moz-osx-font-smoothing: unset !important;
+  font-smooth: never !important;
+  text-rendering: geometricPrecision !important;
+}
+
+.site-header-nav,
+.site-header-nav .wp-block-navigation-item,
+.site-header-nav .wp-block-navigation-item a,
+.site-header-nav .wp-block-navigation-item__content,
+.site-header-nav .wp-block-navigation-item__label {
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+}
+
+.site-header-nav a,
+.site-header-nav .wp-block-navigation-item a,
+.site-header-nav .wp-block-navigation-item__content,
+.site-header-nav .wp-block-navigation-item__label {
+  transition: none !important;
+}
+
+.site-header-nav a:hover,
+.site-header-nav a:focus,
+.site-header-nav .wp-block-navigation-item a:hover,
+.site-header-nav .wp-block-navigation-item__content:hover,
+.site-header-nav .wp-block-navigation-item__label:hover {
+  text-decoration: none !important;
+  color: var(--wp--preset--color--contrast-2, #636363) !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--wp--preset--font-family--body, 'Inter', sans-serif);
+}
+
+.has-heading-font-family,
+.has-heading-font-family * {
+  font-family: 'Cardo', Georgia, serif !important;
+}
+
+/* Default Figure, Image, and Figcaption Styling */
+figure {
+  margin: 1.5em 0;
+}
+
+.wp-block-image img,
+figure img,
+figure iframe {
+  border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+}
+
+figure iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+figcaption {
+  font-size: 0.8rem;
+  color: var(--wp--preset--color--contrast-2);
+  margin-top: 0.5em;
+}
+
+/* Home Page Sections & Layout */
+.home-hero-section {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 60px !important;
+  padding-bottom: 60px !important;
+  padding-left: var(--wp--preset--spacing--40) !important;
+  padding-right: var(--wp--preset--spacing--40) !important;
+}
+
+.home-hero-image {
+  margin-top: 60px !important;
+  margin-bottom: 0 !important;
+}
+
+.home-hero-image img {
+  display: block;
+}
+
+.home-hero-title {
+  font-size: var(--wp--preset--font-size--x-large, 2.25rem) !important;
+  margin: 0 !important;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.home-callout-wrapper {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-left: var(--wp--preset--spacing--40) !important;
+  padding-right: var(--wp--preset--spacing--40) !important;
+}
+
+.home-callout-box {
+  border-radius: 8px !important;
+  background: linear-gradient(128deg, rgb(10, 70, 81) 0%, rgb(11, 104, 120) 100%) !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 60px var(--wp--preset--spacing--40) !important;
+  text-align: center !important;
+}
+
+.home-callout-box p,
+.home-callout-box .wp-block-group {
+  text-align: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.site-footer-col-right {
+  align-items: flex-end !important;
+  text-align: right !important;
+}
+
+.site-footer-col-right figure,
+.site-footer-col-right a,
+.site-footer-col-right img {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+.home-callout-box .wp-block-buttons {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.home-callout-heading {
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.home-wiki-button {
+  border-style: none !important;
+  border-width: 0px !important;
+  border-radius: 0px !important;
+  box-shadow: var(--wp--preset--shadow--sharp) !important;
+}
+
+.home-posts-section {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 60px var(--wp--preset--spacing--40) !important;
+}
+
+.site-footer-wrapper,
+.site-footer-group,
+footer.site-footer-wrapper,
+footer.site-footer-group {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.home-posts-heading {
+  margin-top: 0 !important;
+  margin-bottom: var(--wp--preset--spacing--10) !important;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* Post List Item Fixed Spacing & Title Font Size (No viewport scaling) */
+.wp-block-post-template .wp-block-columns {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+  column-gap: 2em !important;
+  row-gap: 0.4em !important;
+}
+
+.wp-block-post-template .wp-block-post-title,
+.wp-block-post-template .wp-block-post-title a {
+  font-size: 1.15rem !important;
+  margin: 0 !important;
+}
+
+/* Heading Vertical Margins for Clear Content Hierarchy */
+.entry-content h1,
+.wp-block-post-content h1 {
+  margin-top: 2.25em !important;
+  margin-bottom: 0.8em !important;
+}
+
+.entry-content h2,
+.wp-block-post-content h2 {
+  margin-top: 2em !important;
+  margin-bottom: 0.75em !important;
+}
+
+.entry-content h3,
+.wp-block-post-content h3 {
+  margin-top: 1.75em !important;
+  margin-bottom: 0.6em !important;
+}
+
+.entry-content h4,
+.wp-block-post-content h4 {
+  margin-top: 1.5em !important;
+  margin-bottom: 0.5em !important;
+}
+
+.entry-content h5,
+.wp-block-post-content h5 {
+  margin-top: 1.25em !important;
+  margin-bottom: 0.4em !important;
+}
+
+.entry-content h6,
+.wp-block-post-content h6 {
+  margin-top: 1em !important;
+  margin-bottom: 0.4em !important;
+}
+
+.entry-content > *:first-child,
+.wp-block-post-content > *:first-child {
+  margin-top: 0 !important;
+}
