@@ -1,0 +1,13 @@
+{{ $type := .Get 0 | default (.Get "type") | default "info" }}
+<div class="wiki-hint wiki-hint-{{ $type }}">
+  <div class="wiki-hint-icon">
+    {{ if or (eq $type "warning") (eq $type "warn") }}⚠️
+    {{ else if or (eq $type "danger") (eq $type "error") }}🛑
+    {{ else if or (eq $type "success") (eq $type "tip") }}✅
+    {{ else }}ℹ️
+    {{ end }}
+  </div>
+  <div class="wiki-hint-content">
+    {{ .Inner | markdownify }}
+  </div>
+</div>

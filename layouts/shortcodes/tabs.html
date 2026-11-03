@@ -1,0 +1,4 @@
+{{ $group := .Get 0 | default (.Get "name") | default (printf "tabs-%d" (now.UnixNano)) }}
+<div class="wiki-tabs" data-tabs-group="{{ $group }}">
+  {{ .Inner }}
+</div>

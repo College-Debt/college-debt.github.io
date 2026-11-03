@@ -1,0 +1,7 @@
+{{ $title := .Get 0 | default (.Get "title") | default "Tab" }}
+<div class="wiki-tab-panel" data-tab-title="{{ $title }}">
+  <div class="wiki-tab-header"><strong>{{ $title }}</strong></div>
+  <div class="wiki-tab-content">
+    {{ .Inner | markdownify }}
+  </div>
+</div>

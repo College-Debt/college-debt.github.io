@@ -1,0 +1,7 @@
+{{ $url := .Get "url" | default (.Get 0) }}
+<div class="wiki-content-ref">
+  <a href="{{ $url }}" class="wiki-content-ref-link">
+    <span class="wiki-content-ref-icon">📄</span>
+    <span class="wiki-content-ref-text">{{ .Inner | markdownify }}</span>
+  </a>
+</div>

@@ -1,0 +1,20 @@
+{{ $url := .Get "url" | default (.Get 0) }}
+{{ if or (findRE `youtube\.com` $url) (findRE `youtu\.be` $url) }}
+  {{ $videoID := "" }}
+  {{ if findRE `youtube\.com/watch\?v=` $url }}
+    {{ $parts := split $url "v=" }}
+    {{ $videoID = index (split (index $parts 1) "&") 0 }}
+  {{ else if findRE `youtu\.be/` $url }}
+    {{ $parts := split $url "youtu.be/" }}
+    {{ $videoID = index (split (index $parts 1) "?") 0 }}
+  {{ end }}
+  <figure class="wiki-embed-video">
+    <iframe src="https://www.youtube.com/embed/{{ $videoID }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:8px;"></iframe>
+  </figure>
+{{ else }}
+  <div class="wiki-embed-link">
+    <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="wiki-embed-card">
+      <span class="wiki-embed-card-title">{{ $url }} ↗</span>
+    </a>
+  </div>
+{{ end }}
