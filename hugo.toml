@@ -1,0 +1,14 @@
+baseURL = 'https://collegedebt.app/'
+languageCode = 'en-US'
+title = 'College Debt SMP'
+
+[taxonomies]
+  category = 'category'
+  author = 'author'
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.goldmark.parser.attribute]
+  block = true
+  title = true

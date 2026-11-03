@@ -1,0 +1,36 @@
+{{ define "main" }}
+<div class="wp-block-group alignfull has-global-padding is-layout-constrained home-hero-section">
+	<div class="wp-block-group alignwide is-layout-flow">
+		<h1 class="wp-block-heading has-text-align-center has-x-large-font-size home-hero-title">It's College Debt!</h1>
+		<p class="has-text-align-center" style="margin: 20px 0 0 0;">anteaters with a turtle</p>
+	</div>
+	<figure class="wp-block-image alignwide size-full home-hero-image"><img src="/assets/images/tort.jpg" alt="tort" class="wp-image-102"></figure>
+</div>
+
+<div class="wp-block-group alignwide has-global-padding is-layout-constrained home-callout-wrapper">
+	<div class="wp-block-group alignwide has-background has-global-padding is-layout-constrained home-callout-box">
+		<h2 class="wp-block-heading has-text-align-center is-style-default has-base-2-color has-text-color has-link-color home-callout-heading">Ready to mine and craft?</h2>
+		<div class="wp-block-group is-vertical is-content-justification-center is-layout-flex" style="gap: 1.2rem;">
+			<p class="has-text-align-center has-base-2-color has-text-color has-link-color" style="margin:0;">
+				smp.collegedebt.app • Minecraft Java &amp; Bedrock compatible</p>
+			<p class="has-text-align-center has-base-2-color has-text-color has-link-color" style="margin:0;">
+				For more information about the server and its features, refer to the wiki site</p>
+			<div class="wp-block-buttons is-layout-flex is-content-justification-center" style="margin-top: 0.5rem;">
+				<div class="wp-block-button has-custom-font-size is-style-fill has-medium-font-size"><a
+						class="wp-block-button__link has-contrast-color has-base-2-background-color has-text-color has-background has-link-color home-wiki-button"
+						href="https://wiki.collegedebt.app"
+						rel="https://collegedebtsmp.notion.site/">Go to the Wiki</a></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="wp-block-group alignfull has-global-padding is-layout-constrained home-posts-section">
+	<h2 class="wp-block-heading alignwide has-body-font-family has-x-large-font-size home-posts-heading">Posts</h2>
+	<div class="wp-block-group alignwide has-global-padding is-layout-constrained">
+		<div class="wp-block-query alignwide is-layout-flow">
+			{{ partial "post_list.html" (where site.RegularPages "Section" "posts") }}
+		</div>
+	</div>
+</div>
+{{ end }}
