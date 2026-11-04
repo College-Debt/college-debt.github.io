@@ -360,7 +360,10 @@ footer.site-footer-group {
   width: 100%;
 }
 
+/* Consistent compact header height site-wide */
 .site-header-group {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent !important;
@@ -372,16 +375,20 @@ footer.site-footer-group {
   border-bottom: 1px solid var(--wp--preset--color--accent, #cfcabe) !important;
 }
 
-/* Wiki pages: tighter padding and alignment to 1440px container */
-.is-wiki-page .site-header-group {
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-  padding-left: 1.25rem !important;
-  padding-right: 1.25rem !important;
+/* Wiki pages: edge alignment with wiki-container and sidebar card */
+.is-wiki-page .site-header-group,
+.is-wiki-page .site-footer-group {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-.is-wiki-page .site-header-row {
+.is-wiki-page .site-header-row,
+.is-wiki-page .site-footer-row {
   max-width: 1440px !important;
+  width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+  box-sizing: border-box !important;
 }
