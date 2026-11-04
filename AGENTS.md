@@ -240,5 +240,12 @@ When creating the wiki layout and templates in upcoming phases, **the wiki must 
 | [`layouts/partials/header.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/header.html) | Header partial containing logo and responsive navigation. |
 | [`layouts/partials/footer.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/footer.html) | Footer partial containing credits, links, and Oak Sign icon. |
 | [`layouts/shortcodes/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/shortcodes/) | Custom Hugo shortcodes for wiki elements (`hint`, `tabs`, `stepper`, `embed`, `content-ref`). |
-| [`content/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/content/wiki/) | Staged wiki markdown pages migrated from GitBook backup. |
+| [`layouts/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/wiki/) | Wiki templates (`single.html` article layout, `list.html` section listing). |
+| [`layouts/partials/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/wiki/) | Wiki modular partials (`sidebar.html`, `breadcrumbs.html`, `cover.html`, `pager.html`, `toc.html`, `icon.html`). |
+| [`static/css/wiki.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wiki.css) | 1440px 3-column desktop layout, floating white card sidebar, and typography styles for the wiki. |
+| [`static/js/wiki.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/wiki.js) | Interactive wiki scripts (tab panels switcher and Table of Contents scroll highlight). |
+| [`static/css/all.min.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/all.min.css) | Font Awesome 6 Free CSS icon library. |
+| [`static/webfonts/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/webfonts/) | Bundled Font Awesome webfont files (`.woff2`, `.ttf`). |
+| [`content/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/content/wiki/) | Wiki markdown pages (29 content pages + group index sections) published under `/wiki/`. |
 | [`.github/workflows/deploy.yml`](file:///Users/cherryquartzio/Repos/college-debt.github.io/.github/workflows/deploy.yml) | GitHub Actions CI/CD configuration deploying the site to GitHub Pages. |
+

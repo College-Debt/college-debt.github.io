@@ -1,0 +1,18 @@
+<nav class="wiki-breadcrumbs" aria-label="Breadcrumb">
+  <a href="/wiki/">Wiki</a>
+  {{- with .Params.wiki_group }}
+    <span class="wiki-breadcrumbs-sep">&rsaquo;</span>
+    <span>{{ . }}</span>
+  {{- end }}
+  {{- if and .Parent (ne .Parent.RelPermalink "/wiki/") (ne .Parent.Title .Title) (ne .Parent.Title .Params.wiki_group) }}
+    <span class="wiki-breadcrumbs-sep">&rsaquo;</span>
+    <a href="{{ .Parent.RelPermalink }}">
+      {{- with .Parent.Params.icon }}
+        {{- partial "wiki/icon.html" (dict "icon" . "class" "wiki-bc-icon") }}
+      {{- end }}
+      {{ .Parent.Title }}
+    </a>
+  {{- end }}
+  <span class="wiki-breadcrumbs-sep">&rsaquo;</span>
+  <span class="wiki-breadcrumbs-current">{{ .Title }}</span>
+</nav>

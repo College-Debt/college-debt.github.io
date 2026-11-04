@@ -1,0 +1,80 @@
+{{- $currentPage := . -}}
+{{- $groups := slice "About" "College Debt SMP" "Tech stuff" "Extra" -}}
+
+{{- $allWiki := slice -}}
+{{- range (where .Site.Pages "Section" "wiki") -}}
+  {{- if and .Params.icon (ne .Params.icon "") -}}
+    {{- $allWiki = $allWiki | append . -}}
+  {{- end -}}
+{{- end -}}
+
+<aside class="wiki-sidebar-card" aria-label="Wiki Navigation">
+  {{- range $groupName := $groups -}}
+    {{- $groupPages := slice -}}
+    {{- range $allWiki -}}
+      {{- if eq .Params.wiki_group $groupName -}}
+        {{- $groupPages = $groupPages | append . -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if gt (len $groupPages) 0 -}}
+      <div class="wiki-group">
+        <div class="wiki-group-title">
+          {{ $groupName }}
+        </div>
+        <ul class="wiki-group-list">
+          {{- range (sort $groupPages "Weight" "asc") -}}
+            {{- if not .Params.nested -}}
+              {{- $topPage := . -}}
+              {{- $isActive := eq $topPage.RelPermalink $currentPage.RelPermalink -}}
+              
+              {{- $children := slice -}}
+              {{- if ne $topPage.RelPermalink "/wiki/" -}}
+                {{- range (sort $groupPages "Weight" "asc") -}}
+                  {{- if and .Params.nested (hasPrefix .RelPermalink $topPage.RelPermalink) -}}
+                    {{- $children = $children | append . -}}
+                  {{- end -}}
+                {{- end -}}
+              {{- end -}}
+              
+              {{- $hasActiveChild := false -}}
+              {{- range $children -}}
+                {{- if eq .RelPermalink $currentPage.RelPermalink -}}
+                  {{- $hasActiveChild = true -}}
+                {{- end -}}
+              {{- end -}}
+
+              <li>
+                <a href="{{ $topPage.RelPermalink }}" class="wiki-nav-item{{ if $isActive }} is-active{{ end }}">
+                  <span class="wiki-item-icon">
+                    {{ partial "wiki/icon.html" (dict "icon" $topPage.Params.icon) }}
+                  </span>
+                  <span class="wiki-nav-title">{{ $topPage.Title }}</span>
+                  {{- if gt (len $children) 0 -}}
+                    <i class="fa-solid fa-chevron-{{ if or $isActive $hasActiveChild }}down{{ else }}right{{ end }} wiki-nav-chevron" aria-hidden="true"></i>
+                  {{- end -}}
+                </a>
+
+                {{- if gt (len $children) 0 -}}
+                  <ul class="wiki-nav-subitems">
+                    {{- range (sort $children "Weight" "asc") -}}
+                      {{- $isChildActive := eq .RelPermalink $currentPage.RelPermalink -}}
+                      <li>
+                        <a href="{{ .RelPermalink }}" class="wiki-nav-item{{ if $isChildActive }} is-active{{ end }}">
+                          <span class="wiki-item-icon">
+                            {{ partial "wiki/icon.html" (dict "icon" .Params.icon) }}
+                          </span>
+                          <span class="wiki-nav-title">{{ .Title }}</span>
+                        </a>
+                      </li>
+                    {{- end -}}
+                  </ul>
+                {{- end -}}
+              </li>
+            {{- end -}}
+          {{- end -}}
+        </ul>
+      </div>
+    {{- end -}}
+  {{- end -}}
+</aside>

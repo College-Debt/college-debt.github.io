@@ -1,0 +1,40 @@
+{{ define "main" }}
+<main id="main-content" class="wiki-main">
+  <div class="wiki-container">
+    <div class="wiki-grid">
+      {{/* Left Column: Floating Card Sidebar */}}
+      {{ partial "wiki/sidebar.html" . }}
+
+      {{/* Center Column: Seamless Reading Canvas */}}
+      <article class="wiki-content-wrapper">
+        {{ partial "wiki/breadcrumbs.html" . }}
+
+        {{ partial "wiki/cover.html" . }}
+
+        <header class="wiki-page-header">
+          <div class="wiki-title-row">
+            {{ with .Params.icon }}
+              <div class="wiki-header-icon">
+                {{ partial "wiki/icon.html" (dict "icon" .) }}
+              </div>
+            {{ end }}
+            <h1 class="wiki-page-title">{{ .Title }}</h1>
+          </div>
+          {{ with .Description }}
+            <p class="wiki-page-desc">{{ . }}</p>
+          {{ end }}
+        </header>
+
+        <div class="wiki-article-body">
+          {{ .Content }}
+        </div>
+
+        {{ partial "wiki/pager.html" . }}
+      </article>
+
+      {{/* Right Column: Persistent Table of Contents */}}
+      {{ partial "wiki/toc.html" . }}
+    </div>
+  </div>
+</main>
+{{ end }}

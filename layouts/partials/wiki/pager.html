@@ -1,0 +1,44 @@
+{{- $currentPage := . -}}
+{{- $prev := false -}}
+{{- $next := false -}}
+
+{{- $wikiPages := slice -}}
+{{- range (where .Site.Pages "Section" "wiki") -}}
+  {{- if and .Params.icon (ne .Params.icon "") -}}
+    {{- $wikiPages = $wikiPages | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- $sorted := sort $wikiPages "Weight" "asc" -}}
+
+{{- range $index, $p := $sorted -}}
+  {{- if eq $p.RelPermalink $currentPage.RelPermalink -}}
+    {{- if gt $index 0 -}}
+      {{- $prev = index $sorted (sub $index 1) -}}
+    {{- end -}}
+    {{- if lt (add $index 1) (len $sorted) -}}
+      {{- $next = index $sorted (add $index 1) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if or $prev $next -}}
+<nav class="wiki-pager-container" aria-label="Page navigation">
+  {{- with $prev }}
+    <a href="{{ .RelPermalink }}" class="wiki-pager-card prev" rel="prev">
+      <span class="wiki-pager-label"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Previous</span>
+      <span class="wiki-pager-title">{{ .Title }}</span>
+    </a>
+  {{- else }}
+    <div></div>
+  {{- end }}
+
+  {{- with $next }}
+    <a href="{{ .RelPermalink }}" class="wiki-pager-card next" rel="next">
+      <span class="wiki-pager-label">Next <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></span>
+      <span class="wiki-pager-title">{{ .Title }}</span>
+    </a>
+  {{- else }}
+    <div></div>
+  {{- end }}
+</nav>
+{{- end -}}

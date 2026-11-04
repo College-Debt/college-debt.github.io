@@ -16,6 +16,10 @@
 	<title>{{ if and .Title (not .IsHome) }}{{ if .Data.Singular }}{{ .Data.Singular | title }}: {{ end }}{{ .Title }} &#8211; {{ end }}College Debt Landing Site</title>
 	<link rel="stylesheet" href="/css/wp-theme.css">
 	<link rel="stylesheet" href="/css/custom.css">
+	{{ if or (eq .Section "wiki") (eq .Type "wiki") (in .RelPermalink "/wiki/") }}
+	<link rel="stylesheet" href="/css/all.min.css">
+	<link rel="stylesheet" href="/css/wiki.css">
+	{{ end }}
 	<link rel="icon" href="/assets/images/cropped-Oak_Sign_JE3-32x32.webp" sizes="32x32">
 	<link rel="icon" href="/assets/images/cropped-Oak_Sign_JE3-192x192.webp" sizes="192x192">
 	<link rel="apple-touch-icon" href="/assets/images/cropped-Oak_Sign_JE3-180x180.webp">
@@ -29,6 +33,9 @@
 		{{ partial "footer.html" . }}
 	</div>
 	<script src="/js/nav.js"></script>
+	{{ if or (eq .Section "wiki") (eq .Type "wiki") (in .RelPermalink "/wiki/") }}
+	<script src="/js/wiki.js"></script>
+	{{ end }}
 </body>
 
 </html>

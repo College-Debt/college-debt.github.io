@@ -1,0 +1,727 @@
+/* ==========================================================================
+   College Debt SMP - Wiki Stylesheet
+   Adheres to WordPress Twenty Twenty-Four tokens with GitBook 3-column pattern
+   ========================================================================== */
+
+/* --- Top-Level Container --- */
+.wiki-container {
+  max-width: 1440px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 1.75rem;
+  padding-bottom: 4rem;
+  box-sizing: border-box;
+}
+
+/* --- 3-Column Desktop Grid --- */
+.wiki-grid {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr) 230px;
+  column-gap: 2.25rem;
+  align-items: start;
+}
+
+/* ==========================================================================
+   Left Column: Floating Card Sidebar
+   ========================================================================== */
+.wiki-sidebar-card {
+  background-color: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 1.25rem 0.85rem;
+  position: sticky;
+  top: 85px;
+  max-height: calc(100vh - 105px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+}
+
+.wiki-sidebar-card::-webkit-scrollbar {
+  width: 5px;
+}
+.wiki-sidebar-card::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+}
+
+/* Section Groups */
+.wiki-group {
+  margin-bottom: 1.25rem;
+}
+.wiki-group:last-child {
+  margin-bottom: 0.5rem;
+}
+
+.wiki-group-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  padding: 0.35rem 0.65rem 0.45rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.wiki-group-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+/* Nav Item (Top-level & Nested) */
+.wiki-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.42rem 0.65rem;
+  border-radius: 6px;
+  color: var(--wp--preset--color--contrast, #111111);
+  text-decoration: none;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  transition: background 0.15s ease, color 0.15s ease;
+  position: relative;
+}
+
+.wiki-nav-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.wiki-nav-item.is-active {
+  background-color: rgba(10, 70, 81, 0.09);
+  color: #0a4651;
+  font-weight: 600;
+}
+
+.wiki-nav-item .wiki-item-icon {
+  width: 16px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  flex-shrink: 0;
+}
+
+.wiki-nav-item.is-active .wiki-item-icon {
+  color: #0a4651;
+}
+
+.wiki-nav-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Nested Subsections */
+.wiki-nav-subitems {
+  list-style: none;
+  margin: 0.15rem 0 0.35rem 1.15rem;
+  padding-left: 0.35rem;
+  border-left: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.wiki-nav-subitems .wiki-nav-item {
+  font-size: 0.88rem;
+  padding: 0.35rem 0.55rem;
+}
+
+/* ==========================================================================
+   Center Column: Seamless Reading Canvas
+   ========================================================================== */
+.wiki-content-wrapper {
+  min-width: 0;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* Breadcrumbs */
+.wiki-breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  margin-bottom: 1.15rem;
+}
+
+.wiki-breadcrumbs a {
+  color: var(--wp--preset--color--contrast-2, #636363);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.wiki-breadcrumbs a:hover {
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.wiki-breadcrumbs-sep {
+  color: var(--wp--preset--color--contrast-3, #a4a4a4);
+  font-size: 0.75rem;
+}
+
+/* Cover Banner */
+.wiki-cover-banner {
+  width: 100%;
+  max-height: 250px;
+  aspect-ratio: 16 / 6;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1.75rem;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Page Header */
+.wiki-page-header {
+  margin-bottom: 1.75rem;
+}
+
+.wiki-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.wiki-header-icon {
+  font-size: 2.1rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  flex-shrink: 0;
+}
+
+.wiki-page-title {
+  font-family: 'Minecraft', monospace !important;
+  -webkit-font-smoothing: none !important;
+  -moz-osx-font-smoothing: unset !important;
+  font-smooth: never !important;
+  text-rendering: geometricPrecision !important;
+  font-size: 2.15rem;
+  margin: 0;
+  line-height: 1.15;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.wiki-page-desc {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+/* Article Body Typography */
+.wiki-article-body {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.wiki-article-body h2 {
+  font-family: 'Minecraft', monospace !important;
+  -webkit-font-smoothing: none !important;
+  -moz-osx-font-smoothing: unset !important;
+  font-smooth: never !important;
+  text-rendering: geometricPrecision !important;
+  font-size: 1.6rem;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  scroll-margin-top: 100px;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.wiki-article-body h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  scroll-margin-top: 100px;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.wiki-article-body p {
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.wiki-article-body ul,
+.wiki-article-body ol {
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.wiki-article-body li {
+  margin-bottom: 0.35rem;
+}
+
+.wiki-article-body a {
+  color: #0a4651;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.wiki-article-body a:hover {
+  color: #0b6878;
+}
+
+.wiki-article-body code {
+  font-family: monospace;
+  background: #e5e3de;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.wiki-article-body kbd {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  font-family: inherit;
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--wp--preset--color--contrast, #111111);
+  background-color: #ffffff;
+  border: 1px solid var(--wp--preset--color--contrast-3, #a4a4a4);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffffff;
+  margin: 0 0.2rem;
+}
+
+.wiki-article-body pre {
+  background: #22252a;
+  color: #f8f8f2;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+
+.wiki-article-body pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.wiki-article-body figure {
+  margin: 1.75rem 0;
+}
+
+.wiki-article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.wiki-article-body figcaption {
+  font-size: 0.85rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  text-align: center;
+  margin-top: 0.45rem;
+}
+
+/* ==========================================================================
+   Bottom Sequential Navigation Cards (< Previous | Next >)
+   ========================================================================== */
+.wiki-pager-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--wp--preset--color--contrast-3, #a4a4a4);
+}
+
+.wiki-pager-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  background: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 8px;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.wiki-pager-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  border-color: #0a4651;
+}
+
+.wiki-pager-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.wiki-pager-card.next {
+  text-align: right;
+  margin-left: auto;
+  width: 100%;
+}
+
+.wiki-pager-card.next .wiki-pager-label {
+  justify-content: flex-end;
+}
+
+.wiki-pager-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.wiki-pager-card:hover .wiki-pager-title {
+  color: #0a4651;
+}
+
+/* ==========================================================================
+   Right Column: Persistent Table of Contents ("ON THIS PAGE")
+   ========================================================================== */
+.wiki-toc-rail {
+  position: sticky;
+  top: 85px;
+  width: 230px;
+  max-height: calc(100vh - 105px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+}
+
+.wiki-toc-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+#TableOfContents {
+  font-size: 0.85rem;
+}
+
+#TableOfContents ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+#TableOfContents ul ul {
+  padding-left: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+#TableOfContents a {
+  color: var(--wp--preset--color--contrast-2, #636363);
+  text-decoration: none;
+  display: block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: color 0.15s ease, background 0.15s ease;
+  line-height: 1.35;
+}
+
+#TableOfContents a:hover {
+  color: var(--wp--preset--color--contrast, #111111);
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+#TableOfContents a.is-active {
+  color: #0a4651;
+  font-weight: 600;
+  background-color: rgba(10, 70, 81, 0.08);
+}
+
+.wiki-toc-empty {
+  font-size: 0.85rem;
+  color: var(--wp--preset--color--contrast-3, #a4a4a4);
+  font-style: italic;
+  padding: 0.25rem 0.5rem;
+}
+
+/* ==========================================================================
+   Wiki Shortcodes
+   ========================================================================== */
+
+/* Hint */
+.wiki-hint {
+  border-radius: 8px;
+  padding: 0.9rem 1.15rem;
+  margin: 1.35rem 0;
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  background: #ffffff;
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-left-width: 4px;
+}
+
+.wiki-hint-info { border-left-color: #0a4651; }
+.wiki-hint-warning { border-left-color: #fcb900; }
+.wiki-hint-danger { border-left-color: #cf2e2e; }
+.wiki-hint-tip { border-left-color: #00d084; }
+
+.wiki-hint-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+.wiki-hint-info .wiki-hint-icon { color: #0a4651; }
+.wiki-hint-warning .wiki-hint-icon { color: #fcb900; }
+.wiki-hint-danger .wiki-hint-icon { color: #cf2e2e; }
+.wiki-hint-tip .wiki-hint-icon { color: #00d084; }
+
+.wiki-hint-content {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+.wiki-hint-content p {
+  margin: 0;
+}
+
+/* Stepper */
+.wiki-stepper {
+  list-style: none;
+  counter-reset: wiki-step-counter;
+  padding-left: 0;
+  margin: 1.5rem 0;
+}
+
+.wiki-step {
+  counter-increment: wiki-step-counter;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.wiki-step::before {
+  content: counter(wiki-step-counter);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #0a4651;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.wiki-step-content {
+  flex: 1;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+/* Tabs */
+.wiki-tabs {
+  background: #ffffff;
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.wiki-tab-headers {
+  display: flex;
+  border-bottom: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  background: #faf9f7;
+  overflow-x: auto;
+}
+
+.wiki-tab-btn {
+  padding: 0.65rem 1.15rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.wiki-tab-btn.is-active {
+  color: #0a4651;
+  border-bottom-color: #0a4651;
+  background: #ffffff;
+}
+
+.wiki-tab-panel {
+  padding: 1.25rem;
+  display: none;
+}
+
+.wiki-tab-panel.is-active {
+  display: block;
+}
+
+/* Content Ref */
+.wiki-content-ref {
+  margin: 1.25rem 0;
+}
+
+.wiki-content-ref-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.15rem;
+  background: #ffffff;
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 8px;
+  text-decoration: none !important;
+  color: var(--wp--preset--color--contrast, #111111);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.wiki-content-ref-link:hover {
+  border-color: #0a4651;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.wiki-content-ref-icon {
+  font-size: 1.1rem;
+}
+
+.wiki-content-ref-text {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Embed */
+.wiki-embed-video {
+  margin: 1.5rem 0;
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.wiki-embed-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wiki-embed-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 8px;
+  text-decoration: none !important;
+  color: #0a4651;
+  font-size: 0.92rem;
+  margin: 1rem 0;
+}
+
+/* ==========================================================================
+   GitBook Inline Icon Compatibility
+   ========================================================================== */
+i[class*="fa-"] {
+  font-size: 0 !important;
+  font-style: normal;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -0.125em;
+}
+
+i[class*="fa-"]::before {
+  font-size: 0.95rem !important;
+}
+
+i.fa-docker {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-weight: 400 !important;
+}
+
+i.fa-cube,
+i.fa-arrows-rotate {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .wiki-grid {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+  .wiki-toc-rail {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .wiki-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+  }
+  .wiki-grid {
+    grid-template-columns: 1fr;
+    row-gap: 1.5rem;
+  }
+  .wiki-sidebar-card {
+    position: static;
+    max-height: none;
+    margin-bottom: 1.5rem;
+  }
+  .wiki-pager-container {
+    grid-template-columns: 1fr;
+  }
+  .wiki-pager-card.next {
+    text-align: left;
+  }
+  .wiki-pager-card.next .wiki-pager-label {
+    justify-content: flex-start;
+  }
+}

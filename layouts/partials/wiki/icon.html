@@ -1,0 +1,43 @@
+{{- $raw := .icon | default "" -}}
+{{- $class := .class | default "" -}}
+{{- $fa := "" -}}
+{{- $isBrand := false -}}
+
+{{- if eq $raw "microsoft" -}}
+  {{- $fa = "microsoft" -}}
+  {{- $isBrand = true -}}
+{{- else if eq $raw "turtle" -}}
+  {{- $fa = "shield-halved" -}}
+{{- else if eq $raw "circle-wifi-circle-wifi" -}}
+  {{- $fa = "wifi" -}}
+{{- else if eq $raw "grid-2" -}}
+  {{- $fa = "table-cells-large" -}}
+{{- else if eq $raw "head-side-goggles" -}}
+  {{- $fa = "vr-cardboard" -}}
+{{- else if eq $raw "image-landscape" -}}
+  {{- $fa = "image" -}}
+{{- else if eq $raw "image-stack" -}}
+  {{- $fa = "images" -}}
+{{- else if eq $raw "nas" -}}
+  {{- $fa = "hard-drive" -}}
+{{- else if eq $raw "rocket-launch" -}}
+  {{- $fa = "rocket" -}}
+{{- else if eq $raw "sign-post" -}}
+  {{- $fa = "signs-post" -}}
+{{- else if eq $raw "sliders-up" -}}
+  {{- $fa = "sliders" -}}
+{{- else if eq $raw "sparkles" -}}
+  {{- $fa = "wand-magic-sparkles" -}}
+{{- else if eq $raw "square-dashed-circle-plus" -}}
+  {{- $fa = "square-plus" -}}
+{{- else if eq $raw "face-tongue-money" -}}
+  {{- $fa = "hand-holding-dollar" -}}
+{{- else -}}
+  {{- $fa = $raw -}}
+{{- end -}}
+
+{{- if $isBrand -}}
+  <i class="fa-brands fa-{{ $fa }}{{ with $class }} {{ . }}{{ end }}" aria-hidden="true"></i>
+{{- else if $fa -}}
+  <i class="fa-solid fa-{{ $fa }}{{ with $class }} {{ . }}{{ end }}" aria-hidden="true"></i>
+{{- end -}}
