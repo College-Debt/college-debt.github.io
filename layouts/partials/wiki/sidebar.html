@@ -45,18 +45,22 @@
               {{- end -}}
 
               <li>
-                <a href="{{ $topPage.RelPermalink }}" class="wiki-nav-item{{ if $isActive }} is-active{{ end }}">
-                  <span class="wiki-item-icon">
-                    {{ partial "wiki/icon.html" (dict "icon" $topPage.Params.icon) }}
-                  </span>
-                  <span class="wiki-nav-title">{{ $topPage.Title }}</span>
+                <div class="wiki-nav-row{{ if $isActive }} is-active{{ end }}">
+                  <a href="{{ $topPage.RelPermalink }}" class="wiki-nav-item{{ if $isActive }} is-active{{ end }}">
+                    <span class="wiki-item-icon">
+                      {{ partial "wiki/icon.html" (dict "icon" $topPage.Params.icon) }}
+                    </span>
+                    <span class="wiki-nav-title">{{ $topPage.Title }}</span>
+                  </a>
                   {{- if gt (len $children) 0 -}}
-                    <i class="fa-solid fa-chevron-{{ if or $isActive $hasActiveChild }}down{{ else }}right{{ end }} wiki-nav-chevron" aria-hidden="true"></i>
+                    <button type="button" class="wiki-nav-toggle" aria-label="Toggle {{ $topPage.Title }} subpages" aria-expanded="{{ if or $isActive $hasActiveChild }}true{{ else }}false{{ end }}">
+                      <i class="fa-solid fa-chevron-{{ if or $isActive $hasActiveChild }}down{{ else }}right{{ end }} wiki-nav-chevron" aria-hidden="true"></i>
+                    </button>
                   {{- end -}}
-                </a>
+                </div>
 
                 {{- if gt (len $children) 0 -}}
-                  <ul class="wiki-nav-subitems">
+                  <ul class="wiki-nav-subitems{{ if or $isActive $hasActiveChild }} is-open{{ end }}">
                     {{- range (sort $children "Weight" "asc") -}}
                       {{- $isChildActive := eq .RelPermalink $currentPage.RelPermalink -}}
                       <li>
@@ -78,3 +82,4 @@
     {{- end -}}
   {{- end -}}
 </aside>
+

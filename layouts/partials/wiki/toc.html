@@ -1,12 +1,11 @@
 <aside class="wiki-toc-rail" aria-label="Table of Contents">
-  <div class="wiki-toc-title">
-    <i class="fa-solid fa-list-ul" aria-hidden="true"></i>
-    <span>ON THIS PAGE</span>
-  </div>
-  {{- $toc := .TableOfContents -}}
-  {{- if and $toc (ne $toc "<nav id=\"TableOfContents\"></nav>") (ne $toc "") -}}
-    {{ $toc }}
-  {{- else -}}
-    <div class="wiki-toc-empty">Overview</div>
+  {{- $headings := findRE "<a " .TableOfContents -}}
+  {{- if ge (len $headings) 2 -}}
+    <div class="wiki-toc-title">
+      <i class="fa-solid fa-list-ul" aria-hidden="true"></i>
+      <span>ON THIS PAGE</span>
+    </div>
+    {{ .TableOfContents }}
   {{- end -}}
 </aside>
+

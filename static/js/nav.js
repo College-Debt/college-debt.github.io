@@ -23,4 +23,18 @@ document.addEventListener('DOMContentLoaded', function () {
             document.documentElement.classList.remove('has-modal-open');
         }
     });
+
+    // Sticky Header border on scroll
+    function handleHeaderScroll() {
+        var header = document.querySelector('.site-header-group');
+        if (header) {
+            if (window.scrollY > 0) {
+                header.classList.add('is-scrolled');
+            } else {
+                header.classList.remove('is-scrolled');
+            }
+        }
+    }
+    window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+    handleHeaderScroll();
 });

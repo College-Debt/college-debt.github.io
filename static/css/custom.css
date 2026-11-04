@@ -351,3 +351,37 @@ footer.site-footer-group {
 .wp-block-post-content > *:first-child {
   margin-top: 0 !important;
 }
+
+/* Sticky Site Header across entire site */
+.site-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.site-header-group {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent !important;
+  transition: border-bottom 0.15s ease, padding 0.15s ease;
+}
+
+/* Scrolled state: show bottom border when content starts to scroll behind header */
+.site-header-group.is-scrolled {
+  border-bottom: 1px solid var(--wp--preset--color--accent, #cfcabe) !important;
+}
+
+/* Wiki pages: tighter padding and alignment to 1440px container */
+.is-wiki-page .site-header-group {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+.is-wiki-page .site-header-row {
+  max-width: 1440px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}

@@ -57,4 +57,35 @@ document.addEventListener("DOMContentLoaded", function () {
       headingTargets.forEach(function (item) { observer.observe(item.el); });
     }
   }
+
+  // Sidebar collapsible subpages toggle
+  document.querySelectorAll(".wiki-nav-toggle").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var li = btn.closest("li");
+      if (!li) return;
+      var sublist = li.querySelector(".wiki-nav-subitems");
+      var chevron = btn.querySelector(".wiki-nav-chevron");
+      if (!sublist) return;
+
+      var isOpen = sublist.classList.contains("is-open");
+      if (isOpen) {
+        sublist.classList.remove("is-open");
+        btn.setAttribute("aria-expanded", "false");
+        if (chevron) {
+          chevron.classList.remove("fa-chevron-down");
+          chevron.classList.add("fa-chevron-right");
+        }
+      } else {
+        sublist.classList.add("is-open");
+        btn.setAttribute("aria-expanded", "true");
+        if (chevron) {
+          chevron.classList.remove("fa-chevron-right");
+          chevron.classList.add("fa-chevron-down");
+        }
+      }
+    });
+  });
 });
+

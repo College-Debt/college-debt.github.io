@@ -11,7 +11,7 @@
   margin-right: auto;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
-  padding-top: 1.75rem;
+  padding-top: 0;
   padding-bottom: 4rem;
   box-sizing: border-box;
 }
@@ -29,13 +29,15 @@
    ========================================================================== */
 .wiki-sidebar-card {
   background-color: var(--wp--preset--color--base-2, #ffffff);
-  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border: none;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   padding: 1.25rem 0.85rem;
   position: sticky;
-  top: 85px;
-  max-height: calc(100vh - 105px);
+  top: calc(var(--site-header-height, 66px) + 1rem);
+  height: calc(100dvh - var(--site-header-height, 66px) - 2rem);
+  max-height: calc(100dvh - var(--site-header-height, 66px) - 2rem);
+  margin-bottom: 1rem;
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
@@ -80,6 +82,28 @@
   gap: 0.2rem;
 }
 
+/* Nav Item Row (Collapsible) */
+.wiki-nav-row {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.wiki-nav-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.wiki-nav-row.is-active {
+  background-color: rgba(10, 70, 81, 0.09);
+}
+
+.wiki-nav-row .wiki-nav-item {
+  flex: 1;
+  min-width: 0;
+}
+
 /* Nav Item (Top-level & Nested) */
 .wiki-nav-item {
   display: flex;
@@ -101,7 +125,6 @@
 }
 
 .wiki-nav-item.is-active {
-  background-color: rgba(10, 70, 81, 0.09);
   color: #0a4651;
   font-weight: 600;
 }
@@ -125,15 +148,39 @@
   text-overflow: ellipsis;
 }
 
-/* Nested Subsections */
+/* Toggle chevron button */
+.wiki-nav-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.42rem 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  font-size: 0.75rem;
+  border-radius: 4px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.wiki-nav-toggle:hover {
+  color: var(--wp--preset--color--contrast, #111111);
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* Nested Subsections (collapsible: hidden by default, visible with .is-open) */
 .wiki-nav-subitems {
+  display: none;
   list-style: none;
   margin: 0.15rem 0 0.35rem 1.15rem;
   padding-left: 0.35rem;
   border-left: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  display: flex;
   flex-direction: column;
   gap: 0.15rem;
+}
+
+.wiki-nav-subitems.is-open {
+  display: flex;
 }
 
 .wiki-nav-subitems .wiki-nav-item {
@@ -203,9 +250,24 @@
 }
 
 .wiki-header-icon {
-  font-size: 2.1rem;
+  font-size: 2.35rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--wp--preset--color--contrast-2, #636363);
   flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.wiki-header-icon i {
+  font-size: 2.35rem;
+  line-height: 1;
+}
+
+.wiki-header-icon i::before {
+  font-size: 2.35rem !important;
 }
 
 .wiki-page-title {
@@ -340,6 +402,37 @@
   margin-top: 0.45rem;
 }
 
+/* Tables with dividing cell borders */
+.wiki-article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  background-color: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.wiki-article-body th,
+.wiki-article-body td {
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.wiki-article-body th {
+  background-color: #faf9f7;
+  font-weight: 700;
+  color: var(--wp--preset--color--contrast, #111111);
+  border-bottom: 2px solid var(--wp--preset--color--accent, #cfcabe);
+}
+
+.wiki-article-body tr:nth-child(even) td {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
 /* ==========================================================================
    Bottom Sequential Navigation Cards (< Previous | Next >)
    ========================================================================== */
@@ -360,13 +453,12 @@
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
   border-radius: 8px;
   text-decoration: none !important;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
   box-sizing: border-box;
 }
 
 .wiki-pager-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   border-color: #0a4651;
 }
 
@@ -407,9 +499,9 @@
    ========================================================================== */
 .wiki-toc-rail {
   position: sticky;
-  top: 85px;
+  top: calc(var(--site-header-height, 66px) + 1rem);
   width: 230px;
-  max-height: calc(100vh - 105px);
+  max-height: calc(100dvh - var(--site-header-height, 66px) - 2rem);
   overflow-y: auto;
   box-sizing: border-box;
   scrollbar-width: thin;
@@ -664,7 +756,9 @@
 /* ==========================================================================
    GitBook Inline Icon Compatibility
    ========================================================================== */
-i[class*="fa-"] {
+.wiki-article-body i.fa-docker,
+.wiki-article-body i.fa-cube,
+.wiki-article-body i.fa-arrows-rotate {
   font-size: 0 !important;
   font-style: normal;
   display: inline-flex;
@@ -673,7 +767,9 @@ i[class*="fa-"] {
   vertical-align: -0.125em;
 }
 
-i[class*="fa-"]::before {
+.wiki-article-body i.fa-docker::before,
+.wiki-article-body i.fa-cube::before,
+.wiki-article-body i.fa-arrows-rotate::before {
   font-size: 0.95rem !important;
 }
 
