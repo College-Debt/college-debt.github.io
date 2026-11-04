@@ -17,6 +17,8 @@
 	<link rel="stylesheet" href="/css/wp-theme.css">
 	<link rel="stylesheet" href="/css/custom.css">
 	{{ if or (eq .Section "wiki") (eq .Type "wiki") (in .RelPermalink "/wiki/") }}
+	<link rel="preload" href="/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="stylesheet" href="/css/all.min.css">
 	<link rel="stylesheet" href="/css/wiki.css">
 	{{ end }}

@@ -392,3 +392,13 @@ footer.site-footer-group {
   padding-right: 1.25rem !important;
   box-sizing: border-box !important;
 }
+
+/* Remove legacy WordPress solid outline when clicking or pressing elements */
+:where(.wp-site-blocks *:focus:not(:focus-visible)),
+:where(.wp-site-blocks *:active),
+a:focus:not(:focus-visible),
+a:active,
+button:focus:not(:focus-visible),
+button:active {
+  outline: none !important;
+}

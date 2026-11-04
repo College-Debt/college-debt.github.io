@@ -32,7 +32,7 @@
   border: none;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  padding: 1.25rem 0.85rem;
+  padding: 0.65rem;
   position: sticky;
   top: calc(var(--site-header-height, 66px) + 1rem);
   height: calc(100dvh - var(--site-header-height, 66px) - 2rem);
@@ -259,29 +259,29 @@
 .wiki-title-row {
   display: flex;
   align-items: center;
-  gap: 1.7rem;
+  gap: 1.4875rem;
   margin-bottom: 0.5rem;
 }
 
 .wiki-header-icon {
-  font-size: 2.35rem;
+  font-size: 38px;
   line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--wp--preset--color--contrast-2, #636363);
   flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 38px;
+  height: 38px;
 }
 
 .wiki-header-icon i {
-  font-size: 2.35rem;
+  font-size: 38px;
   line-height: 1;
 }
 
 .wiki-header-icon i::before {
-  font-size: 2.35rem !important;
+  font-size: 38px !important;
 }
 
 .wiki-page-title {
@@ -501,7 +501,7 @@
 
 .wiki-pager-title {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--wp--preset--color--contrast, #111111);
 }
 
@@ -603,9 +603,14 @@
 .wiki-hint-tip { border-left-color: #00d084; }
 
 .wiki-hint-icon {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   flex-shrink: 0;
-  margin-top: 0.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(0.95rem * 1.55);
+  line-height: 1;
+  margin-top: 0;
 }
 .wiki-hint-info .wiki-hint-icon { color: #0a4651; }
 .wiki-hint-warning .wiki-hint-icon { color: #fcb900; }

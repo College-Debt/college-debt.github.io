@@ -1577,7 +1577,7 @@ h1.has-background,
 			font-family: var(--wp--preset--font-family--minecraft) !important;
 		}
 
-		:where(.wp-site-blocks *:focus) {
+		:where(.wp-site-blocks *:focus-visible) {
 			outline-width: 2px;
 			outline-style: solid
 		}
