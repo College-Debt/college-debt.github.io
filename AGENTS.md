@@ -194,12 +194,17 @@ When creating the wiki layout and templates in upcoming phases, **the wiki must 
    - Sidebar navigation, body text, tables, and shortcodes must use `'Inter', sans-serif`.
    - Section badges and categories should use clean, subtle styling matching the blog taxonomy badges.
 
-3. **Sidebar Navigation Design**:
+3. **Sidebar Navigation & Mobile Responsive Design**:
    - Must replicate the GitBook structure parsed from `SUMMARY.md`:
      - Group headers: **About**, **College Debt SMP**, **Tech stuff**, **Extra**.
      - Hierarchical nesting: Subsections like *College Debt lore*, *Play*, *Features*, *Server system* should display their child pages indented under them.
      - Active page indicator: Highlight with dark contrast or teal accent (`#0a4651`).
-     - Collapsible on mobile viewports.
+     - Collapsible on desktop with chevron button; defaults to hidden for non-active subtrees.
+   - **Mobile & Tablet Drawer Pattern**:
+     - At `<= 820px`: Left sidebar transforms into an offscreen slide drawer (`transform: translateX(-100%)`). Toggled via a dedicated hamburger button beside the logo in the sticky header, which toggles to a close (`✕`) icon in-place. Background content blurs via `backdrop-filter: blur(4px)`.
+     - At `<= 1100px`: Table of Contents transforms into an offscreen slide drawer (`transform: translateX(100%)`) on the right rail. Toggled via a list icon button on the right side of the breadcrumbs row (only rendered when 2+ headings exist).
+     - Global header navigation collapses into a distinct 3-dots (`···`) menu icon to visually differentiate from the wiki sidebar hamburger.
+     - Drawers can be dismissed via backdrop tap, <kbd>Escape</kbd> key, close buttons, or link navigation.
 
 4. **Wiki Components & Shortcodes**:
    The wiki content uses custom shortcodes that must be styled to match TT4:

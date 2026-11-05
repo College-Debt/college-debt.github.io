@@ -1,17 +1,27 @@
-<nav class="wiki-breadcrumbs" aria-label="Breadcrumb">
-  {{- with .Params.wiki_group }}
-    <span>{{ . }}</span>
-  {{- end }}
-  {{- if and .Parent (ne .Parent.RelPermalink "/wiki/") (ne .Parent.RelPermalink "/") (ne .Parent.Title .Title) (ne .Parent.Title .Params.wiki_group) }}
+<div class="wiki-breadcrumbs-row">
+  <nav class="wiki-breadcrumbs" aria-label="Breadcrumb">
+    {{- with .Params.wiki_group }}
+      <span>{{ . }}</span>
+    {{- end }}
+    {{- if and .Parent (ne .Parent.RelPermalink "/wiki/") (ne .Parent.RelPermalink "/") (ne .Parent.Title .Title) (ne .Parent.Title .Params.wiki_group) }}
+      <span class="wiki-breadcrumbs-sep">&rsaquo;</span>
+      <a href="{{ .Parent.RelPermalink }}">
+        {{- with .Parent.Params.icon }}
+          {{- partial "wiki/icon.html" (dict "icon" . "class" "wiki-bc-icon") }}
+        {{- end }}
+        {{ .Parent.Title }}
+      </a>
+    {{- end }}
     <span class="wiki-breadcrumbs-sep">&rsaquo;</span>
-    <a href="{{ .Parent.RelPermalink }}">
-      {{- with .Parent.Params.icon }}
-        {{- partial "wiki/icon.html" (dict "icon" . "class" "wiki-bc-icon") }}
-      {{- end }}
-      {{ .Parent.Title }}
-    </a>
-  {{- end }}
-  <span class="wiki-breadcrumbs-sep">&rsaquo;</span>
-  <span class="wiki-breadcrumbs-current">{{ .Title }}</span>
-</nav>
+    <span class="wiki-breadcrumbs-current">{{ .Title }}</span>
+  </nav>
+
+  {{- $contentWithoutDetails := replaceRE "(?s)<details\\b.*?</details>" "" .Content -}}
+  {{- $headings := findRE "<h[1-6]\\s+id=" $contentWithoutDetails -}}
+  {{- if ge (len $headings) 2 -}}
+    <button type="button" class="wiki-mobile-toc-toggle" aria-label="Open Table of Contents" aria-expanded="false" title="On this page">
+      <i class="fa-solid fa-list-ul" aria-hidden="true"></i>
+    </button>
+  {{- end -}}
+</div>
 

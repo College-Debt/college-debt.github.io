@@ -2,11 +2,21 @@
   {{- $contentWithoutDetails := replaceRE "(?s)<details\\b.*?</details>" "" .Content -}}
   {{- $headings := findRE "<h[1-6]\\s+id=" $contentWithoutDetails -}}
   {{- if ge (len $headings) 2 -}}
-    <div class="wiki-toc-title">
-      <i class="fa-solid fa-list-ul" aria-hidden="true"></i>
-      <span>ON THIS PAGE</span>
+    <div class="wiki-toc-header">
+      <div class="wiki-toc-title">
+        <i class="fa-solid fa-list-ul" aria-hidden="true"></i>
+        <span>ON THIS PAGE</span>
+      </div>
+      <button type="button" class="wiki-toc-close" aria-label="Close Table of Contents">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
-    {{ .TableOfContents }}
+    <div class="wiki-toc-body">
+      {{ .TableOfContents }}
+    </div>
   {{- end -}}
 </aside>
 

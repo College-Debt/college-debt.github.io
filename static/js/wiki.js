@@ -160,5 +160,96 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+
+  // --- Mobile Sidebar & TOC Drawers ---
+  var sidebarToggle = document.querySelector(".wiki-mobile-sidebar-toggle");
+  var tocToggle = document.querySelector(".wiki-mobile-toc-toggle");
+  var backdrop = document.querySelector(".wiki-drawer-backdrop");
+  var tocCloseBtn = document.querySelector(".wiki-toc-close");
+
+  function closeAllDrawers() {
+    document.body.classList.remove("has-wiki-sidebar-open", "has-wiki-toc-open");
+    if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", "false");
+    if (tocToggle) tocToggle.setAttribute("aria-expanded", "false");
+  }
+
+  function toggleSidebar() {
+    var isOpen = document.body.classList.contains("has-wiki-sidebar-open");
+    if (isOpen) {
+      document.body.classList.remove("has-wiki-sidebar-open");
+      if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", "false");
+    } else {
+      document.body.classList.remove("has-wiki-toc-open");
+      if (tocToggle) tocToggle.setAttribute("aria-expanded", "false");
+      document.body.classList.add("has-wiki-sidebar-open");
+      if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  function toggleTOC() {
+    var isOpen = document.body.classList.contains("has-wiki-toc-open");
+    if (isOpen) {
+      document.body.classList.remove("has-wiki-toc-open");
+      if (tocToggle) tocToggle.setAttribute("aria-expanded", "false");
+    } else {
+      document.body.classList.remove("has-wiki-sidebar-open");
+      if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", "false");
+      document.body.classList.add("has-wiki-toc-open");
+      if (tocToggle) tocToggle.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      toggleSidebar();
+    });
+  }
+
+  if (tocToggle) {
+    tocToggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      toggleTOC();
+    });
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener("click", function () {
+      closeAllDrawers();
+    });
+  }
+
+  if (tocCloseBtn) {
+    tocCloseBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      closeAllDrawers();
+    });
+  }
+
+  // Dismiss on Escape key
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && (document.body.classList.contains("has-wiki-sidebar-open") || document.body.classList.contains("has-wiki-toc-open"))) {
+      closeAllDrawers();
+    }
+  });
+
+  // Auto-close drawers when a link is clicked
+  document.querySelectorAll(".wiki-sidebar-card a, .wiki-toc-rail a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      closeAllDrawers();
+    });
+  });
+
+  // Close drawers if viewport is resized beyond mobile/tablet widths
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 820 && document.body.classList.contains("has-wiki-sidebar-open")) {
+      document.body.classList.remove("has-wiki-sidebar-open");
+      if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", "false");
+    }
+    if (window.innerWidth > 1100 && document.body.classList.contains("has-wiki-toc-open")) {
+      document.body.classList.remove("has-wiki-toc-open");
+      if (tocToggle) tocToggle.setAttribute("aria-expanded", "false");
+    }
+  });
 });
 

@@ -27,6 +27,7 @@ header.wp-block-template-part {
 }
 
 /* Header Layout classes (replacing dynamically generated wp-container-core-* classes) */
+.site-header-left-group { display: flex; align-items: center; gap: 0.65rem; }
 .site-header-nav-wrapper { justify-content: flex-start; }
 .site-header-nav { gap: var(--wp--preset--spacing--20); justify-content: flex-end; }
 .site-header-row { justify-content: space-between; }
