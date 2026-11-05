@@ -87,19 +87,19 @@ college-debt.github.io/
 The site visual design is derived directly from the WordPress **Twenty Twenty-Four (TT4)** block theme, customized with Minecraft-inspired pixel aesthetics, warm neutral backgrounds, and clean editorial typography.
 
 ### A. Color Palette & Tokens
-Colors are declared via CSS Custom Properties in [`static/css/wp-theme.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wp-theme.css):
+Colors are declared via CSS Custom Properties in [`static/css/wp-theme.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wp-theme.css) and adapted for dark mode in [`static/css/theme-dark.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/theme-dark.css):
 
-| CSS Variable | Value | Usage |
-|---|---|---|
-| `--wp--preset--color--base` | `#f0efed` | Warm light-grey body/header background tint |
-| `--wp--preset--color--base-2` | `#ffffff` | Pure white (callout cards, button backgrounds, inputs) |
-| `--wp--preset--color--contrast` | `#111111` | Primary text, deep dark headings |
-| `--wp--preset--color--contrast-2` | `#636363` | Subtitles, metadata ("by CherryQuartzio", post dates) |
-| `--wp--preset--color--contrast-3` | `#a4a4a4` | Horizontal separators (`<hr>`), subtle borders |
-| `--wp--preset--color--accent` | `#cfcabe` | Subtle accent tint |
-| `--wp--preset--color--accent-2` | `#c2a990` | Warm parchment accent |
-| *Brand Teal Gradient* | `linear-gradient(128deg, rgb(10, 70, 81) 0%, rgb(11, 104, 120) 100%)` | Homepage hero callout box background |
-| *Brand Teal Solid* | `#0a4651` | Search buttons, primary action accents |
+| CSS Variable | Light Value | Dark Value (Onyx) | Usage |
+|---|---|---|---|
+| `--wp--preset--color--base` | `#f0efed` | `#131416` | Body canvas, outer background tint |
+| `--wp--preset--color--base-2` | `#ffffff` | `#1c1e22` | Pure white / dark elevated surface (cards, buttons, inputs) |
+| `--wp--preset--color--contrast` | `#111111` | `#f0f1f3` | Primary text, deep headings / soft white text |
+| `--wp--preset--color--contrast-2` | `#636363` | `#9ca3af` | Subtitles, metadata ("by CherryQuartzio", post dates) |
+| `--wp--preset--color--contrast-3` | `#a4a4a4` | `#374151` | Horizontal separators (`<hr>`), subtle borders |
+| `--wp--preset--color--accent` | `#cfcabe` | `#2a2e35` | Subtle accent tint / card structural borders |
+| `--wp--preset--color--accent-2` | `#c2a990` | `#d4bba2` | Warm parchment accent |
+| *Brand Teal Gradient* | `linear-gradient(128deg, #0a4651 0%, #0b6878 100%)` | `linear-gradient(128deg, #0d2c32 0%, #114a54 100%)` | Homepage hero callout box background |
+| *Brand Teal Solid* | `#0a4651` | `#28b4c8` | Search buttons, links, primary interactive accents |
 
 ### B. Typography Stack
 Three distinct font families are used intentionally across the site:
@@ -248,6 +248,7 @@ When creating the wiki layout and templates in upcoming phases, **the wiki must 
 | [`layouts/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/wiki/) | Wiki templates (`single.html` article layout, `list.html` section listing). |
 | [`layouts/partials/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/wiki/) | Wiki modular partials (`sidebar.html`, `breadcrumbs.html`, `cover.html`, `pager.html`, `toc.html`, `icon.html`). |
 | [`static/css/wiki.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wiki.css) | 1440px 3-column desktop layout, floating white card sidebar, and typography styles for the wiki. |
+| [`static/css/theme-dark.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/theme-dark.css) | Twenty Twenty-Four Onyx dark theme system with automatic browser preference detection and manual toggle support. |
 | [`static/js/wiki.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/wiki.js) | Interactive wiki scripts (tab panels switcher and Table of Contents scroll highlight). |
 | [`static/css/all.min.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/all.min.css) | Font Awesome 6 Free CSS icon library. |
 | [`static/webfonts/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/webfonts/) | Bundled Font Awesome webfont files (`.woff2`, `.ttf`). |

@@ -1,0 +1,1010 @@
+/* ==========================================================================
+   College Debt SMP — Dark Theme System
+   - Automatically switches based on OS/browser preference (prefers-color-scheme: dark)
+   - Compatible with future manual toggle via data-theme="dark" / data-theme="light"
+   - Foundation: Twenty Twenty-Four Onyx variation + GitBook Dark ergonomics
+   ========================================================================== */
+
+/* --- Dual-Selector Mixin: Matches either (OS dark AND not data-theme="light") OR (data-theme="dark") --- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Twenty Twenty-Four Onyx Tokens */
+    --wp--preset--color--base: #131416;
+    --wp--preset--color--base-2: #1c1e22;
+    --wp--preset--color--contrast: #f0f1f3;
+    --wp--preset--color--contrast-2: #9ca3af;
+    --wp--preset--color--contrast-3: #374151;
+    --wp--preset--color--accent: #2a2e35;
+    --wp--preset--color--accent-2: #d4bba2;
+
+    /* Luminous Brand Accents */
+    --brand-teal: #28b4c8;
+    --brand-teal-hover: #67e8f9;
+    --brand-teal-muted: rgba(40, 180, 200, 0.14);
+
+    /* Surface & Shadow Tokens */
+    --header-bg: rgba(19, 20, 22, 0.85);
+    --backdrop-scrim: rgba(10, 11, 13, 0.75);
+    --card-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    --drawer-shadow-left: 4px 0 24px rgba(0, 0, 0, 0.6);
+    --drawer-shadow-right: -4px 0 24px rgba(0, 0, 0, 0.6);
+    --table-header-bg: #22252a;
+    --code-bg: #16181d;
+    --code-inline-bg: #23272e;
+  }
+}
+
+:root[data-theme="dark"] {
+  /* Twenty Twenty-Four Onyx Tokens */
+  --wp--preset--color--base: #131416;
+  --wp--preset--color--base-2: #1c1e22;
+  --wp--preset--color--contrast: #f0f1f3;
+  --wp--preset--color--contrast-2: #9ca3af;
+  --wp--preset--color--contrast-3: #374151;
+  --wp--preset--color--accent: #2a2e35;
+  --wp--preset--color--accent-2: #d4bba2;
+
+  /* Luminous Brand Accents */
+  --brand-teal: #28b4c8;
+  --brand-teal-hover: #67e8f9;
+  --brand-teal-muted: rgba(40, 180, 200, 0.14);
+
+  /* Surface & Shadow Tokens */
+  --header-bg: rgba(19, 20, 22, 0.85);
+  --backdrop-scrim: rgba(10, 11, 13, 0.75);
+  --card-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  --drawer-shadow-left: 4px 0 24px rgba(0, 0, 0, 0.6);
+  --drawer-shadow-right: -4px 0 24px rgba(0, 0, 0, 0.6);
+  --table-header-bg: #22252a;
+  --code-bg: #16181d;
+  --code-inline-bg: #23272e;
+}
+
+/* ==========================================================================
+   Component Dark Mode Overrides (Automatic via prefers-color-scheme)
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body {
+    background-color: var(--wp--preset--color--base) !important;
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  /* --- Sticky Global Header --- */
+  :root:not([data-theme="light"]) .site-header-group {
+    background-color: var(--header-bg) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-header-group.is-scrolled {
+    border-bottom: 1px solid var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-header-nav a:hover,
+  :root:not([data-theme="light"]) .site-header-nav a:focus,
+  :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item a:hover,
+  :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item__content:hover,
+  :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item__label:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-mobile-sidebar-toggle {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-mobile-sidebar-toggle:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wp-block-navigation__responsive-container-open {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .wp-block-navigation__responsive-container-open:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  /* --- Mobile Navigation Fullscreen Modal --- */
+  :root:not([data-theme="light"]) .site-mobile-nav-modal {
+    background: rgba(19, 20, 22, 0.94) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-mobile-nav-close {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-mobile-nav-close:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-mobile-nav-links a {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-mobile-nav-links a:hover,
+  :root:not([data-theme="light"]) .site-mobile-nav-links a:focus {
+    color: var(--brand-teal) !important;
+  }
+
+  /* --- Global Footer --- */
+  :root:not([data-theme="light"]) .site-footer-group {
+    border-top: 1px solid var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-footer-wrapper a:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  /* --- Homepage Hero Callout Box --- */
+  :root:not([data-theme="light"]) .home-callout-box {
+    background: linear-gradient(128deg, #0d2c32 0%, #114a54 100%) !important;
+    border: 1px solid rgba(40, 180, 200, 0.25) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  :root:not([data-theme="light"]) .home-wiki-button {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  :root:not([data-theme="light"]) .home-wiki-button:hover {
+    background-color: #f0efed !important;
+  }
+
+  /* --- Post Teaser List --- */
+  :root:not([data-theme="light"]) .wp-block-post-title a {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .wp-block-post-title a:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wp-block-separator {
+    background-color: var(--wp--preset--color--contrast-3) !important;
+    color: var(--wp--preset--color--contrast-3) !important;
+    border-color: var(--wp--preset--color--contrast-3) !important;
+  }
+
+  /* --- Single Post Page --- */
+  :root:not([data-theme="light"]) .entry-content a {
+    color: var(--brand-teal);
+  }
+
+  :root:not([data-theme="light"]) .entry-content a:hover {
+    color: var(--brand-teal-hover);
+  }
+
+  :root:not([data-theme="light"]) .post-navigation-row a {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .post-navigation-row a:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  /* --- Search & Form Inputs --- */
+  :root:not([data-theme="light"]) input,
+  :root:not([data-theme="light"]) textarea,
+  :root:not([data-theme="light"]) select {
+    background-color: var(--wp--preset--color--base-2) !important;
+    color: var(--wp--preset--color--contrast) !important;
+    border: 1px solid var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wp-block-search__button {
+    background-color: var(--brand-teal) !important;
+    color: #111111 !important;
+  }
+
+  /* --- Wiki Backdrop Scrim --- */
+  :root:not([data-theme="light"]) .wiki-drawer-backdrop {
+    background: var(--backdrop-scrim) !important;
+  }
+
+  /* --- Wiki Sidebar Card --- */
+  :root:not([data-theme="light"]) .wiki-sidebar-card {
+    background-color: var(--wp--preset--color--base-2) !important;
+    border: 1px solid var(--wp--preset--color--accent) !important;
+    box-shadow: var(--card-shadow) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-sidebar-group-title {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-sidebar-link {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-sidebar-item.is-active > .wiki-sidebar-link {
+    color: var(--brand-teal) !important;
+    background-color: var(--brand-teal-muted) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-nav-toggle {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-nav-toggle:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-sidebar-subitems {
+    border-left: 1px solid var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-sidebar-subitem .wiki-sidebar-link {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-sidebar-subitem .wiki-sidebar-link:hover {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-sidebar-subitem .wiki-sidebar-link.is-active {
+    color: var(--brand-teal) !important;
+    background-color: var(--brand-teal-muted) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-sidebar-search {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  /* --- Wiki Article Body --- */
+  :root:not([data-theme="light"]) .wiki-breadcrumbs {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-breadcrumbs a {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-breadcrumbs a:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-title {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-desc {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body {
+    color: #e2e4e8 !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body h1,
+  :root:not([data-theme="light"]) .wiki-article-body h2,
+  :root:not([data-theme="light"]) .wiki-article-body h3,
+  :root:not([data-theme="light"]) .wiki-article-body h4,
+  :root:not([data-theme="light"]) .wiki-article-body h5,
+  :root:not([data-theme="light"]) .wiki-article-body h6 {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body a {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body a:hover {
+    color: var(--brand-teal-hover) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body blockquote {
+    color: var(--wp--preset--color--contrast-2) !important;
+    border-left-color: var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body kbd {
+    background-color: var(--code-inline-bg) !important;
+    color: var(--wp--preset--color--contrast) !important;
+    border-color: var(--wp--preset--color--contrast-3) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body code:not(pre code) {
+    background-color: var(--code-inline-bg) !important;
+    color: var(--brand-teal-hover) !important;
+    border: 1px solid var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body pre {
+    background: var(--code-bg) !important;
+    border: 1px solid var(--wp--preset--color--accent) !important;
+  }
+
+  /* --- Wiki Tables --- */
+  :root:not([data-theme="light"]) .wiki-article-body table {
+    background-color: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body th {
+    background-color: var(--table-header-bg) !important;
+    color: var(--wp--preset--color--contrast) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    border-bottom: 2px solid var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body td {
+    border-color: var(--wp--preset--color--accent) !important;
+    color: #e2e4e8 !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+  }
+
+  /* --- Wiki Expandables (<details>) --- */
+  :root:not([data-theme="light"]) .wiki-article-body details {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body details summary {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body details summary:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-article-body details summary:hover .wiki-expandable-chevron {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-expandable-content {
+    border-top-color: var(--wp--preset--color--accent) !important;
+  }
+
+  /* --- Sequential Pager --- */
+  :root:not([data-theme="light"]) .wiki-pager-container {
+    border-top: 1px solid var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-pager-card {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-pager-card:hover {
+    border-color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-pager-label {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-pager-title {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  /* --- Table of Contents --- */
+  :root:not([data-theme="light"]) .wiki-toc-title {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) #TableOfContents a {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) #TableOfContents a:hover {
+    color: var(--wp--preset--color--contrast) !important;
+    background-color: rgba(255, 255, 255, 0.04) !important;
+  }
+
+  :root:not([data-theme="light"]) #TableOfContents a.is-active {
+    color: var(--brand-teal) !important;
+    background-color: var(--brand-teal-muted) !important;
+  }
+
+  /* --- Wiki Callout Hints --- */
+  :root:not([data-theme="light"]) .wiki-hint {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-hint-info {
+    border-left-color: var(--brand-teal) !important;
+    background: rgba(40, 180, 200, 0.08) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-hint-info .wiki-hint-icon {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-hint-warning {
+    border-left-color: #fbbf24 !important;
+    background: rgba(251, 191, 36, 0.08) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-hint-warning .wiki-hint-icon {
+    color: #fbbf24 !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-hint-danger {
+    border-left-color: #f87171 !important;
+    background: rgba(248, 113, 113, 0.08) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-hint-danger .wiki-hint-icon {
+    color: #f87171 !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-hint-tip {
+    border-left-color: #34d399 !important;
+    background: rgba(52, 211, 153, 0.08) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-hint-tip .wiki-hint-icon {
+    color: #34d399 !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-hint-content {
+    color: #e2e4e8 !important;
+  }
+
+  /* --- Wiki Tabs --- */
+  :root:not([data-theme="light"]) .wiki-tab-headers {
+    border-bottom: 1px solid var(--wp--preset--color--accent) !important;
+    background: #16181d !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-tab-btn {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-tab-btn.is-active {
+    color: var(--brand-teal) !important;
+    border-bottom-color: var(--brand-teal) !important;
+    background: var(--wp--preset--color--base-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-tab-panels {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+  }
+
+  /* --- Wiki Stepper --- */
+  :root:not([data-theme="light"]) .wiki-step-number {
+    background: var(--brand-teal) !important;
+    color: #111111 !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-step-connector {
+    background: var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-step-title {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  /* --- Wiki Content Reference Cards --- */
+  :root:not([data-theme="light"]) .wiki-content-ref {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-content-ref:hover {
+    border-color: var(--brand-teal) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-content-ref-title {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) .wiki-content-ref-icon {
+    color: var(--brand-teal) !important;
+  }
+
+  /* --- Wiki Embeds --- */
+  :root:not([data-theme="light"]) .wiki-embed-wrapper {
+    border-color: var(--wp--preset--color--accent) !important;
+  }
+
+  /* --- Mobile Drawers & Overrides --- */
+  @media (max-width: 1100px) {
+    :root:not([data-theme="light"]) .wiki-toc-rail {
+      background-color: var(--wp--preset--color--base-2) !important;
+      box-shadow: var(--drawer-shadow-right) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-toc-close {
+      color: var(--wp--preset--color--contrast) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-toc-close:hover {
+      color: var(--brand-teal) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-mobile-toc-toggle {
+      background: var(--wp--preset--color--base-2) !important;
+      border-color: var(--wp--preset--color--accent) !important;
+      color: var(--brand-teal) !important;
+    }
+  }
+
+  @media (max-width: 820px) {
+    :root:not([data-theme="light"]) .wiki-sidebar-card {
+      background-color: var(--wp--preset--color--base-2) !important;
+      box-shadow: var(--drawer-shadow-left) !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   Manual Override: [data-theme="dark"]
+   Identical component styling for when user explicitly triggers dark mode
+   ========================================================================== */
+:root[data-theme="dark"] body {
+  background-color: var(--wp--preset--color--base) !important;
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .site-header-group {
+  background-color: var(--header-bg) !important;
+}
+
+:root[data-theme="dark"] .site-header-group.is-scrolled {
+  border-bottom: 1px solid var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .site-header-nav a:hover,
+:root[data-theme="dark"] .site-header-nav a:focus,
+:root[data-theme="dark"] .site-header-nav .wp-block-navigation-item a:hover,
+:root[data-theme="dark"] .site-header-nav .wp-block-navigation-item__content:hover,
+:root[data-theme="dark"] .site-header-nav .wp-block-navigation-item__label:hover {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wiki-mobile-sidebar-toggle {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wiki-mobile-sidebar-toggle:hover {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wp-block-navigation__responsive-container-open {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wp-block-navigation__responsive-container-open:hover {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .site-mobile-nav-modal {
+  background: rgba(19, 20, 22, 0.94) !important;
+}
+
+:root[data-theme="dark"] .site-mobile-nav-close {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .site-mobile-nav-close:hover {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .site-mobile-nav-links a {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .site-mobile-nav-links a:hover,
+:root[data-theme="dark"] .site-mobile-nav-links a:focus {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .site-footer-group {
+  border-top: 1px solid var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .site-footer-wrapper a:hover {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .home-callout-box {
+  background: linear-gradient(128deg, #0d2c32 0%, #114a54 100%) !important;
+  border: 1px solid rgba(40, 180, 200, 0.25) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+:root[data-theme="dark"] .home-wiki-button {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6) !important;
+}
+
+:root[data-theme="dark"] .home-wiki-button:hover {
+  background-color: #f0efed !important;
+}
+
+:root[data-theme="dark"] .wp-block-post-title a {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wp-block-post-title a:hover {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wp-block-separator {
+  background-color: var(--wp--preset--color--contrast-3) !important;
+  color: var(--wp--preset--color--contrast-3) !important;
+  border-color: var(--wp--preset--color--contrast-3) !important;
+}
+
+:root[data-theme="dark"] .entry-content a {
+  color: var(--brand-teal);
+}
+
+:root[data-theme="dark"] .entry-content a:hover {
+  color: var(--brand-teal-hover);
+}
+
+:root[data-theme="dark"] .post-navigation-row a {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .post-navigation-row a:hover {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] select {
+  background-color: var(--wp--preset--color--base-2) !important;
+  color: var(--wp--preset--color--contrast) !important;
+  border: 1px solid var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wp-block-search__button {
+  background-color: var(--brand-teal) !important;
+  color: #111111 !important;
+}
+
+:root[data-theme="dark"] .wiki-drawer-backdrop {
+  background: var(--backdrop-scrim) !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-card {
+  background-color: var(--wp--preset--color--base-2) !important;
+  border: 1px solid var(--wp--preset--color--accent) !important;
+  box-shadow: var(--card-shadow) !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-group-title {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-link {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-item.is-active > .wiki-sidebar-link {
+  color: var(--brand-teal) !important;
+  background-color: var(--brand-teal-muted) !important;
+}
+
+:root[data-theme="dark"] .wiki-nav-toggle {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-nav-toggle:hover {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-subitems {
+  border-left: 1px solid var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-subitem .wiki-sidebar-link {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-subitem .wiki-sidebar-link:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-subitem .wiki-sidebar-link.is-active {
+  color: var(--brand-teal) !important;
+  background-color: var(--brand-teal-muted) !important;
+}
+
+:root[data-theme="dark"] .wiki-sidebar-search {
+  background: var(--wp--preset--color--base-2) !important;
+  border-color: var(--wp--preset--color--accent) !important;
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-breadcrumbs {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-breadcrumbs a {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-breadcrumbs a:hover {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-title {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-desc {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body {
+  color: #e2e4e8 !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body h1,
+:root[data-theme="dark"] .wiki-article-body h2,
+:root[data-theme="dark"] .wiki-article-body h3,
+:root[data-theme="dark"] .wiki-article-body h4,
+:root[data-theme="dark"] .wiki-article-body h5,
+:root[data-theme="dark"] .wiki-article-body h6 {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body a {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body a:hover {
+  color: var(--brand-teal-hover) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body blockquote {
+  color: var(--wp--preset--color--contrast-2) !important;
+  border-left-color: var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body kbd {
+  background-color: var(--code-inline-bg) !important;
+  color: var(--wp--preset--color--contrast) !important;
+  border-color: var(--wp--preset--color--contrast-3) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body code:not(pre code) {
+  background-color: var(--code-inline-bg) !important;
+  color: var(--brand-teal-hover) !important;
+  border: 1px solid var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body pre {
+  background: var(--code-bg) !important;
+  border: 1px solid var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body table {
+  background-color: var(--wp--preset--color--base-2) !important;
+  border-color: var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body th {
+  background-color: var(--table-header-bg) !important;
+  color: var(--wp--preset--color--contrast) !important;
+  border-color: var(--wp--preset--color--accent) !important;
+  border-bottom: 2px solid var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body td {
+  border-color: var(--wp--preset--color--accent) !important;
+  color: #e2e4e8 !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body details {
+  background: var(--wp--preset--color--base-2) !important;
+  border-color: var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body details summary {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body details summary:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+:root[data-theme="dark"] .wiki-article-body details summary:hover .wiki-expandable-chevron {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wiki-expandable-content {
+  border-top-color: var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-pager-container {
+  border-top: 1px solid var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-pager-card {
+  background: var(--wp--preset--color--base-2) !important;
+  border-color: var(--wp--preset--color--accent) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+:root[data-theme="dark"] .wiki-pager-card:hover {
+  border-color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wiki-pager-label {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-pager-title {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wiki-toc-title {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] #TableOfContents a {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] #TableOfContents a:hover {
+  color: var(--wp--preset--color--contrast) !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+:root[data-theme="dark"] #TableOfContents a.is-active {
+  color: var(--brand-teal) !important;
+  background-color: var(--brand-teal-muted) !important;
+}
+
+:root[data-theme="dark"] .wiki-hint {
+  background: var(--wp--preset--color--base-2) !important;
+  border-color: var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-hint-info {
+  border-left-color: var(--brand-teal) !important;
+  background: rgba(40, 180, 200, 0.08) !important;
+}
+
+:root[data-theme="dark"] .wiki-hint-info .wiki-hint-icon {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wiki-hint-warning {
+  border-left-color: #fbbf24 !important;
+  background: rgba(251, 191, 36, 0.08) !important;
+}
+
+:root[data-theme="dark"] .wiki-hint-warning .wiki-hint-icon {
+  color: #fbbf24 !important;
+}
+
+:root[data-theme="dark"] .wiki-hint-danger {
+  border-left-color: #f87171 !important;
+  background: rgba(248, 113, 113, 0.08) !important;
+}
+
+:root[data-theme="dark"] .wiki-hint-danger .wiki-hint-icon {
+  color: #f87171 !important;
+}
+
+:root[data-theme="dark"] .wiki-hint-tip {
+  border-left-color: #34d399 !important;
+  background: rgba(52, 211, 153, 0.08) !important;
+}
+
+:root[data-theme="dark"] .wiki-hint-tip .wiki-hint-icon {
+  color: #34d399 !important;
+}
+
+:root[data-theme="dark"] .wiki-hint-content {
+  color: #e2e4e8 !important;
+}
+
+:root[data-theme="dark"] .wiki-tab-headers {
+  border-bottom: 1px solid var(--wp--preset--color--accent) !important;
+  background: #16181d !important;
+}
+
+:root[data-theme="dark"] .wiki-tab-btn {
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-tab-btn.is-active {
+  color: var(--brand-teal) !important;
+  border-bottom-color: var(--brand-teal) !important;
+  background: var(--wp--preset--color--base-2) !important;
+}
+
+:root[data-theme="dark"] .wiki-tab-panels {
+  background: var(--wp--preset--color--base-2) !important;
+  border-color: var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-step-number {
+  background: var(--brand-teal) !important;
+  color: #111111 !important;
+}
+
+:root[data-theme="dark"] .wiki-step-connector {
+  background: var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] .wiki-step-title {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wiki-content-ref {
+  background: var(--wp--preset--color--base-2) !important;
+  border-color: var(--wp--preset--color--accent) !important;
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .wiki-content-ref:hover {
+  border-color: var(--brand-teal) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+:root[data-theme="dark"] .wiki-content-ref-title {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wiki-content-ref-icon {
+  color: var(--brand-teal) !important;
+}
+
+:root[data-theme="dark"] .wiki-embed-wrapper {
+  border-color: var(--wp--preset--color--accent) !important;
+}
+
+@media (max-width: 1100px) {
+  :root[data-theme="dark"] .wiki-toc-rail {
+    background-color: var(--wp--preset--color--base-2) !important;
+    box-shadow: var(--drawer-shadow-right) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-toc-close {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-toc-close:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-mobile-toc-toggle {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--brand-teal) !important;
+  }
+}
+
+@media (max-width: 820px) {
+  :root[data-theme="dark"] .wiki-sidebar-card {
+    background-color: var(--wp--preset--color--base-2) !important;
+    box-shadow: var(--drawer-shadow-left) !important;
+  }
+}
