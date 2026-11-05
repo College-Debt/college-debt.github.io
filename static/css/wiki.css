@@ -1287,10 +1287,10 @@ i.fa-arrows-rotate {
 /* --- Narrow Mobile Viewport (<= 480px) --- */
 @media (max-width: 480px) {
   .site-header-left-group {
-    gap: 0.35rem;
+    gap: 1.25rem;
   }
   .wp-block-site-logo img {
-    max-width: 170px;
+    max-width: 155px;
     height: auto;
   }
 }
