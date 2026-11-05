@@ -1262,7 +1262,7 @@ i.fa-arrows-rotate {
     height: calc(100dvh - var(--site-header-height, 66px));
     max-height: calc(100dvh - var(--site-header-height, 66px));
     background-color: var(--wp--preset--color--base-2, #ffffff);
-    z-index: 999;
+    z-index: 1001;
     border-radius: 0 14px 14px 0;
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
     transform: translateX(-100%);
@@ -1289,12 +1289,5 @@ i.fa-arrows-rotate {
 
   .wiki-pager-card.next .wiki-pager-label {
     justify-content: flex-start;
-  }
-}
-
-/* --- Narrow Mobile Viewport (<= 480px) --- */
-@media (max-width: 480px) {
-  .site-header-left-group {
-    gap: 1.25rem;
   }
 }

@@ -94,15 +94,10 @@
 {{/* Full-Screen Frosted Mobile Navigation Modal */}}
 <div class="site-mobile-nav-modal" id="site-mobile-nav-modal" aria-hidden="true">
   <div class="site-mobile-nav-header">
-    <div class="site-header-left-group">
-      {{ if or (eq .Section "wiki") (eq .Type "wiki") (in .RelPermalink "/wiki/") }}
-      <div class="wiki-mobile-sidebar-spacer" aria-hidden="true"></div>
-      {{ end }}
-      <div class="site-mobile-nav-logo">
-        <a href="/" rel="home">
-          <img width="200" height="46" src="/assets/images/collegedebt.svg" alt="College Debt SMP" decoding="async">
-        </a>
-      </div>
+    <div class="site-mobile-nav-logo">
+      <a href="/" rel="home">
+        <img width="200" height="46" src="/assets/images/collegedebt.svg" alt="College Debt SMP" decoding="async">
+      </a>
     </div>
     <button type="button" class="site-mobile-nav-close" aria-label="Close menu">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
