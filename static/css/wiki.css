@@ -581,8 +581,148 @@
 }
 
 /* ==========================================================================
-   Wiki Shortcodes
+   Wiki Components & Shortcodes
    ========================================================================== */
+
+/* GitBook Expandables (<details> / <summary>) */
+.wiki-article-body details {
+  background-color: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 8px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+/* Expandables in a chain: stick to each other */
+.wiki-article-body details:has(+ details),
+.wiki-article-body details.has-next-details {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.wiki-article-body details + details,
+.wiki-article-body details.has-prev-details {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Summary Row */
+.wiki-article-body details > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.15rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--wp--preset--color--contrast, #111111);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  position: relative;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Hide default browser marker */
+.wiki-article-body details > summary::-webkit-details-marker,
+.wiki-article-body details > summary::marker {
+  display: none !important;
+}
+
+/* GitBook Chevron indicator */
+.wiki-article-body details > summary::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--wp--preset--color--contrast-2, #636363);
+  border-bottom: 1.5px solid var(--wp--preset--color--contrast-2, #636363);
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+  margin-right: 0.15rem;
+}
+
+/* Expanded state: chevron points down */
+.wiki-article-body details[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+.wiki-article-body details > summary:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.wiki-article-body details > summary:hover::before {
+  border-color: var(--wp--preset--color--contrast, #111111);
+}
+
+.wiki-article-body details > summary:focus-visible {
+  outline: 2px solid #0a4651;
+  outline-offset: -2px;
+}
+
+/* Enclosed Expandable Content Area */
+.wiki-article-body details > .wiki-expandable-content {
+  padding: 0.25rem 1.15rem 1.15rem 2.15rem;
+  box-sizing: border-box;
+}
+
+/* Fallback for content when wrapper is not present */
+.wiki-article-body details > :not(summary):not(.wiki-expandable-content) {
+  margin-left: 2.15rem;
+  margin-right: 1.15rem;
+}
+
+.wiki-article-body details > :not(summary):not(.wiki-expandable-content):last-child {
+  margin-bottom: 1.15rem;
+}
+
+.wiki-expandable-content > :first-child {
+  margin-top: 0.25rem;
+}
+
+.wiki-expandable-content > :last-child {
+  margin-bottom: 0;
+}
+
+/* Typography & Elements within Expandables */
+.wiki-article-body details p {
+  margin-top: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.wiki-article-body details ul,
+.wiki-article-body details ol {
+  margin-top: 0.35rem;
+  margin-bottom: 0.85rem;
+  padding-left: 1.25rem;
+}
+
+.wiki-article-body details h2,
+.wiki-article-body details h3,
+.wiki-article-body details h4 {
+  font-family: 'Inter', sans-serif !important;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.wiki-article-body details h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-top: 1.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.wiki-article-body details h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+}
 
 /* Hint */
 .wiki-hint {

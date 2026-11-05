@@ -1,5 +1,6 @@
 <aside class="wiki-toc-rail" aria-label="Table of Contents">
-  {{- $headings := findRE "<a " .TableOfContents -}}
+  {{- $contentWithoutDetails := replaceRE "(?s)<details\\b.*?</details>" "" .Content -}}
+  {{- $headings := findRE "<h[1-6]\\s+id=" $contentWithoutDetails -}}
   {{- if ge (len $headings) 2 -}}
     <div class="wiki-toc-title">
       <i class="fa-solid fa-list-ul" aria-hidden="true"></i>

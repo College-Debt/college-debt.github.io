@@ -31,6 +31,65 @@ document.addEventListener("DOMContentLoaded", function () {
     tabsContainer.insertBefore(headerRow, tabsContainer.firstChild);
   });
 
+  // GitBook Expandables (<details>): wrap content and mark chain neighbors
+  var allDetails = Array.from(document.querySelectorAll(".wiki-article-body details"));
+  allDetails.forEach(function (det) {
+    var summary = det.querySelector("summary");
+    if (summary && !det.querySelector(".wiki-expandable-content")) {
+      var contentWrapper = document.createElement("div");
+      contentWrapper.className = "wiki-expandable-content";
+      while (summary.nextSibling) {
+        contentWrapper.appendChild(summary.nextSibling);
+      }
+      det.appendChild(contentWrapper);
+    }
+
+    var next = det.nextElementSibling;
+    var prev = det.previousElementSibling;
+    if (next && next.tagName === "DETAILS") {
+      det.classList.add("has-next-details");
+    }
+    if (prev && prev.tagName === "DETAILS") {
+      det.classList.add("has-prev-details");
+    }
+  });
+
+  // Exclude headings within <details> (Expandables) from Table of Contents
+  var detailsHeadings = document.querySelectorAll(".wiki-article-body details [id]");
+  if (detailsHeadings.length > 0) {
+    detailsHeadings.forEach(function (heading) {
+      if (/^H[1-6]$/i.test(heading.tagName)) {
+        var id = heading.id;
+        var link = document.querySelector('#TableOfContents a[href="#' + CSS.escape(id) + '"]');
+        if (link) {
+          var li = link.closest("li");
+          if (li) {
+            var parentUl = li.parentElement;
+            li.remove();
+            while (parentUl && parentUl.id !== "TableOfContents" && parentUl.children.length === 0) {
+              var grandParentLi = parentUl.closest("li");
+              var nextParent = parentUl.parentElement;
+              parentUl.remove();
+              if (grandParentLi && grandParentLi.children.length === 0) {
+                grandParentLi.remove();
+              }
+              parentUl = nextParent;
+            }
+          }
+        }
+      }
+    });
+
+    var remainingLinks = document.querySelectorAll("#TableOfContents a");
+    var tocRail = document.querySelector(".wiki-toc-rail");
+    if (remainingLinks.length < 2 && tocRail) {
+      var tocTitle = tocRail.querySelector(".wiki-toc-title");
+      var tocNav = tocRail.querySelector("#TableOfContents");
+      if (tocTitle) tocTitle.style.display = "none";
+      if (tocNav) tocNav.style.display = "none";
+    }
+  }
+
   // Table of Contents active highlight on scroll
   var tocLinks = document.querySelectorAll("#TableOfContents a");
   if (tocLinks.length > 0) {
