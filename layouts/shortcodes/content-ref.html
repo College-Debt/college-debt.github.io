@@ -1,8 +1,63 @@
-{{ $url := .Get "url" | default (.Get 0) }}
+{{- $rawUrl := .Get "url" | default (.Get 0) -}}
+{{- $targetPage := false -}}
+
+{{- with $.Page.GetPage $rawUrl -}}
+  {{- $targetPage = . -}}
+{{- end -}}
+
+{{- if not $targetPage -}}
+  {{- $clean := strings.TrimSuffix ".md" $rawUrl -}}
+  {{- with $.Page.GetPage $clean -}}
+    {{- $targetPage = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not $targetPage -}}
+  {{- $clean := strings.TrimSuffix ".md" $rawUrl -}}
+  {{- with $.Site.GetPage $clean -}}
+    {{- $targetPage = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not $targetPage -}}
+  {{- $base := path.Base $rawUrl -}}
+  {{- $baseClean := strings.TrimSuffix ".md" $base -}}
+  {{- range where $.Site.Pages "Section" "wiki" -}}
+    {{- if and .File (or (eq .File.LogicalName $base) (eq .File.TranslationBaseName $baseClean)) -}}
+      {{- $targetPage = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $targetPage -}}
 <div class="wiki-content-ref">
-  <a href="{{ $url }}" class="wiki-content-ref-link">
-    <span class="wiki-content-ref-icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>
-    <span class="wiki-content-ref-text">{{ .Inner | markdownify }}</span>
+  <a href="{{ $targetPage.RelPermalink }}" class="wiki-content-ref-link">
+    <span class="wiki-content-ref-icon">
+      {{ partial "wiki/icon.html" (dict "icon" ($targetPage.Params.icon | default "file-lines")) }}
+    </span>
+    <span class="wiki-content-ref-body">
+      <span class="wiki-content-ref-title">{{ $targetPage.Title }}</span>
+      {{ with $targetPage.Description }}
+        <span class="wiki-content-ref-desc">{{ . }}</span>
+      {{ end }}
+    </span>
+    <span class="wiki-content-ref-arrow">
+      <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+    </span>
   </a>
 </div>
-
+{{- else -}}
+<div class="wiki-content-ref">
+  <a href="{{ $rawUrl }}" class="wiki-content-ref-link">
+    <span class="wiki-content-ref-icon">
+      <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+    </span>
+    <span class="wiki-content-ref-body">
+      <span class="wiki-content-ref-title">{{ with .Inner }}{{ . | markdownify }}{{ else }}{{ $rawUrl }}{{ end }}</span>
+    </span>
+    <span class="wiki-content-ref-arrow">
+      <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+    </span>
+  </a>
+</div>
+{{- end -}}

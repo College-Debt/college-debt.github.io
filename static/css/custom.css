@@ -375,15 +375,15 @@ footer.site-footer-group {
   border-bottom: 1px solid var(--wp--preset--color--accent, #cfcabe) !important;
 }
 
-/* Wiki pages: edge alignment with wiki-container and sidebar card */
-.is-wiki-page .site-header-group,
-.is-wiki-page .site-footer-group {
+/* Edge alignment for header and footer sitewide (1440px container with 1.25rem padding) */
+.site-header-group,
+.site-footer-group {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-.is-wiki-page .site-header-row,
-.is-wiki-page .site-footer-row {
+.site-header-row,
+.site-footer-row {
   max-width: 1440px !important;
   width: 100% !important;
   margin-left: auto !important;

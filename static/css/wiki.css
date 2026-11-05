@@ -634,8 +634,38 @@
   display: none !important;
 }
 
-/* GitBook Chevron indicator */
-.wiki-article-body details > summary::before {
+/* GitBook Expandable SVG Chevron Indicator (centered rotation pivot) */
+.wiki-expandable-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease;
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+
+.wiki-expandable-chevron svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  transform-origin: 50% 50%;
+}
+
+/* Expanded state: chevron rotates 90deg with pivot at exact center */
+.wiki-article-body details[open] > summary .wiki-expandable-chevron {
+  transform: rotate(90deg);
+}
+
+.wiki-article-body details > summary:hover .wiki-expandable-chevron {
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+/* Fallback chevron indicator when JS is not active */
+.wiki-article-body details > summary:not(:has(.wiki-expandable-chevron))::before {
   content: "";
   display: inline-block;
   width: 7px;
@@ -643,13 +673,13 @@
   border-right: 1.5px solid var(--wp--preset--color--contrast-2, #636363);
   border-bottom: 1.5px solid var(--wp--preset--color--contrast-2, #636363);
   transform: rotate(-45deg);
+  transform-origin: 75% 75%;
   transition: transform 0.2s ease, border-color 0.15s ease;
   flex-shrink: 0;
   margin-right: 0.15rem;
 }
 
-/* Expanded state: chevron points down */
-.wiki-article-body details[open] > summary::before {
+.wiki-article-body details[open] > summary:not(:has(.wiki-expandable-chevron))::before {
   transform: rotate(45deg);
 }
 
@@ -657,7 +687,7 @@
   background-color: rgba(0, 0, 0, 0.02);
 }
 
-.wiki-article-body details > summary:hover::before {
+.wiki-article-body details > summary:hover:not(:has(.wiki-expandable-chevron))::before {
   border-color: var(--wp--preset--color--contrast, #111111);
 }
 
@@ -848,7 +878,12 @@
   display: block;
 }
 
-/* Content Ref */
+/* Tables: suppress leftover GitBook editor <select> elements */
+.wiki-article-body table select {
+  display: none !important;
+}
+
+/* Content Ref Card */
 .wiki-content-ref {
   margin: 1.25rem 0;
 }
@@ -856,28 +891,74 @@
 .wiki-content-ref-link {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   padding: 0.85rem 1.15rem;
-  background: #ffffff;
+  background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
   border-radius: 8px;
   text-decoration: none !important;
   color: var(--wp--preset--color--contrast, #111111);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  box-sizing: border-box;
 }
 
 .wiki-content-ref-link:hover {
   border-color: #0a4651;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .wiki-content-ref-icon {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  transition: color 0.15s ease;
 }
 
-.wiki-content-ref-text {
+.wiki-content-ref-link:hover .wiki-content-ref-icon {
+  color: #0a4651;
+}
+
+.wiki-content-ref-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.wiki-content-ref-title {
   font-weight: 600;
   font-size: 0.95rem;
+  color: var(--wp--preset--color--contrast, #111111);
+  line-height: 1.35;
+}
+
+.wiki-content-ref-desc {
+  font-size: 0.82rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wiki-content-ref-arrow {
+  color: var(--wp--preset--color--contrast-3, #a4a4a4);
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.wiki-content-ref-link:hover .wiki-content-ref-arrow {
+  color: #0a4651;
+  transform: translateX(3px);
 }
 
 /* Embed */

@@ -31,17 +31,26 @@ document.addEventListener("DOMContentLoaded", function () {
     tabsContainer.insertBefore(headerRow, tabsContainer.firstChild);
   });
 
-  // GitBook Expandables (<details>): wrap content and mark chain neighbors
+  // GitBook Expandables (<details>): wrap content, inject centered SVG chevron, and mark chain neighbors
   var allDetails = Array.from(document.querySelectorAll(".wiki-article-body details"));
   allDetails.forEach(function (det) {
     var summary = det.querySelector("summary");
-    if (summary && !det.querySelector(".wiki-expandable-content")) {
-      var contentWrapper = document.createElement("div");
-      contentWrapper.className = "wiki-expandable-content";
-      while (summary.nextSibling) {
-        contentWrapper.appendChild(summary.nextSibling);
+    if (summary) {
+      if (!summary.querySelector(".wiki-expandable-chevron")) {
+        var chevron = document.createElement("span");
+        chevron.className = "wiki-expandable-chevron";
+        chevron.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 4 10 8 6 12"></polyline></svg>';
+        summary.insertBefore(chevron, summary.firstChild);
       }
-      det.appendChild(contentWrapper);
+
+      if (!det.querySelector(".wiki-expandable-content")) {
+        var contentWrapper = document.createElement("div");
+        contentWrapper.className = "wiki-expandable-content";
+        while (summary.nextSibling) {
+          contentWrapper.appendChild(summary.nextSibling);
+        }
+        det.appendChild(contentWrapper);
+      }
     }
 
     var next = det.nextElementSibling;
@@ -52,6 +61,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (prev && prev.tagName === "DETAILS") {
       det.classList.add("has-prev-details");
     }
+  });
+
+  // Remove leftover <select> tags from tables
+  document.querySelectorAll(".wiki-article-body table select").forEach(function (el) {
+    el.remove();
   });
 
   // Exclude headings within <details> (Expandables) from Table of Contents
