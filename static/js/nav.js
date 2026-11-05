@@ -68,6 +68,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    if (mobileModal) {
+        mobileModal.addEventListener('touchmove', function (e) {
+            if (!e.target.closest('.site-mobile-nav-links')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    }
+
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             closeMobileNav();

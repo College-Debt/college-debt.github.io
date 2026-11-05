@@ -222,6 +222,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (backdrop) {
+    backdrop.addEventListener("touchmove", function (e) {
+      e.preventDefault();
+    }, { passive: false });
     backdrop.addEventListener("click", function () {
       closeAllDrawers();
     });
