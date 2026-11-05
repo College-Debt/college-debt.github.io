@@ -181,6 +181,10 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       document.body.classList.remove("has-wiki-toc-open");
       if (tocToggle) tocToggle.setAttribute("aria-expanded", "false");
+      var mobileNavModal = document.getElementById("site-mobile-nav-modal");
+      if (mobileNavModal) mobileNavModal.classList.remove("is-open");
+      document.documentElement.classList.remove("has-modal-open");
+      document.body.classList.remove("has-modal-open");
       document.body.classList.add("has-wiki-sidebar-open");
       if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", "true");
     }
@@ -194,6 +198,10 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       document.body.classList.remove("has-wiki-sidebar-open");
       if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", "false");
+      var mobileNavModal = document.getElementById("site-mobile-nav-modal");
+      if (mobileNavModal) mobileNavModal.classList.remove("is-open");
+      document.documentElement.classList.remove("has-modal-open");
+      document.body.classList.remove("has-modal-open");
       document.body.classList.add("has-wiki-toc-open");
       if (tocToggle) tocToggle.setAttribute("aria-expanded", "true");
     }
