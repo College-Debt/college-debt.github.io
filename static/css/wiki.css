@@ -40,12 +40,6 @@
   display: block;
 }
 
-.wiki-mobile-sidebar-toggle .wiki-hamburger-icon i {
-  font-size: 20px;
-  line-height: 1;
-  display: block;
-}
-
 .wiki-mobile-sidebar-toggle .wiki-hamburger-icon,
 .wiki-mobile-sidebar-toggle .wiki-close-icon {
   display: inline-flex;

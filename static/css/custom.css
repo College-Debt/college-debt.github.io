@@ -122,42 +122,57 @@ header.wp-block-template-part {
 .site-mobile-nav-actions {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem !important;
 }
 
 .site-search-btn-mobile-nav {
-  width: 36px;
-  height: 36px;
-  padding: 0;
+  width: 24px !important;
+  height: 24px !important;
+  padding: 0 !important;
+  margin: 0 !important;
   border: none !important;
+  border-radius: 0 !important;
   background: transparent !important;
-  border-radius: 50%;
   color: var(--wp--preset--color--contrast, #111111);
-  justify-content: center;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  transition: color 0.15s ease !important;
+  cursor: pointer;
+  box-shadow: none !important;
 }
 
-.site-search-btn-mobile-nav:hover {
-  background: rgba(0, 0, 0, 0.05) !important;
+.site-search-btn-mobile-nav:hover,
+.site-search-btn-mobile-nav:focus {
+  background: transparent !important;
   color: #0a4651 !important;
+  text-decoration: none !important;
 }
 
 .site-mobile-nav-close {
-  background: transparent;
-  border: none;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
   cursor: pointer;
-  padding: 0;
-  margin: 0;
-  width: 24px;
-  height: 24px;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
   color: var(--wp--preset--color--contrast, #111111);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.15s ease;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  transition: color 0.15s ease !important;
+  box-shadow: none !important;
 }
 
-.site-mobile-nav-close:hover {
-  color: #0a4651;
+.site-mobile-nav-close:hover,
+.site-mobile-nav-close:focus {
+  background: transparent !important;
+  color: #0a4651 !important;
+  text-decoration: none !important;
 }
 
 .site-mobile-nav-center {
@@ -603,13 +618,19 @@ button:active {
 
   .site-search-btn {
     order: -1 !important;
-    width: 28px;
-    height: 28px;
+    width: 24px !important;
+    height: 24px !important;
     padding: 0 !important;
+    margin: 0 !important;
     border: none !important;
+    border-radius: 0 !important;
     background: transparent !important;
     color: var(--wp--preset--color--contrast, #111111);
-    justify-content: center;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    box-shadow: none !important;
   }
 
   .site-search-btn:hover {

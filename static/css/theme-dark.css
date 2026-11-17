@@ -139,17 +139,20 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .site-search-btn-mobile-nav:hover {
+  :root:not([data-theme="light"]) .site-search-btn-mobile-nav:hover,
+  :root:not([data-theme="light"]) .site-search-btn-mobile-nav:focus {
     color: var(--brand-teal) !important;
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: transparent !important;
   }
 
   :root:not([data-theme="light"]) .site-mobile-nav-close {
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .site-mobile-nav-close:hover {
+  :root:not([data-theme="light"]) .site-mobile-nav-close:hover,
+  :root:not([data-theme="light"]) .site-mobile-nav-close:focus {
     color: var(--brand-teal) !important;
+    background: transparent !important;
   }
 
   :root:not([data-theme="light"]) .site-mobile-nav-links a {
@@ -815,17 +818,20 @@
   color: var(--wp--preset--color--contrast) !important;
 }
 
-:root[data-theme="dark"] .site-search-btn-mobile-nav:hover {
+:root[data-theme="dark"] .site-search-btn-mobile-nav:hover,
+:root[data-theme="dark"] .site-search-btn-mobile-nav:focus {
   color: var(--brand-teal) !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: transparent !important;
 }
 
 :root[data-theme="dark"] .site-mobile-nav-close {
   color: var(--wp--preset--color--contrast) !important;
 }
 
-:root[data-theme="dark"] .site-mobile-nav-close:hover {
+:root[data-theme="dark"] .site-mobile-nav-close:hover,
+:root[data-theme="dark"] .site-mobile-nav-close:focus {
   color: var(--brand-teal) !important;
+  background: transparent !important;
 }
 
 :root[data-theme="dark"] .site-mobile-nav-links a {
