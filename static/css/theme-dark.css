@@ -102,9 +102,46 @@
     color: var(--brand-teal) !important;
   }
 
+  /* --- Site Search Button --- */
+  :root:not([data-theme="light"]) .site-search-btn {
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-btn:hover {
+    border-color: var(--brand-teal) !important;
+    color: var(--brand-teal) !important;
+    background: var(--brand-teal-muted) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-btn-kbd {
+    background: #23272e !important;
+    color: #9ca3af !important;
+    border-color: #374151 !important;
+  }
+
+  @media (max-width: 600px) {
+    :root:not([data-theme="light"]) .site-search-btn {
+      color: var(--wp--preset--color--contrast) !important;
+    }
+    :root:not([data-theme="light"]) .site-search-btn:hover {
+      color: var(--brand-teal) !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+  }
+
   /* --- Mobile Navigation Fullscreen Modal --- */
   :root:not([data-theme="light"]) .site-mobile-nav-modal {
     background: rgba(19, 20, 22, 0.94) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-btn-mobile-nav {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-btn-mobile-nav:hover {
+    color: var(--brand-teal) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
   }
 
   :root:not([data-theme="light"]) .site-mobile-nav-close {
@@ -577,6 +614,85 @@
     color: var(--brand-teal) !important;
   }
 
+  /* --- Site Search Modal & Pagefind UI Dark Mode --- */
+  :root:not([data-theme="light"]) {
+    --pagefind-ui-primary: var(--brand-teal);
+    --pagefind-ui-text: var(--wp--preset--color--contrast);
+    --pagefind-ui-background: var(--wp--preset--color--base-2);
+    --pagefind-ui-border: var(--wp--preset--color--accent);
+    --pagefind-ui-tag: #23272e;
+  }
+
+  :root:not([data-theme="light"]) .site-search-backdrop {
+    background: var(--backdrop-scrim, rgba(10, 11, 13, 0.8)) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-dialog {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-dialog-header {
+    background: #16181d !important;
+    border-bottom-color: var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-dialog-title {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-esc-hint kbd {
+    background: #23272e !important;
+    border-color: #374151 !important;
+    color: #9ca3af !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-close {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-close:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-spinner {
+    border-color: var(--wp--preset--color--accent) !important;
+    border-top-color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__search-input {
+    background-color: #16181d !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__search-input:focus {
+    border-color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link {
+    color: var(--brand-teal) !important;
+  }
+
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-excerpt {
+    color: #9ca3af !important;
+  }
+
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-excerpt mark {
+    background-color: rgba(40, 180, 200, 0.18) !important;
+    color: #67e8f9 !important;
+  }
+
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested {
+    border-left-color: var(--wp--preset--color--accent) !important;
+  }
+
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result {
+    border-bottom-color: var(--wp--preset--color--accent) !important;
+  }
+
   /* --- Mobile Drawers & Overrides --- */
   @media (max-width: 1100px) {
     :root:not([data-theme="light"]) .wiki-toc-rail {
@@ -649,8 +765,45 @@
   color: var(--brand-teal) !important;
 }
 
+/* --- Site Search Button --- */
+:root[data-theme="dark"] .site-search-btn {
+  border-color: var(--wp--preset--color--accent) !important;
+  color: var(--wp--preset--color--contrast-2) !important;
+}
+
+:root[data-theme="dark"] .site-search-btn:hover {
+  border-color: var(--brand-teal) !important;
+  color: var(--brand-teal) !important;
+  background: var(--brand-teal-muted) !important;
+}
+
+:root[data-theme="dark"] .site-search-btn-kbd {
+  background: #23272e !important;
+  color: #9ca3af !important;
+  border-color: #374151 !important;
+}
+
+@media (max-width: 600px) {
+  :root[data-theme="dark"] .site-search-btn {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+  :root[data-theme="dark"] .site-search-btn:hover {
+    color: var(--brand-teal) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+  }
+}
+
 :root[data-theme="dark"] .site-mobile-nav-modal {
   background: rgba(19, 20, 22, 0.94) !important;
+}
+
+:root[data-theme="dark"] .site-search-btn-mobile-nav {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+:root[data-theme="dark"] .site-search-btn-mobile-nav:hover {
+  color: var(--brand-teal) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
 :root[data-theme="dark"] .site-mobile-nav-close {
@@ -1108,6 +1261,85 @@
 
   :root[data-theme="dark"] .wiki-embed-card-title {
     color: var(--brand-teal) !important;
+  }
+
+  /* --- Site Search Modal & Pagefind UI Dark Mode --- */
+  :root[data-theme="dark"] {
+    --pagefind-ui-primary: var(--brand-teal);
+    --pagefind-ui-text: var(--wp--preset--color--contrast);
+    --pagefind-ui-background: var(--wp--preset--color--base-2);
+    --pagefind-ui-border: var(--wp--preset--color--accent);
+    --pagefind-ui-tag: #23272e;
+  }
+
+  :root[data-theme="dark"] .site-search-backdrop {
+    background: var(--backdrop-scrim, rgba(10, 11, 13, 0.8)) !important;
+  }
+
+  :root[data-theme="dark"] .site-search-dialog {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  :root[data-theme="dark"] .site-search-dialog-header {
+    background: #16181d !important;
+    border-bottom-color: var(--wp--preset--color--accent) !important;
+  }
+
+  :root[data-theme="dark"] .site-search-dialog-title {
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root[data-theme="dark"] .site-search-esc-hint kbd {
+    background: #23272e !important;
+    border-color: #374151 !important;
+    color: #9ca3af !important;
+  }
+
+  :root[data-theme="dark"] .site-search-close {
+    color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root[data-theme="dark"] .site-search-close:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+  }
+
+  :root[data-theme="dark"] .site-search-spinner {
+    border-color: var(--wp--preset--color--accent) !important;
+    border-top-color: var(--brand-teal) !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__search-input {
+    background-color: #16181d !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--wp--preset--color--contrast) !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__search-input:focus {
+    border-color: var(--brand-teal) !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link {
+    color: var(--brand-teal) !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-excerpt {
+    color: #9ca3af !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-excerpt mark {
+    background-color: rgba(40, 180, 200, 0.18) !important;
+    color: #67e8f9 !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested {
+    border-left-color: var(--wp--preset--color--accent) !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result {
+    border-bottom-color: var(--wp--preset--color--accent) !important;
   }
 
   @media (max-width: 1100px) {

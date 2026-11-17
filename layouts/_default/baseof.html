@@ -35,7 +35,9 @@
 		{{ block "main" . }}{{ end }}
 		{{ partial "footer.html" . }}
 	</div>
+	{{ partial "search_modal.html" . }}
 	<script src="/js/nav.js"></script>
+	<script src="/js/search.js"></script>
 	{{ if or (eq .Section "wiki") (eq .Type "wiki") (in .RelPermalink "/wiki/") }}
 	<script src="/js/wiki.js"></script>
 	{{ end }}

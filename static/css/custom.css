@@ -119,6 +119,28 @@ header.wp-block-template-part {
   height: auto !important;
 }
 
+.site-mobile-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.site-search-btn-mobile-nav {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 50%;
+  color: var(--wp--preset--color--contrast, #111111);
+  justify-content: center;
+}
+
+.site-search-btn-mobile-nav:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: #0a4651 !important;
+}
+
 .site-mobile-nav-close {
   background: transparent;
   border: none;
@@ -529,3 +551,305 @@ button:focus:not(:focus-visible),
 button:active {
   outline: none !important;
 }
+
+/* ==========================================================================
+   Header Search Button & Trigger
+   ========================================================================== */
+.site-header-nav-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+}
+
+.site-search-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: transparent;
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 6px;
+  padding: 0.35rem 0.65rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.site-search-btn:hover {
+  border-color: #0a4651;
+  color: #0a4651;
+  background: rgba(10, 70, 81, 0.04);
+}
+
+.site-search-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.site-search-btn-kbd {
+  font-size: 0.72rem;
+  padding: 0.12rem 0.35rem;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--wp--preset--color--contrast-2, #636363);
+  font-weight: 600;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 600px) {
+  .site-header-nav-wrapper {
+    gap: 0.35rem !important;
+  }
+
+  .site-search-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    color: var(--wp--preset--color--contrast, #111111);
+    justify-content: center;
+  }
+
+  .site-search-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .site-search-btn-kbd {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Site Search Modal Overlay & Pagefind UI
+   ========================================================================== */
+.site-search-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(1rem, 7vh, 4rem) 1rem 1rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.site-search-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.site-search-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(240, 239, 237, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.site-search-dialog {
+  position: relative;
+  z-index: 2;
+  width: min(680px, 100%);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  transform: translateY(-8px) scale(0.98);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.site-search-modal.is-open .site-search-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.site-search-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.15rem;
+  border-bottom: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  background: #faf9f7;
+}
+
+.site-search-dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Minecraft', monospace !important;
+  -webkit-font-smoothing: none !important;
+  font-size: 1rem;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.site-search-dialog-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.site-search-esc-hint {
+  font-size: 0.75rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+}
+
+.site-search-esc-hint kbd {
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.12rem 0.35rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.site-search-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.site-search-close:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.site-search-body {
+  padding: 1.15rem;
+  overflow-y: auto;
+  flex: 1;
+  max-height: calc(82vh - 55px);
+}
+
+.site-search-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2.5rem 1rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  font-size: 0.95rem;
+}
+
+.site-search-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--wp--preset--color--accent, #cfcabe);
+  border-top-color: #0a4651;
+  border-radius: 50%;
+  animation: site-search-spin 0.6s linear infinite;
+}
+
+@keyframes site-search-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Pagefind UI Component Overrides */
+:root {
+  --pagefind-ui-scale: 0.95;
+  --pagefind-ui-primary: #0a4651;
+  --pagefind-ui-text: var(--wp--preset--color--contrast, #111111);
+  --pagefind-ui-background: var(--wp--preset--color--base-2, #ffffff);
+  --pagefind-ui-border: var(--wp--preset--color--accent, #cfcabe);
+  --pagefind-ui-tag: #f0efed;
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 8px;
+  --pagefind-ui-font: 'Inter', sans-serif;
+}
+
+#site-search-container .pagefind-ui__search-input {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1rem !important;
+  border: 1.5px solid var(--wp--preset--color--accent, #cfcabe) !important;
+  border-radius: 8px !important;
+  background-color: var(--wp--preset--color--base-2, #ffffff) !important;
+  color: var(--wp--preset--color--contrast, #111111) !important;
+  padding: 0.65rem 1rem 0.65rem 2.5rem !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease !important;
+}
+
+#site-search-container .pagefind-ui__search-input:focus {
+  border-color: #0a4651 !important;
+  outline: none !important;
+}
+
+#site-search-container .pagefind-ui__search-clear {
+  background: transparent !important;
+  color: var(--wp--preset--color--contrast-2, #636363) !important;
+  border-radius: 4px !important;
+}
+
+#site-search-container .pagefind-ui__result-link {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 1.05rem !important;
+  color: #0a4651 !important;
+  text-decoration: none !important;
+}
+
+#site-search-container .pagefind-ui__result-link:hover {
+  text-decoration: underline !important;
+}
+
+#site-search-container .pagefind-ui__result-excerpt {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.9rem !important;
+  line-height: 1.55 !important;
+  color: var(--wp--preset--color--contrast-2, #636363) !important;
+}
+
+#site-search-container .pagefind-ui__result-excerpt mark {
+  background-color: rgba(10, 70, 81, 0.15) !important;
+  color: #0a4651 !important;
+  border-radius: 2px !important;
+  padding: 0 0.15rem !important;
+  font-weight: 600 !important;
+}
+
+#site-search-container .pagefind-ui__result-nested {
+  padding-left: 1rem !important;
+  border-left: 2px solid var(--wp--preset--color--accent, #cfcabe) !important;
+  margin-top: 0.5rem !important;
+}
+
+#site-search-container .pagefind-ui__result {
+  border-bottom: 1px solid var(--wp--preset--color--accent, #cfcabe) !important;
+  padding: 1rem 0 !important;
+}
+
+#site-search-container .pagefind-ui__message {
+  font-family: 'Inter', sans-serif !important;
+  color: var(--wp--preset--color--contrast-2, #636363) !important;
+  font-size: 0.9rem !important;
+  padding: 0.5rem 0 !important;
+}
+

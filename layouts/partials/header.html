@@ -1,4 +1,4 @@
-<div class="wp-block-group is-layout-flow wp-block-group-is-layout-flow site-header-wrapper">
+<div class="wp-block-group is-layout-flow wp-block-group-is-layout-flow site-header-wrapper" data-pagefind-ignore>
   <header class="wp-block-template-part">
     <div
       class="wp-block-group alignwide has-background has-global-padding is-layout-constrained site-header-group wp-block-group-is-layout-constrained"
@@ -85,6 +85,13 @@
               </div>
             </div>
           </nav>
+          <button type="button" class="site-search-btn" aria-label="Search site" title="Search (⌘K)">
+            <svg class="site-search-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span class="site-search-btn-kbd"><kbd>⌘K</kbd></span>
+          </button>
         </div>
       </div>
     </div>
@@ -99,12 +106,20 @@
         <img width="200" height="46" src="/assets/images/collegedebt.svg" alt="College Debt SMP" decoding="async">
       </a>
     </div>
-    <button type="button" class="site-mobile-nav-close" aria-label="Close menu">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
+    <div class="site-mobile-nav-actions">
+      <button type="button" class="site-search-btn site-search-btn-mobile-nav" aria-label="Search site" title="Search">
+        <svg class="site-search-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+      <button type="button" class="site-mobile-nav-close" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
   </div>
   <div class="site-mobile-nav-center">
     <nav aria-label="Mobile Navigation">
