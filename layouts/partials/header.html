@@ -10,11 +10,7 @@
           {{ if or (eq .Section "wiki") (eq .Type "wiki") (in .RelPermalink "/wiki/") }}
           <button type="button" class="wiki-mobile-sidebar-toggle" aria-label="Toggle Wiki Navigation" aria-expanded="false">
             <span class="wiki-hamburger-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="1.25" y1="5" x2="22.75" y2="5"></line>
-                <line x1="1.25" y1="12" x2="22.75" y2="12"></line>
-                <line x1="1.25" y1="19" x2="22.75" y2="19"></line>
-              </svg>
+              <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
             </span>
             <span class="wiki-close-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -37,12 +33,13 @@
             data-wp-context='{"overlayOpenedBy":{"click":false,"hover":false,"focus":false},"type":"overlay","roleAttribute":"","ariaLabel":"Menu"}'>
             <button aria-haspopup="dialog" aria-label="Open menu"
               class="wp-block-navigation__responsive-container-open " data-wp-on-async--click="actions.openMenuOnClick"
-              data-wp-on--keydown="actions.handleMenuKeydown"><svg width="24" height="24"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <circle cx="2.25" cy="12" r="2.25"></circle>
-                <circle cx="12" cy="12" r="2.25"></circle>
-                <circle cx="21.75" cy="12" r="2.25"></circle>
-              </svg></button>
+              data-wp-on--keydown="actions.handleMenuKeydown">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="1.25" y1="5" x2="22.75" y2="5"></line>
+                <line x1="1.25" y1="12" x2="22.75" y2="12"></line>
+                <line x1="1.25" y1="19" x2="22.75" y2="19"></line>
+              </svg>
+            </button>
             <div
               class="wp-block-navigation__responsive-container  has-text-color has-base-2-color has-background has-contrast-background-color"
               id="modal-1" data-wp-class--has-modal-open="state.isMenuOpen"

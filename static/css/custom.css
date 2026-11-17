@@ -598,10 +598,11 @@ button:active {
 
 @media (max-width: 600px) {
   .site-header-nav-wrapper {
-    gap: 0.5rem !important;
+    gap: 0.75rem !important;
   }
 
   .site-search-btn {
+    order: -1 !important;
     width: 28px;
     height: 28px;
     padding: 0 !important;

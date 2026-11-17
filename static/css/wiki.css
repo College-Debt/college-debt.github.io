@@ -4,7 +4,7 @@
    ========================================================================== */
 
 :root {
-  --site-header-height: 66px;
+  --site-header-height: 67px;
 }
 
 @media (max-width: 600px) {
@@ -37,6 +37,12 @@
 }
 
 .wiki-mobile-sidebar-toggle svg {
+  display: block;
+}
+
+.wiki-mobile-sidebar-toggle .wiki-hamburger-icon i {
+  font-size: 20px;
+  line-height: 1;
   display: block;
 }
 
@@ -88,6 +94,11 @@ body.has-wiki-toc-open {
   overflow: visible !important;
 }
 
+.wiki-main {
+  margin-top: 0 !important;
+  margin-block-start: 0 !important;
+}
+
 /* --- Top-Level Container --- */
 .wiki-container {
   max-width: 1440px;
@@ -96,7 +107,7 @@ body.has-wiki-toc-open {
   margin-right: auto;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
-  padding-top: 0;
+  padding-top: 1rem;
   padding-bottom: 1rem;
   box-sizing: border-box;
 }
@@ -119,9 +130,9 @@ body.has-wiki-toc-open {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   padding: 0.65rem;
   position: sticky;
-  top: calc(var(--site-header-height, 66px) + 1rem);
-  height: calc(100dvh - var(--site-header-height, 66px) - 2rem);
-  max-height: calc(100dvh - var(--site-header-height, 66px) - 2rem);
+  top: calc(var(--site-header-height, 67px) + 1rem);
+  height: calc(100dvh - var(--site-header-height, 67px) - 2rem);
+  max-height: calc(100dvh - var(--site-header-height, 67px) - 2rem);
   margin-bottom: 1rem;
   overflow-y: auto;
   overflow-x: hidden;
@@ -641,9 +652,9 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
    ========================================================================== */
 .wiki-toc-rail {
   position: sticky;
-  top: calc(var(--site-header-height, 66px) + 1rem);
+  top: calc(var(--site-header-height, 67px) + 1rem);
   width: 230px;
-  max-height: calc(100dvh - var(--site-header-height, 66px) - 2rem);
+  max-height: calc(100dvh - var(--site-header-height, 67px) - 2rem);
   overflow-y: auto;
   box-sizing: border-box;
   scrollbar-width: thin;

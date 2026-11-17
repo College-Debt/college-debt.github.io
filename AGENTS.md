@@ -201,9 +201,9 @@ When creating the wiki layout and templates in upcoming phases, **the wiki must 
      - Active page indicator: Highlight with dark contrast or teal accent (`#0a4651`).
      - Collapsible on desktop with chevron button; defaults to hidden for non-active subtrees.
    - **Mobile & Tablet Drawer Pattern**:
-     - At `<= 820px`: Left sidebar transforms into an offscreen slide drawer (`transform: translateX(-100%)`). Toggled via a dedicated hamburger button beside the logo in the sticky header, which toggles to a close (`✕`) icon in-place. Background content blurs via `backdrop-filter: blur(4px)`.
+     - At `<= 820px`: Left sidebar transforms into an offscreen slide drawer (`transform: translateX(-100%)`). Toggled via a dedicated sidebar icon button (`fa-table-columns` from Font Awesome) beside the logo in the sticky header, which toggles to a close (`✕`) icon in-place. Background content blurs via `backdrop-filter: blur(4px)`.
      - At `<= 1100px`: Table of Contents transforms into an offscreen slide drawer (`transform: translateX(100%)`) on the right rail. Toggled via a list icon button on the right side of the breadcrumbs row (only rendered when 2+ headings exist).
-     - Global header navigation collapses into a distinct 3-dots (`···`) menu icon to visually differentiate from the wiki sidebar hamburger.
+     - Global header navigation collapses into a distinct hamburger (`☰`) menu icon on mobile layout, with the site search button placed to its left.
      - Drawers can be dismissed via backdrop tap, <kbd>Escape</kbd> key, close buttons, or link navigation.
 
 4. **Wiki Components & Shortcodes**:
