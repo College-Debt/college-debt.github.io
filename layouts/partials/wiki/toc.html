@@ -1,4 +1,4 @@
-<aside class="wiki-toc-rail" aria-label="Table of Contents">
+<aside class="wiki-toc-rail" data-pagefind-ignore aria-label="Table of Contents">
   {{- $contentWithoutDetails := replaceRE "(?s)<details\\b.*?</details>" "" .Content -}}
   {{- $headings := findRE "<h[1-6]\\s+id=" $contentWithoutDetails -}}
   {{- if ge (len $headings) 2 -}}

@@ -152,7 +152,7 @@
         autofocus: true,
         resetStyles: false,
         translations: {
-          placeholder: 'Search wiki, updates, and guides…',
+          placeholder: 'Search site',
           clear_search: 'Clear',
           load_more: 'Load more results',
           search_label: 'Search',

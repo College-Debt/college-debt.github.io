@@ -558,29 +558,31 @@ button:active {
 .site-header-nav-wrapper {
   display: flex !important;
   align-items: center !important;
-  gap: 0.75rem !important;
+  gap: var(--wp--preset--spacing--20) !important;
 }
 
 .site-search-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  background: transparent;
-  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 6px;
-  padding: 0.35rem 0.65rem;
-  color: var(--wp--preset--color--contrast-2, #636363);
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: var(--wp--preset--color--contrast, #111111);
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
-  transition: all 0.15s ease;
   line-height: 1;
+  transition: none !important;
+  outline: none;
+  box-shadow: none !important;
 }
 
-.site-search-btn:hover {
-  border-color: #0a4651;
-  color: #0a4651;
-  background: rgba(10, 70, 81, 0.04);
+.site-search-btn:hover,
+.site-search-btn:focus {
+  color: #0a4651 !important;
+  background: transparent !important;
+  text-decoration: none !important;
 }
 
 .site-search-btn-icon {
@@ -591,33 +593,27 @@ button:active {
 }
 
 .site-search-btn-kbd {
-  font-size: 0.72rem;
-  padding: 0.12rem 0.35rem;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.06);
-  color: var(--wp--preset--color--contrast-2, #636363);
-  font-weight: 600;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: none !important;
 }
 
 @media (max-width: 600px) {
   .site-header-nav-wrapper {
-    gap: 0.35rem !important;
+    gap: 0.5rem !important;
   }
 
   .site-search-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
     color: var(--wp--preset--color--contrast, #111111);
     justify-content: center;
   }
 
   .site-search-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: transparent !important;
+    color: #0a4651 !important;
   }
 
   .site-search-btn-kbd {
@@ -635,21 +631,16 @@ button:active {
   right: 0;
   bottom: 0;
   z-index: 10000;
-  display: flex;
+  display: none;
   align-items: flex-start;
   justify-content: center;
   padding: clamp(1rem, 7vh, 4rem) 1rem 1rem;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
+  transition: none !important;
 }
 
 .site-search-modal.is-open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+  display: flex;
 }
 
 .site-search-backdrop {
@@ -661,6 +652,7 @@ button:active {
   background: rgba(240, 239, 237, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  transition: none !important;
 }
 
 .site-search-dialog {
@@ -675,12 +667,13 @@ button:active {
   border-radius: 12px;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
   overflow: hidden;
-  transform: translateY(-8px) scale(0.98);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: none !important;
+  transition: none !important;
 }
 
 .site-search-modal.is-open .site-search-dialog {
-  transform: translateY(0) scale(1);
+  transform: none !important;
+  transition: none !important;
 }
 
 .site-search-dialog-header {
@@ -734,7 +727,7 @@ button:active {
   color: var(--wp--preset--color--contrast-2, #636363);
   cursor: pointer;
   border-radius: 6px;
-  transition: all 0.15s ease;
+  transition: none !important;
 }
 
 .site-search-close:hover {
@@ -785,16 +778,36 @@ button:active {
   --pagefind-ui-font: 'Inter', sans-serif;
 }
 
+/* Remove Type Sidebar */
+#site-search-container .pagefind-ui__filter-panel {
+  display: none !important;
+}
+
+#site-search-container .pagefind-ui__drawer {
+  gap: 0 !important;
+}
+
+#site-search-container .pagefind-ui__results-area {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+}
+
 #site-search-container .pagefind-ui__search-input {
   font-family: 'Inter', sans-serif !important;
   font-size: 1rem !important;
+  font-weight: 400 !important;
   border: 1.5px solid var(--wp--preset--color--accent, #cfcabe) !important;
   border-radius: 8px !important;
   background-color: var(--wp--preset--color--base-2, #ffffff) !important;
   color: var(--wp--preset--color--contrast, #111111) !important;
   padding: 0.65rem 1rem 0.65rem 2.5rem !important;
   box-shadow: none !important;
-  transition: border-color 0.15s ease !important;
+  transition: none !important;
+}
+
+#site-search-container .pagefind-ui__search-input::placeholder {
+  font-weight: 400 !important;
+  opacity: 0.65 !important;
 }
 
 #site-search-container .pagefind-ui__search-input:focus {
@@ -802,10 +815,27 @@ button:active {
   outline: none !important;
 }
 
+/* Remove button bevel from Clear */
 #site-search-container .pagefind-ui__search-clear {
   background: transparent !important;
   color: var(--wp--preset--color--contrast-2, #636363) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
   border-radius: 4px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  padding: 0 0.5rem !important;
+  transition: none !important;
+}
+
+#site-search-container .pagefind-ui__search-clear:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--wp--preset--color--contrast, #111111) !important;
 }
 
 #site-search-container .pagefind-ui__result-link {
@@ -846,10 +876,13 @@ button:active {
   padding: 1rem 0 !important;
 }
 
-#site-search-container .pagefind-ui__message {
+/* Un-bold results found text */
+#site-search-container .pagefind-ui__message,
+#site-search-container .pagefind-ui__message * {
   font-family: 'Inter', sans-serif !important;
   color: var(--wp--preset--color--contrast-2, #636363) !important;
   font-size: 0.9rem !important;
+  font-weight: 400 !important;
   padding: 0.5rem 0 !important;
 }
 

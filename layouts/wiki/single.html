@@ -3,16 +3,12 @@
   <div class="wiki-container">
     <div class="wiki-grid">
       {{/* Left Column: Floating Card Sidebar */}}
-      <div data-pagefind-ignore>
-        {{ partial "wiki/sidebar.html" . }}
-      </div>
+      {{ partial "wiki/sidebar.html" . }}
 
       {{/* Center Column: Seamless Reading Canvas */}}
       <article class="wiki-content-wrapper">
-        <div data-pagefind-ignore>
-          {{ partial "wiki/breadcrumbs.html" . }}
-          {{ partial "wiki/cover.html" . }}
-        </div>
+        {{ partial "wiki/breadcrumbs.html" . }}
+        {{ partial "wiki/cover.html" . }}
 
         <header class="wiki-page-header">
           <div class="wiki-title-row">
@@ -28,19 +24,15 @@
           {{ end }}
         </header>
 
-        <div class="wiki-article-body" data-pagefind-body data-pagefind-filter="type:Wiki">
+        <div class="wiki-article-body" data-pagefind-body>
           {{ .Content }}
         </div>
 
-        <div data-pagefind-ignore>
-          {{ partial "wiki/pager.html" . }}
-        </div>
+        {{ partial "wiki/pager.html" . }}
       </article>
 
       {{/* Right Column: Persistent Table of Contents */}}
-      <div data-pagefind-ignore>
-        {{ partial "wiki/toc.html" . }}
-      </div>
+      {{ partial "wiki/toc.html" . }}
     </div>
   </div>
   <div class="wiki-drawer-backdrop" aria-hidden="true"></div>

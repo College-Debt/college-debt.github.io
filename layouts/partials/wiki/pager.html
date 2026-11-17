@@ -22,7 +22,7 @@
 {{- end -}}
 
 {{- if or $prev $next -}}
-<nav class="wiki-pager-container" aria-label="Page navigation">
+<nav class="wiki-pager-container" data-pagefind-ignore aria-label="Page navigation">
   {{- with $prev }}
     <a href="{{ .RelPermalink }}" class="wiki-pager-card prev" rel="prev">
       <span class="wiki-pager-label"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Previous</span>
