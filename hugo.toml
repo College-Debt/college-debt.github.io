@@ -1,6 +1,6 @@
 baseURL = 'https://collegedebt.app/'
 languageCode = 'en-US'
-title = 'College Debt SMP'
+title = 'College Debt'
 
 [taxonomies]
   category = 'category'
