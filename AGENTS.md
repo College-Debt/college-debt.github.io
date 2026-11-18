@@ -232,6 +232,12 @@ When creating the wiki layout and templates in upcoming phases, **the wiki must 
      ```
    - When the wiki layout templates (`layouts/wiki/single.html`, `layouts/wiki/list.html`, etc.) are completed and ready for launch, simply remove or change this cascade setting to publish all wiki pages.
 
+6. **Sidebar Stability & Seamless Intra-Wiki Navigation**:
+   - **Zero Flash/Jitter Navigation**: All intra-wiki link clicks (`/wiki/*`) are intercepted via client-side PJAX in [`static/js/wiki.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/wiki.js). The center article column (`.wiki-content-wrapper`) and TOC (`.wiki-toc-rail`) swap seamlessly via background `fetch` + `DOMParser`. The sidebar is never torn down or reloaded during navigation.
+   - **Synchronous Scroll & Section State Restoration**: An inline script placed immediately after `<aside class="wiki-sidebar-card">` in [`layouts/partials/wiki/sidebar.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/wiki/sidebar.html) restores `scrollTop` and all previously opened subsection paths (`wiki_open_sections`) from `sessionStorage` before the browser paints the first frame on refresh or direct loads.
+   - **Gutter Stability**: `.wiki-sidebar-card` and `.wiki-toc-rail` use `scrollbar-gutter: stable;` in [`static/css/wiki.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wiki.css) to prevent horizontal shifts.
+   - **Zero Color Flash on Load**: Active item classes (`.wiki-nav-row.is-active`, `.wiki-nav-item.is-active`) have `transition: none !important;` in light and Onyx dark modes.
+
 ---
 
 ## 5. Summary of Key Files
