@@ -75,6 +75,15 @@
 
     // Close search modal when clicking search results
     modal.addEventListener('click', function (e) {
+      var item = e.target.closest('.pagefind-ui__result-parent, .pagefind-ui__result-nested');
+      if (item) {
+        var link = item.querySelector('.pagefind-ui__result-link');
+        if (link && link.href) {
+          closeSearch();
+          window.location.href = link.href;
+          return;
+        }
+      }
       var link = e.target.closest('a');
       if (link && link.href) {
         closeSearch();
@@ -83,7 +92,7 @@
 
     // Sync selected item on mouse hover
     modal.addEventListener('mousemove', function (e) {
-      var item = e.target.closest('.pagefind-ui__result');
+      var item = e.target.closest('.pagefind-ui__result-parent, .pagefind-ui__result-nested');
       if (item) {
         var items = getResultItems();
         var idx = items.indexOf(item);
@@ -142,9 +151,10 @@
         }
 
         if (e.key === 'Enter') {
-          if (items.length > 0 && selectedIndex >= 0 && selectedIndex < items.length) {
+          if (items.length > 0) {
             e.preventDefault();
-            var link = items[selectedIndex].querySelector('.pagefind-ui__result-link');
+            var targetItem = (selectedIndex >= 0 && selectedIndex < items.length) ? items[selectedIndex] : items[0];
+            var link = targetItem.querySelector('.pagefind-ui__result-link');
             if (link && link.href) {
               closeSearch();
               window.location.href = link.href;
@@ -174,9 +184,39 @@
     }
   }
 
+  function ensureResultItemsStructure() {
+    if (!modal) return;
+    var inners = modal.querySelectorAll('.pagefind-ui__result-inner');
+    for (var i = 0; i < inners.length; i++) {
+      var inner = inners[i];
+      if (inner.querySelector('.pagefind-ui__result-parent')) continue;
+      var title = null;
+      var excerpt = null;
+      var children = inner.children;
+      for (var j = 0; j < children.length; j++) {
+        var ch = children[j];
+        if (!title && ch.classList.contains('pagefind-ui__result-title')) {
+          title = ch;
+        } else if (!excerpt && ch.classList.contains('pagefind-ui__result-excerpt')) {
+          excerpt = ch;
+        }
+      }
+      if (title) {
+        var parentWrap = document.createElement('div');
+        parentWrap.className = 'pagefind-ui__result-parent';
+        inner.insertBefore(parentWrap, title);
+        parentWrap.appendChild(title);
+        if (excerpt && excerpt.parentNode === inner) {
+          parentWrap.appendChild(excerpt);
+        }
+      }
+    }
+  }
+
   function getResultItems() {
     if (!modal) return [];
-    return Array.from(modal.querySelectorAll('.pagefind-ui__result'));
+    ensureResultItemsStructure();
+    return Array.from(modal.querySelectorAll('.pagefind-ui__result-parent, .pagefind-ui__result-nested'));
   }
 
   function updateSelection(newIndex, scroll) {
@@ -297,6 +337,14 @@
       });
 
       pagefindLoaded = true;
+
+      // Observe search container to ensure structure on results render
+      if (window.MutationObserver) {
+        var resultsObserver = new MutationObserver(function () {
+          ensureResultItemsStructure();
+        });
+        resultsObserver.observe(searchContainer, { childList: true, subtree: true });
+      }
 
       // Swap from fallback search bar to Pagefind container
       var pendingQuery = fallbackInput ? fallbackInput.value.trim() : '';
