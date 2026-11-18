@@ -133,6 +133,7 @@ body.has-wiki-toc-open {
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+  scrollbar-gutter: stable;
 }
 
 .wiki-sidebar-card::-webkit-scrollbar {
@@ -187,6 +188,7 @@ body.has-wiki-toc-open {
 
 .wiki-nav-row.is-active {
   background-color: rgba(10, 70, 81, 0.09);
+  transition: none !important;
 }
 
 .wiki-nav-row .wiki-nav-item {
@@ -217,6 +219,7 @@ body.has-wiki-toc-open {
 .wiki-nav-item.is-active {
   color: #0a4651;
   font-weight: 600;
+  transition: none !important;
 }
 
 .wiki-nav-item .wiki-item-icon {
@@ -301,6 +304,11 @@ body.has-wiki-toc-open {
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  transition: opacity 0.12s ease;
+}
+
+body.wiki-is-navigating .wiki-content-wrapper {
+  opacity: 0.65;
 }
 
 /* Breadcrumbs Row & Actions */
@@ -652,6 +660,7 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
   overflow-y: auto;
   box-sizing: border-box;
   scrollbar-width: thin;
+  scrollbar-gutter: stable;
 }
 
 .wiki-toc-header {

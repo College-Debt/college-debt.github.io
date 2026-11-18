@@ -60,7 +60,7 @@
                 </div>
 
                 {{- if gt (len $children) 0 -}}
-                  <ul class="wiki-nav-subitems{{ if or $isActive $hasActiveChild }} is-open{{ end }}">
+                  <ul class="wiki-nav-subitems{{ if or $isActive $hasActiveChild }} is-open{{ end }}" data-section="{{ $topPage.RelPermalink }}">
                     {{- range (sort $children "Weight" "asc") -}}
                       {{- $isChildActive := eq .RelPermalink $currentPage.RelPermalink -}}
                       <li>
@@ -82,4 +82,44 @@
     {{- end -}}
   {{- end -}}
 </aside>
+<script>
+  (function() {
+    try {
+      var sb = document.querySelector('.wiki-sidebar-card');
+      if (sb) {
+        var savedScroll = sessionStorage.getItem('wiki_sidebar_scroll');
+        if (savedScroll !== null) {
+          sb.scrollTop = parseInt(savedScroll, 10);
+        } else {
+          var active = sb.querySelector('.wiki-nav-item.is-active');
+          if (active) {
+            var sbRect = sb.getBoundingClientRect();
+            var aRect = active.getBoundingClientRect();
+            if (aRect.top < sbRect.top || aRect.bottom > sbRect.bottom) {
+              active.scrollIntoView({ block: 'nearest' });
+            }
+          }
+        }
+      }
+      var openSections = JSON.parse(sessionStorage.getItem('wiki_open_sections') || '[]');
+      if (Array.isArray(openSections) && openSections.length > 0) {
+        openSections.forEach(function(sec) {
+          var sub = document.querySelector('.wiki-nav-subitems[data-section="' + sec + '"]');
+          if (sub && !sub.classList.contains('is-open')) {
+            sub.classList.add('is-open');
+            var btn = sub.previousElementSibling ? sub.previousElementSibling.querySelector('.wiki-nav-toggle') : null;
+            if (btn) {
+              btn.setAttribute('aria-expanded', 'true');
+              var ch = btn.querySelector('.wiki-nav-chevron');
+              if (ch) {
+                ch.classList.remove('fa-chevron-right');
+                ch.classList.add('fa-chevron-down');
+              }
+            }
+          }
+        });
+      }
+    } catch (e) {}
+  })();
+</script>
 

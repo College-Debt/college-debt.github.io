@@ -271,10 +271,12 @@
 
   :root:not([data-theme="light"]) .wiki-nav-row.is-active {
     background-color: var(--brand-teal-muted) !important;
+    transition: none !important;
   }
 
   :root:not([data-theme="light"]) .wiki-nav-item.is-active {
     color: var(--brand-teal) !important;
+    transition: none !important;
   }
 
   :root:not([data-theme="light"]) .wiki-nav-item .wiki-item-icon {
@@ -1001,10 +1003,12 @@
 
 :root[data-theme="dark"] .wiki-nav-row.is-active {
   background-color: var(--brand-teal-muted) !important;
+  transition: none !important;
 }
 
 :root[data-theme="dark"] .wiki-nav-item.is-active {
   color: var(--brand-teal) !important;
+  transition: none !important;
 }
 
 :root[data-theme="dark"] .wiki-nav-item .wiki-item-icon {
