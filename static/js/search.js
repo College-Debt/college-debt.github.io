@@ -76,7 +76,6 @@
         modal.classList.add('is-typing');
       }
       modal.classList.remove('using-keyboard');
-      clearKeyboardSelection();
       cachedResultItems = null;
     }
 
@@ -91,22 +90,31 @@
 
     // Close search modal when clicking search results
     modal.addEventListener('click', function (e) {
+      if (e.target === modal || e.target.classList.contains('site-search-backdrop')) {
+        closeSearch();
+        return;
+      }
+      var closeBtn = e.target.closest('.site-search-close-btn');
+      if (closeBtn) {
+        closeSearch();
+        return;
+      }
       var item = e.target.closest('.pagefind-ui__result-parent, .pagefind-ui__result-nested');
       if (item) {
         var link = item.querySelector('.pagefind-ui__result-link');
-        if (link && link.href) {
+        if (link) {
           closeSearch();
-          window.location.href = link.href;
+          link.click();
           return;
         }
       }
-      var link = e.target.closest('a');
-      if (link && link.href) {
+      var directLink = e.target.closest('a');
+      if (directLink && directLink.href) {
         closeSearch();
       }
     });
 
-    // Mouse movement: reveal cursor, exit typing/keyboard mode, track hovered item without sticking
+    // Mouse movement: reveal cursor, exit typing mode, track hovered item
     var lastMouseX = -1;
     var lastMouseY = -1;
 
@@ -116,34 +124,22 @@
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
 
-      // Restore cursor visibility and pointer-events as soon as mouse physically moves
+      // Restore cursor visibility as soon as mouse physically moves
       if (modal.classList.contains('is-typing')) {
         modal.classList.remove('is-typing');
       }
 
-      // If user was using keyboard navigation, switch back to mouse mode and clear old keyboard highlight
       if (modal.classList.contains('using-keyboard')) {
         modal.classList.remove('using-keyboard');
-        clearKeyboardSelection();
       }
 
       var item = e.target.closest('.pagefind-ui__result-parent, .pagefind-ui__result-nested');
       if (item) {
         var items = getResultItems();
         var idx = items.indexOf(item);
-        if (idx !== -1) {
-          selectedIndex = idx;
+        if (idx !== -1 && idx !== selectedIndex) {
+          updateSelection(idx, false);
         }
-      } else {
-        // Cursor moved away from any entry (e.g. into padding, header, footer)
-        clearKeyboardSelection();
-      }
-    });
-
-    // Clear selection when cursor leaves results area
-    modal.addEventListener('mouseleave', function () {
-      if (!modal.classList.contains('using-keyboard')) {
-        clearKeyboardSelection();
       }
     });
 
@@ -208,18 +204,12 @@
         if (e.key === 'Enter') {
           if (items.length > 0) {
             e.preventDefault();
-            var targetItem = null;
-            if (selectedIndex >= 0 && selectedIndex < items.length) {
-              targetItem = items[selectedIndex];
-            } else {
-              var hovered = modal.querySelector('.pagefind-ui__result-parent:hover, .pagefind-ui__result-nested:hover');
-              targetItem = hovered || items[0];
-            }
+            var targetItem = (selectedIndex >= 0 && selectedIndex < items.length) ? items[selectedIndex] : items[0];
             if (targetItem) {
               var link = targetItem.querySelector('.pagefind-ui__result-link');
-              if (link && link.href) {
+              if (link) {
                 closeSearch();
-                window.location.href = link.href;
+                link.click();
               }
             }
           }
@@ -343,9 +333,14 @@
     document.body.classList.add('has-search-open');
     document.documentElement.classList.add('has-search-open');
 
-    clearKeyboardSelection();
     cachedResultItems = null;
     loadPagefindAndInit();
+    var items = getResultItems();
+    if (items.length > 0) {
+      updateSelection(0, false);
+    } else {
+      clearKeyboardSelection();
+    }
     focusInput();
   }
 
@@ -423,11 +418,20 @@
 
       pagefindLoaded = true;
 
-      // Observe search container to ensure structure on results render
+      // Observe search container to ensure structure and highlight first result
       if (window.MutationObserver) {
         var resultsObserver = new MutationObserver(function () {
           cachedResultItems = null;
           ensureResultItemsStructure();
+          var items = getResultItems();
+          if (items.length > 0) {
+            // Highlight the first entry by default upon showing results
+            if (selectedIndex < 0 || selectedIndex >= items.length) {
+              updateSelection(0, false);
+            }
+          } else {
+            clearKeyboardSelection();
+          }
         });
         resultsObserver.observe(searchContainer, { childList: true, subtree: true });
       }

@@ -705,8 +705,13 @@
     border-top-color: var(--wp--preset--color--accent) !important;
   }
 
-  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link {
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link,
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link:hover,
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link:focus,
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-parent:hover .pagefind-ui__result-link,
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested:hover .pagefind-ui__result-link {
     color: var(--wp--preset--color--contrast) !important;
+    text-decoration: none !important;
   }
 
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-excerpt {
@@ -1443,8 +1448,13 @@
     border-top-color: var(--wp--preset--color--accent) !important;
   }
 
-  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link {
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link,
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link:hover,
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link:focus,
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-parent:hover .pagefind-ui__result-link,
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested:hover .pagefind-ui__result-link {
     color: var(--wp--preset--color--contrast) !important;
+    text-decoration: none !important;
   }
 
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-excerpt {
