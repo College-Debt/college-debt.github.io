@@ -444,9 +444,10 @@
           ensureResultItemsStructure();
           var items = getResultItems();
           if (items.length > 0) {
-            // Highlight the first entry by default upon showing results
-            if (selectedIndex < 0 || selectedIndex >= items.length) {
-              updateSelection(0, false);
+            // Ensure the selected entry remains highlighted even after Svelte finishes loading/replacing entries
+            var targetIndex = (selectedIndex >= 0 && selectedIndex < items.length) ? selectedIndex : 0;
+            if (!items[targetIndex].classList.contains('is-selected')) {
+              updateSelection(targetIndex, false);
             }
           } else {
             clearKeyboardSelection();
