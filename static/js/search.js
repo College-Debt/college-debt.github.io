@@ -76,6 +76,7 @@
         modal.classList.add('is-typing');
       }
       modal.classList.remove('using-keyboard');
+      selectedIndex = -1;
       cachedResultItems = null;
     }
 
@@ -85,10 +86,13 @@
         handleTyping();
         var hasQuery = e.target.value.trim().length > 0;
         modal.classList.toggle('has-search-query', hasQuery);
+        if (!hasQuery) {
+          clearKeyboardSelection();
+        }
       }
     });
 
-    // Close search modal when clicking search results
+    // Close search modal when clicking search results or handle clear
     modal.addEventListener('click', function (e) {
       if (e.target === modal || e.target.classList.contains('site-search-backdrop')) {
         closeSearch();
@@ -97,6 +101,12 @@
       var closeBtn = e.target.closest('.site-search-close-btn');
       if (closeBtn) {
         closeSearch();
+        return;
+      }
+      var pfClear = e.target.closest('.pagefind-ui__search-clear');
+      if (pfClear) {
+        modal.classList.remove('has-search-query');
+        clearKeyboardSelection();
         return;
       }
       var item = e.target.closest('.pagefind-ui__result-parent, .pagefind-ui__result-nested');
@@ -245,20 +255,29 @@
     var changed = false;
     for (var i = 0; i < inners.length; i++) {
       var inner = inners[i];
-      if (inner.querySelector('.pagefind-ui__result-parent')) continue;
+      var parentWrap = null;
       var title = null;
       var excerpt = null;
       var children = inner.children;
       for (var j = 0; j < children.length; j++) {
         var ch = children[j];
-        if (!title && ch.classList.contains('pagefind-ui__result-title')) {
+        if (ch.classList.contains('pagefind-ui__result-parent')) {
+          parentWrap = ch;
+        } else if (!title && ch.classList.contains('pagefind-ui__result-title')) {
           title = ch;
         } else if (!excerpt && ch.classList.contains('pagefind-ui__result-excerpt')) {
           excerpt = ch;
         }
       }
-      if (title) {
-        var parentWrap = document.createElement('div');
+
+      if (parentWrap) {
+        // If excerpt is still a direct child of inner outside parentWrap, move it into parentWrap
+        if (excerpt && excerpt.parentNode === inner) {
+          parentWrap.appendChild(excerpt);
+          changed = true;
+        }
+      } else if (title) {
+        parentWrap = document.createElement('div');
         parentWrap.className = 'pagefind-ui__result-parent';
         inner.insertBefore(parentWrap, title);
         parentWrap.appendChild(title);
