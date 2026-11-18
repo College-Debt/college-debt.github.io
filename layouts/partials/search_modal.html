@@ -2,12 +2,22 @@
   <div class="site-search-backdrop"></div>
   <div class="site-search-dialog">
     <div class="site-search-body">
-      <div id="site-search-container">
-        <div class="site-search-placeholder">
-          <div class="site-search-spinner" aria-hidden="true"></div>
-          <span>Loading search index...</span>
-        </div>
+      <!-- Immediate search bar displayed while Pagefind is initializing -->
+      <div class="site-search-fallback-wrap" id="site-search-fallback-wrap">
+        <form class="site-search-fallback-form" action="javascript:void(0);" role="search" aria-label="Search site">
+          <input type="text" class="site-search-fallback-input" placeholder="Search site" autocomplete="off" autocapitalize="none" enterkeyhint="search" aria-label="Search site">
+          <button type="button" class="site-search-fallback-clear" aria-label="Clear search" style="display: none;"></button>
+        </form>
       </div>
+
+      <!-- Loading notice: shown ONLY if user types while search index is still loading -->
+      <div class="site-search-loading-notice" id="site-search-loading-notice" style="display: none;">
+        <div class="site-search-spinner" aria-hidden="true"></div>
+        <span>Loading search index...</span>
+      </div>
+
+      <!-- Real Pagefind UI Container -->
+      <div id="site-search-container" style="display: none;"></div>
     </div>
   </div>
 </div>

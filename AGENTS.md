@@ -241,7 +241,7 @@ When creating the wiki layout and templates in upcoming phases, **the wiki must 
 | [`static/css/wp-theme.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wp-theme.css) | Core Twenty Twenty-Four Gutenberg variables, layout helpers, and block styles. |
 | [`static/css/custom.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/custom.css) | Custom layout tweaks, Minecraft/Cardo font definitions, header/footer spacing overrides. |
 | [`static/js/nav.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/nav.js) | Accessible vanilla JavaScript for opening/closing mobile overlay menu. |
-| [`static/js/search.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/search.js) | Pagefind search controller (shortcut listener, focus trap, lazy loader). |
+| [`static/js/search.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/search.js) | Pagefind search controller (arrow key navigation, background preloading, focus management, fallback input handler). |
 | [`layouts/_default/baseof.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/_default/baseof.html) | Root layout shell with `<head>`, meta tags, theme stylesheets, and footer scripts. |
 | [`layouts/partials/header.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/header.html) | Header partial containing logo, search trigger, and responsive navigation. |
 | [`layouts/partials/search_modal.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/search_modal.html) | Frosted search overlay modal partial housing the fixed search bar and scrollable Pagefind results container. |
