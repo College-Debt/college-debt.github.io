@@ -42,7 +42,14 @@
 
     // Fallback input event handlers
     if (fallbackInput) {
+      fallbackInput.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Escape' && e.key !== 'Enter' && e.key !== 'Tab') {
+          handleTyping();
+        }
+      });
+
       fallbackInput.addEventListener('input', function () {
+        handleTyping();
         var val = fallbackInput.value.trim();
         if (fallbackClear) {
           fallbackClear.style.display = val.length > 0 ? 'flex' : 'none';
@@ -64,12 +71,21 @@
       }
     }
 
+    function handleTyping() {
+      if (!modal.classList.contains('is-typing')) {
+        modal.classList.add('is-typing');
+      }
+      modal.classList.remove('using-keyboard');
+      clearKeyboardSelection();
+      cachedResultItems = null;
+    }
+
     // Track when Pagefind input has search query for active results divider & reset selection
     modal.addEventListener('input', function (e) {
       if (e.target && e.target.classList.contains('pagefind-ui__search-input')) {
+        handleTyping();
         var hasQuery = e.target.value.trim().length > 0;
         modal.classList.toggle('has-search-query', hasQuery);
-        updateSelection(-1, false);
       }
     });
 
@@ -90,20 +106,55 @@
       }
     });
 
-    // Sync selected item on mouse hover
+    // Mouse movement: reveal cursor, exit typing/keyboard mode, track hovered item without sticking
+    var lastMouseX = -1;
+    var lastMouseY = -1;
+
     modal.addEventListener('mousemove', function (e) {
+      // Ignore synthetic events where mouse coordinates haven't changed
+      if (e.clientX === lastMouseX && e.clientY === lastMouseY) return;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+
+      // Restore cursor visibility and pointer-events as soon as mouse physically moves
+      if (modal.classList.contains('is-typing')) {
+        modal.classList.remove('is-typing');
+      }
+
+      // If user was using keyboard navigation, switch back to mouse mode and clear old keyboard highlight
+      if (modal.classList.contains('using-keyboard')) {
+        modal.classList.remove('using-keyboard');
+        clearKeyboardSelection();
+      }
+
       var item = e.target.closest('.pagefind-ui__result-parent, .pagefind-ui__result-nested');
       if (item) {
         var items = getResultItems();
         var idx = items.indexOf(item);
-        if (idx !== -1 && idx !== selectedIndex) {
-          updateSelection(idx, false);
+        if (idx !== -1) {
+          selectedIndex = idx;
         }
+      } else {
+        // Cursor moved away from any entry (e.g. into padding, header, footer)
+        clearKeyboardSelection();
+      }
+    });
+
+    // Clear selection when cursor leaves results area
+    modal.addEventListener('mouseleave', function () {
+      if (!modal.classList.contains('using-keyboard')) {
+        clearKeyboardSelection();
       }
     });
 
     // Global keyboard shortcuts and modal navigation
     window.addEventListener('keydown', function (e) {
+      // Track typing in Pagefind search input to hide cursor immediately
+      if (e.target && e.target.classList.contains('pagefind-ui__search-input')) {
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Escape' && e.key !== 'Enter' && e.key !== 'Tab') {
+          handleTyping();
+        }
+      }
       // ⌘K or Ctrl+K to toggle search
       if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
@@ -129,6 +180,8 @@
         if (e.key === 'ArrowDown') {
           if (items.length > 0) {
             e.preventDefault();
+            modal.classList.add('using-keyboard');
+            modal.classList.remove('is-typing');
             var nextIndex = selectedIndex + 1;
             if (nextIndex >= items.length) {
               nextIndex = 0; // wrap to first
@@ -141,6 +194,8 @@
         if (e.key === 'ArrowUp') {
           if (items.length > 0) {
             e.preventDefault();
+            modal.classList.add('using-keyboard');
+            modal.classList.remove('is-typing');
             var prevIndex = selectedIndex - 1;
             if (prevIndex < 0) {
               prevIndex = items.length - 1; // wrap to last
@@ -153,11 +208,19 @@
         if (e.key === 'Enter') {
           if (items.length > 0) {
             e.preventDefault();
-            var targetItem = (selectedIndex >= 0 && selectedIndex < items.length) ? items[selectedIndex] : items[0];
-            var link = targetItem.querySelector('.pagefind-ui__result-link');
-            if (link && link.href) {
-              closeSearch();
-              window.location.href = link.href;
+            var targetItem = null;
+            if (selectedIndex >= 0 && selectedIndex < items.length) {
+              targetItem = items[selectedIndex];
+            } else {
+              var hovered = modal.querySelector('.pagefind-ui__result-parent:hover, .pagefind-ui__result-nested:hover');
+              targetItem = hovered || items[0];
+            }
+            if (targetItem) {
+              var link = targetItem.querySelector('.pagefind-ui__result-link');
+              if (link && link.href) {
+                closeSearch();
+                window.location.href = link.href;
+              }
             }
           }
           return;
@@ -184,9 +247,12 @@
     }
   }
 
+  var cachedResultItems = null;
+
   function ensureResultItemsStructure() {
     if (!modal) return;
     var inners = modal.querySelectorAll('.pagefind-ui__result-inner');
+    var changed = false;
     for (var i = 0; i < inners.length; i++) {
       var inner = inners[i];
       if (inner.querySelector('.pagefind-ui__result-parent')) continue;
@@ -209,14 +275,32 @@
         if (excerpt && excerpt.parentNode === inner) {
           parentWrap.appendChild(excerpt);
         }
+        changed = true;
       }
+    }
+    if (changed) {
+      cachedResultItems = null;
     }
   }
 
   function getResultItems() {
     if (!modal) return [];
+    if (cachedResultItems && cachedResultItems.length > 0 && cachedResultItems[0].isConnected) {
+      return cachedResultItems;
+    }
     ensureResultItemsStructure();
-    return Array.from(modal.querySelectorAll('.pagefind-ui__result-parent, .pagefind-ui__result-nested'));
+    cachedResultItems = Array.from(modal.querySelectorAll('.pagefind-ui__result-parent, .pagefind-ui__result-nested'));
+    return cachedResultItems;
+  }
+
+  function clearKeyboardSelection() {
+    selectedIndex = -1;
+    if (!modal) return;
+    var selected = modal.querySelectorAll('.is-selected');
+    for (var i = 0; i < selected.length; i++) {
+      selected[i].classList.remove('is-selected');
+      selected[i].removeAttribute('aria-selected');
+    }
   }
 
   function updateSelection(newIndex, scroll) {
@@ -259,19 +343,20 @@
     document.body.classList.add('has-search-open');
     document.documentElement.classList.add('has-search-open');
 
-    updateSelection(-1, false);
+    clearKeyboardSelection();
+    cachedResultItems = null;
     loadPagefindAndInit();
     focusInput();
   }
 
   function closeSearch() {
     if (!modal) return;
-    modal.classList.remove('is-open');
-    modal.classList.remove('has-search-query');
+    modal.classList.remove('is-open', 'has-search-query', 'is-typing', 'using-keyboard');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('has-search-open');
     document.documentElement.classList.remove('has-search-open');
-    updateSelection(-1, false);
+    clearKeyboardSelection();
+    cachedResultItems = null;
   }
 
   function loadPagefindAndInit() {
@@ -341,6 +426,7 @@
       // Observe search container to ensure structure on results render
       if (window.MutationObserver) {
         var resultsObserver = new MutationObserver(function () {
+          cachedResultItems = null;
           ensureResultItemsStructure();
         });
         resultsObserver.observe(searchContainer, { childList: true, subtree: true });

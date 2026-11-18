@@ -1087,7 +1087,7 @@ body.has-search-open {
   padding: 0.6rem 0.85rem !important;
   border-radius: 8px !important;
   margin-bottom: 0.25rem !important;
-  transition: background-color 0.15s ease !important;
+  transition: none !important;
   cursor: pointer !important;
   background-color: transparent !important;
   box-sizing: border-box !important;
@@ -1098,7 +1098,23 @@ body.has-search-open {
 #site-search-container .pagefind-ui__result-parent.is-selected,
 #site-search-container .pagefind-ui__result-nested:hover,
 #site-search-container .pagefind-ui__result-nested.is-selected {
-  background-color: rgba(0, 0, 0, 0.04) !important;
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Hide mouse cursor and disable result hover while typing so resting cursor doesn't trigger highlight */
+.site-search-modal.is-typing,
+.site-search-modal.is-typing * {
+  cursor: none !important;
+}
+
+.site-search-modal.is-typing #site-search-container .pagefind-ui__results-area * {
+  pointer-events: none !important;
+}
+
+/* When navigating with keyboard, disable mouse hover highlights so resting cursor doesn't conflict */
+.site-search-modal.using-keyboard #site-search-container .pagefind-ui__result-parent:hover:not(.is-selected),
+.site-search-modal.using-keyboard #site-search-container .pagefind-ui__result-nested:hover:not(.is-selected) {
+  background-color: transparent !important;
 }
 
 /* Nested subpages: indented with left accent bar & no arrow */

@@ -731,7 +731,7 @@
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-parent.is-selected,
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested:hover,
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested.is-selected {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
   }
 
   :root:not([data-theme="light"]) .site-search-footer {
@@ -1455,7 +1455,7 @@
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-parent.is-selected,
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested:hover,
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested.is-selected {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
   }
 
   :root[data-theme="dark"] .site-search-footer {
