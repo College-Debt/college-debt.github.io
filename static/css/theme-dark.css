@@ -770,6 +770,18 @@
     background: var(--wp--preset--color--accent) !important;
   }
 
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__button {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--wp--preset--color--contrast) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__button:hover {
+    border-color: var(--brand-teal) !important;
+    color: var(--brand-teal) !important;
+  }
+
   /* --- Mobile Drawers & Overrides --- */
   @media (max-width: 1100px) {
     :root:not([data-theme="light"]) .wiki-toc-rail {
@@ -1494,6 +1506,18 @@
 
   :root[data-theme="dark"] #site-search-container .pagefind-ui__drawer::-webkit-scrollbar-thumb {
     background: var(--wp--preset--color--accent) !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__button {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--wp--preset--color--contrast) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__button:hover {
+    border-color: var(--brand-teal) !important;
+    color: var(--brand-teal) !important;
   }
 
   @media (max-width: 1100px) {

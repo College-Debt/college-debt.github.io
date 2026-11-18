@@ -184,7 +184,7 @@
             modal.classList.remove('is-typing');
             var nextIndex = selectedIndex + 1;
             if (nextIndex >= items.length) {
-              nextIndex = 0; // wrap to first
+              nextIndex = items.length - 1; // clamp to bottom, do not cycle back to top
             }
             updateSelection(nextIndex, true);
           }
@@ -198,7 +198,7 @@
             modal.classList.remove('is-typing');
             var prevIndex = selectedIndex - 1;
             if (prevIndex < 0) {
-              prevIndex = items.length - 1; // wrap to last
+              prevIndex = 0; // clamp to top, do not cycle back to bottom
             }
             updateSelection(prevIndex, true);
           }

@@ -178,6 +178,15 @@ Gutenberg-style spacing tokens provide fluid and responsive padding/margins:
    - Left column: Navigation links with diagonal arrow indicator `↗` (`.is-style-arrow-link`), copyright note, Minecraft disclaimer.
    - Right column: Oak Sign badge thumbnail (`Oak_Sign_JE3.jpg`, width 82px) linking to YouTube video.
 
+7. **Standalone Button Pattern (`wiki-pager-card` Foundation)**:
+   - For all standalone buttons across the site theme, a single consistent styling based on `.wiki-pager-card` is used:
+     - **Border**: Thin 1px border using `var(--wp--preset--color--accent, #cfcabe)` (dark: `#2a2e35`).
+     - **Corners**: 8px border-radius (`border-radius: 8px`).
+     - **Background**: Shaded surface `var(--wp--preset--color--base-2, #ffffff)` (dark: `#1c1e22`).
+     - **Typography**: Neutral primary text `var(--wp--preset--color--contrast, #111111)` in normal weight (`font-weight: 400`, `font-family: 'Inter', sans-serif`).
+     - **Hover & Interaction**: Subtle shadow elevation (`box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05)` light, `0 1px 4px rgba(0, 0, 0, 0.3)` dark), brand teal accent border (`#0a4651` light, `var(--brand-teal)` dark), and teal text color transition.
+     - **Scope**: Applied to wiki pagination cards (`.wiki-pager-card`), Pagefind search overlay "Load more results" button (`#site-search-container .pagefind-ui__button`), and future standalone action buttons.
+
 ---
 
 ## 4. Wiki Design & Integration Guidelines
