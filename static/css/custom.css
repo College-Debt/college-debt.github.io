@@ -698,70 +698,13 @@ button:active {
   transition: none !important;
 }
 
-.site-search-dialog-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.85rem 1.15rem;
-  border-bottom: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  background: #faf9f7;
-}
-
-.site-search-dialog-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: 'Minecraft', monospace !important;
-  -webkit-font-smoothing: none !important;
-  font-size: 1rem;
-  color: var(--wp--preset--color--contrast, #111111);
-}
-
-.site-search-dialog-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.site-search-esc-hint {
-  font-size: 0.75rem;
-  color: var(--wp--preset--color--contrast-2, #636363);
-}
-
-.site-search-esc-hint kbd {
-  background: rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.12rem 0.35rem;
-  border-radius: 4px;
-  font-weight: 600;
-  font-family: 'Inter', sans-serif;
-}
-
-.site-search-close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  background: transparent;
-  border: none;
-  color: var(--wp--preset--color--contrast-2, #636363);
-  cursor: pointer;
-  border-radius: 6px;
-  transition: none !important;
-}
-
-.site-search-close:hover {
-  background: rgba(0, 0, 0, 0.06);
-  color: var(--wp--preset--color--contrast, #111111);
-}
-
 .site-search-body {
-  padding: 1.15rem;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  max-height: calc(82vh - 55px);
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
 }
 
 .site-search-placeholder {
@@ -800,20 +743,42 @@ button:active {
   --pagefind-ui-font: 'Inter', sans-serif;
 }
 
-/* Remove Type Sidebar */
-#site-search-container .pagefind-ui__filter-panel {
-  display: none !important;
+#site-search-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
 }
 
-#site-search-container .pagefind-ui__drawer {
-  gap: 0 !important;
+#site-search-container .pagefind-ui {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
 }
 
-#site-search-container .pagefind-ui__results-area {
-  flex: 1 1 100% !important;
-  width: 100% !important;
+/* Fixed Search Bar at Top of Modal */
+#site-search-container .pagefind-ui__form {
+  position: relative !important;
+  flex-shrink: 0 !important;
+  padding: 1rem 1.15rem !important;
+  background: var(--wp--preset--color--base-2, #ffffff) !important;
+  box-sizing: border-box !important;
+  border-bottom: 1px solid transparent !important;
+  z-index: 10 !important;
 }
 
+/* Active results divider below search bar */
+.site-search-modal.has-search-query #site-search-container .pagefind-ui__form,
+#site-search-container .pagefind-ui:has(.pagefind-ui__drawer:not(.pagefind-ui__hidden)) .pagefind-ui__form {
+  border-bottom-color: var(--wp--preset--color--accent, #cfcabe) !important;
+}
+
+/* Search input with matching magnifying glass and X clear button */
 #site-search-container .pagefind-ui__search-input {
   font-family: 'Inter', sans-serif !important;
   font-size: 1rem !important;
@@ -822,7 +787,9 @@ button:active {
   border-radius: 8px !important;
   background-color: var(--wp--preset--color--base-2, #ffffff) !important;
   color: var(--wp--preset--color--contrast, #111111) !important;
-  padding: 0.65rem 1rem 0.65rem 2.5rem !important;
+  padding: 0.75rem 2.75rem 0.75rem 2.75rem !important;
+  height: 48px !important;
+  box-sizing: border-box !important;
   box-shadow: none !important;
   transition: none !important;
 }
@@ -837,8 +804,45 @@ button:active {
   outline: none !important;
 }
 
-/* Remove button bevel from Clear */
+/* Replace magnifying glass with identical SVG as header search button */
+#site-search-container .pagefind-ui__form::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  left: calc(1.15rem + 0.85rem) !important;
+  width: 20px !important;
+  height: 20px !important;
+  background-color: var(--wp--preset--color--contrast-2, #636363) !important;
+  opacity: 1 !important;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") !important;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+  z-index: 9 !important;
+  pointer-events: none !important;
+}
+
+#site-search-container .pagefind-ui__form:focus-within::before {
+  background-color: #0a4651 !important;
+}
+
+/* Replace Clear button with SVG X */
 #site-search-container .pagefind-ui__search-clear {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  right: calc(1.15rem + 0.75rem) !important;
+  width: 26px !important;
+  height: 26px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
   background: transparent !important;
   color: var(--wp--preset--color--contrast-2, #636363) !important;
   border: none !important;
@@ -847,17 +851,67 @@ button:active {
   -webkit-appearance: none !important;
   appearance: none !important;
   border-radius: 4px !important;
-  font-family: 'Inter', sans-serif !important;
-  font-size: 0.85rem !important;
-  font-weight: 500 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
   cursor: pointer !important;
-  padding: 0 0.5rem !important;
   transition: none !important;
+  z-index: 10 !important;
+}
+
+#site-search-container .pagefind-ui__search-clear::before {
+  content: "" !important;
+  display: block !important;
+  width: 14px !important;
+  height: 14px !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E") !important;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E") !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
 }
 
 #site-search-container .pagefind-ui__search-clear:hover {
-  background: rgba(0, 0, 0, 0.05) !important;
+  background: rgba(0, 0, 0, 0.06) !important;
   color: var(--wp--preset--color--contrast, #111111) !important;
+}
+
+/* Remove Type Sidebar */
+#site-search-container .pagefind-ui__filter-panel {
+  display: none !important;
+}
+
+/* Scrollable search results container */
+#site-search-container .pagefind-ui__drawer {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0 1.15rem 1.15rem 1.15rem !important;
+  box-sizing: border-box !important;
+  gap: 0 !important;
+}
+
+#site-search-container .pagefind-ui__drawer::-webkit-scrollbar {
+  width: 6px;
+}
+
+#site-search-container .pagefind-ui__drawer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#site-search-container .pagefind-ui__drawer::-webkit-scrollbar-thumb {
+  background: var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 3px;
+}
+
+#site-search-container .pagefind-ui__results-area {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  margin-top: 0 !important;
 }
 
 #site-search-container .pagefind-ui__result-link {

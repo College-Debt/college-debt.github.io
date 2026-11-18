@@ -636,28 +636,21 @@
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5) !important;
   }
 
-  :root:not([data-theme="light"]) .site-search-dialog-header {
-    background: #16181d !important;
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__form {
+    background: var(--wp--preset--color--base-2) !important;
+  }
+
+  :root:not([data-theme="light"]) .site-search-modal.has-search-query #site-search-container .pagefind-ui__form,
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui:has(.pagefind-ui__drawer:not(.pagefind-ui__hidden)) .pagefind-ui__form {
     border-bottom-color: var(--wp--preset--color--accent) !important;
   }
 
-  :root:not([data-theme="light"]) .site-search-dialog-title {
-    color: var(--wp--preset--color--contrast) !important;
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__form::before {
+    background-color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root:not([data-theme="light"]) .site-search-esc-hint kbd {
-    background: #23272e !important;
-    border-color: #374151 !important;
-    color: #9ca3af !important;
-  }
-
-  :root:not([data-theme="light"]) .site-search-close {
-    color: var(--wp--preset--color--contrast-2) !important;
-  }
-
-  :root:not([data-theme="light"]) .site-search-close:hover {
-    background: rgba(255, 255, 255, 0.05) !important;
-    color: #ffffff !important;
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__form:focus-within::before {
+    background-color: var(--brand-teal) !important;
   }
 
   :root:not([data-theme="light"]) .site-search-spinner {
@@ -708,6 +701,10 @@
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__message,
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__message * {
     color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__drawer::-webkit-scrollbar-thumb {
+    background: var(--wp--preset--color--accent) !important;
   }
 
   /* --- Mobile Drawers & Overrides --- */
@@ -1302,28 +1299,21 @@
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5) !important;
   }
 
-  :root[data-theme="dark"] .site-search-dialog-header {
-    background: #16181d !important;
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__form {
+    background: var(--wp--preset--color--base-2) !important;
+  }
+
+  :root[data-theme="dark"] .site-search-modal.has-search-query #site-search-container .pagefind-ui__form,
+  :root[data-theme="dark"] #site-search-container .pagefind-ui:has(.pagefind-ui__drawer:not(.pagefind-ui__hidden)) .pagefind-ui__form {
     border-bottom-color: var(--wp--preset--color--accent) !important;
   }
 
-  :root[data-theme="dark"] .site-search-dialog-title {
-    color: var(--wp--preset--color--contrast) !important;
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__form::before {
+    background-color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root[data-theme="dark"] .site-search-esc-hint kbd {
-    background: #23272e !important;
-    border-color: #374151 !important;
-    color: #9ca3af !important;
-  }
-
-  :root[data-theme="dark"] .site-search-close {
-    color: var(--wp--preset--color--contrast-2) !important;
-  }
-
-  :root[data-theme="dark"] .site-search-close:hover {
-    background: rgba(255, 255, 255, 0.05) !important;
-    color: #ffffff !important;
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__form:focus-within::before {
+    background-color: var(--brand-teal) !important;
   }
 
   :root[data-theme="dark"] .site-search-spinner {
@@ -1374,6 +1364,10 @@
   :root[data-theme="dark"] #site-search-container .pagefind-ui__message,
   :root[data-theme="dark"] #site-search-container .pagefind-ui__message * {
     color: var(--wp--preset--color--contrast-2) !important;
+  }
+
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__drawer::-webkit-scrollbar-thumb {
+    background: var(--wp--preset--color--accent) !important;
   }
 
   @media (max-width: 1100px) {

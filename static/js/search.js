@@ -74,6 +74,14 @@
         closeSearch();
       }
     });
+
+    // Track when input has search query for active results divider
+    modal.addEventListener('input', function (e) {
+      if (e.target && e.target.classList.contains('pagefind-ui__search-input')) {
+        var hasQuery = e.target.value.trim().length > 0;
+        modal.classList.toggle('has-search-query', hasQuery);
+      }
+    });
   }
 
   function openSearch() {
@@ -96,6 +104,7 @@
   function closeSearch() {
     if (!modal) return;
     modal.classList.remove('is-open');
+    modal.classList.remove('has-search-query');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('has-search-open');
     document.documentElement.classList.remove('has-search-open');
