@@ -1038,6 +1038,13 @@ body.has-search-open {
   list-style: none !important;
 }
 
+#site-search-container .pagefind-ui__result-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+
 #site-search-container .pagefind-ui__result-title {
   display: block !important;
   width: 100% !important;
@@ -1051,6 +1058,7 @@ body.has-search-open {
 #site-search-container .pagefind-ui__result-link:focus,
 #site-search-container .pagefind-ui__result-parent:hover .pagefind-ui__result-link,
 #site-search-container .pagefind-ui__result-nested:hover .pagefind-ui__result-link {
+  display: inline-block !important;
   font-family: 'Inter', sans-serif !important;
   font-weight: 600 !important;
   font-size: 1.05rem !important;
@@ -1061,6 +1069,7 @@ body.has-search-open {
 #site-search-container .pagefind-ui__result-excerpt {
   display: block !important;
   width: 100% !important;
+  clear: both !important;
   font-family: 'Inter', sans-serif !important;
   font-size: 0.9rem !important;
   line-height: 1.55 !important;
