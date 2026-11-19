@@ -249,7 +249,30 @@ When creating the wiki layout and templates in upcoming phases, **the wiki must 
 
 ---
 
-## 5. Summary of Key Files
+## 5. Status Page & Server Infrastructure Monitoring (Uptime Kuma)
+
+The public status page (`status.collegedebt.app`) is self-hosted using **Uptime Kuma** on Proxmox homelab LXC 101 (`10.67.1.12:3001`), migrating away from third-party hosted Phare.
+
+### Network Topology & Monitoring Architecture
+1. **Minecraft Server Multiplexing**:
+   - Both Minecraft servers run on an Oracle Cloud Infrastructure (OCI ARM) Ampere node (`165.1.77.175` / Tailscale `100.70.90.117`).
+   - `minecraft-router` listens on port `25565` and demultiplexes incoming traffic based on the requested SNI/handshake hostname:
+     - `smp.collegedebt.app`: Fabric-based vanilla server (**College Debt SMP (Vanilla)**).
+     - `cobble.collegedebt.app`: Cobbleverse Fabric modpack server (**Cobble Debt (Cobbleverse)**).
+   - Uptime Kuma monitors both servers using native `gamedig` (`type: minecraft`) probes over port `25565`, retrieving real-time player counts, ping latency, version tags, and MOTDs.
+2. **Infrastructure Health Probes**:
+   - `OCI ARM Host (oracle-ampere)`: TCP port 22 probe to `165.1.77.175` to monitor host OS and network connectivity.
+   - `Minecraft Router (minecraft-router)`: TCP port 25565 probe to `165.1.77.175` to detect router proxy health independently of container restarts.
+3. **Public Ingress via Cloudflare Tunnel**:
+   - Managed through Cloudflare Tunnel daemon on homelab LXC 109 (`cloudflared`).
+   - Hostname `status.collegedebt.app` routes directly to `http://10.67.1.12:3001` with WebSocket support enabled.
+   - Uptime Kuma database (`status_page_cname`) maps `status.collegedebt.app` to status page ID 1, serving the customized College Debt status page at the root URL `/`.
+4. **Theme Parity**:
+   - Custom CSS injected into the Uptime Kuma status page applies the Twenty Twenty-Four light/Onyx dark palettes (`#f0efed`/`#131416`), `Minecraft` pixel headings, and `Inter` sans-serif typography matching the main site.
+
+---
+
+## 6. Summary of Key Files
 
 | File | Purpose |
 |---|---|
