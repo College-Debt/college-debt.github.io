@@ -269,6 +269,26 @@ The public status page (`status.collegedebt.app`) is self-hosted using **Uptime 
    - Uptime Kuma database (`status_page_cname`) maps `status.collegedebt.app` to status page ID 1, serving the customized College Debt status page at the root URL `/`.
 4. **Theme Parity**:
    - Custom CSS injected into the Uptime Kuma status page applies the Twenty Twenty-Four light/Onyx dark palettes (`#f0efed`/`#131416`), `Minecraft` pixel headings, and `Inter` sans-serif typography matching the main site.
+5. **GameDig Telemetry Companion Service (`gamedig-sync`)**:
+   - **Purpose**: Uptime Kuma's core monitors drop GameDig telemetry (player counts and game versions) from status page display. A companion daemon runs alongside Uptime Kuma to expose this data dynamically via native monitor tags (`monitor_tag` in `kuma.db`).
+   - **Stack & Deployment**:
+     - Service defined in Docker Compose at `/opt/dockhand/data/stacks/Marionet/uptime-kuma/compose.yaml` (mirrored to `/opt/uptime-kuma/docker-compose.yml`).
+     - Uses `louislam/uptime-kuma:2` container image (leveraging Node.js 22, native `node:sqlite`, and bundled `gamedig` without installing external dependencies).
+     - Daemon script located at `/opt/uptime-kuma/gamedig-sync/sync.js`.
+     - Polling interval: 60s (controlled via `POLL_INTERVAL_SECONDS`).
+   - **Target Configuration Schema**:
+     Targets are configured purely via environment variables in the Compose file without modifying the `uptime-kuma` service definition:
+     ```yaml
+     TARGET_1_NAME: "College Debt SMP (Vanilla)"
+     TARGET_1_HOST: "smp.collegedebt.app"
+     TARGET_1_PORT: "25565"
+     TARGET_1_TAG_PLAYERS: "Players"
+     TARGET_1_TAG_VERSION: "Version"
+     TARGET_1_COLOR_PLAYERS: "#555555"
+     TARGET_1_COLOR_VERSION: "#0a4651"
+     TARGET_1_VERSION_PREFIX: "Fabric "
+     ```
+   - **Database WAL Concurrency**: Writes directly to SQLite `tag` and `monitor_tag` tables in `/opt/uptime-kuma/data/kuma.db` concurrently with Uptime Kuma using WAL mode.
 
 ---
 
