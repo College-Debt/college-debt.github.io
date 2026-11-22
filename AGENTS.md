@@ -270,6 +270,9 @@ The public status page (`status.collegedebt.app`) is self-hosted using **Uptime 
    - Uptime Kuma database (`status_page_cname`) maps `status.collegedebt.app` to status page ID 1, serving the customized College Debt status page at the root URL `/`.
 4. **Theme Parity**:
    - Custom CSS injected into the Uptime Kuma status page applies the Twenty Twenty-Four light/Onyx dark palettes (`#f0efed`/`#131416`), `Minecraft` pixel headings, and `Inter` sans-serif typography matching the main site.
+   - Fonts are loaded directly from the main site CDN (`https://collegedebt.app/assets/fonts/inter/Inter-VariableFont_slnt,wght.woff2` and `MinecraftRegular-Bmg3.otf`).
+   - Group headers render with right-aligned collapse chevrons flush to the right margin (`margin-right: 0`, `padding-right: 0`).
+   - Status page description block has horizontal margins and padding removed to align flush with the status banners and monitor cards.
 5. **GameDig Telemetry Companion Service (`gamedig-sync`)**:
    - **Purpose**: Uptime Kuma's core monitors drop GameDig telemetry (player counts and game versions) from status page display. A companion daemon runs alongside Uptime Kuma to expose this data dynamically via native monitor tags (`monitor_tag` in `kuma.db`).
    - **Stack & Deployment**:
