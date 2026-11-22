@@ -263,6 +263,7 @@ The public status page (`status.collegedebt.app`) is self-hosted using **Uptime 
 2. **Infrastructure Health Probes**:
    - `OCI ARM Host (oracle-ampere)`: TCP port 22 probe to `165.1.77.175` to monitor host OS and network connectivity.
    - `Minecraft Router (minecraft-router)`: TCP port 25565 probe to `165.1.77.175` to detect router proxy health independently of container restarts.
+   - `Switch LAN Play (switch-lan-play)`: TCP port 11451 probe to `10.0.0.99` (node `OCI Micro`) to monitor switch-lan-play server and embedded Koa `/info` service. Route `10.0.0.0/24 via 10.67.1.6` is persisted in `/etc/network/interfaces` on LXC 101.
 3. **Public Ingress via Cloudflare Tunnel**:
    - Managed through Cloudflare Tunnel daemon on homelab LXC 109 (`cloudflared`).
    - Hostname `status.collegedebt.app` routes directly to `http://10.67.1.12:3001` with WebSocket support enabled.
