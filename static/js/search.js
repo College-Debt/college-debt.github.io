@@ -354,6 +354,12 @@
 
     cachedResultItems = null;
     loadPagefindAndInit();
+    var currentInput = pagefindLoaded
+      ? modal.querySelector('.pagefind-ui__search-input')
+      : fallbackInput;
+    if (currentInput && currentInput.value && currentInput.value.trim().length > 0) {
+      modal.classList.add('has-search-query');
+    }
     var items = getResultItems();
     if (items.length > 0) {
       updateSelection(0, false);
@@ -478,17 +484,16 @@
   function focusInput() {
     setTimeout(function () {
       if (!modal || !modal.classList.contains('is-open')) return;
-      if (pagefindLoaded) {
-        var input = modal.querySelector('.pagefind-ui__search-input');
-        if (input) {
-          input.focus();
-          var len = input.value.length;
-          input.setSelectionRange(len, len);
+      var input = pagefindLoaded
+        ? modal.querySelector('.pagefind-ui__search-input')
+        : fallbackInput;
+
+      if (input) {
+        input.focus();
+        if (input.value && input.value.length > 0) {
+          input.setSelectionRange(0, input.value.length);
+          input.select();
         }
-      } else if (fallbackInput) {
-        fallbackInput.focus();
-        var len = fallbackInput.value.length;
-        fallbackInput.setSelectionRange(len, len);
       }
     }, 40);
   }

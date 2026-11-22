@@ -271,7 +271,7 @@ The public status page (`status.collegedebt.app`) is self-hosted using **Uptime 
 4. **Theme Parity**:
    - Custom CSS injected into the Uptime Kuma status page applies the Twenty Twenty-Four light/Onyx dark palettes (`#f0efed`/`#131416`), `Minecraft` pixel headings, and `Inter` sans-serif typography matching the main site.
    - Fonts are loaded directly from the main site CDN (`https://collegedebt.app/assets/fonts/inter/Inter-VariableFont_slnt,wght.woff2` and `MinecraftRegular-Bmg3.otf`).
-   - Group headers render with right-aligned collapse chevrons flush to the right margin (`margin-right: 0`, `padding-right: 0`).
+   - Group headers render with left-aligned group titles (`order: 1`, `margin-left: 0`, `margin-right: auto`) and right-aligned collapse chevrons flush to the right margin (`order: 2`, `margin-left: auto`, `margin-right: 0`). Clicking anywhere on the group header row toggles group expansion instantly with transition animations removed.
    - Status page description block has horizontal margins and padding removed to align flush with the status banners and monitor cards.
 5. **GameDig Telemetry Companion Service (`gamedig-sync`)**:
    - **Purpose**: Uptime Kuma's core monitors drop GameDig telemetry (player counts and game versions) from status page display. A companion daemon runs alongside Uptime Kuma to expose this data dynamically via native monitor tags (`monitor_tag` in `kuma.db`).
@@ -313,7 +313,7 @@ The public status page (`status.collegedebt.app`) is self-hosted using **Uptime 
 | [`static/css/wp-theme.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wp-theme.css) | Core Twenty Twenty-Four Gutenberg variables, layout helpers, and block styles. |
 | [`static/css/custom.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/custom.css) | Custom layout tweaks, Minecraft/Cardo font definitions, header/footer spacing overrides. |
 | [`static/js/nav.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/nav.js) | Accessible vanilla JavaScript for opening/closing mobile overlay menu. |
-| [`static/js/search.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/search.js) | Pagefind search controller (arrow key navigation for parent & subpage items, background preloading, focus management, fallback input handler). |
+| [`static/js/search.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/search.js) | Pagefind search controller (arrow key navigation for parent & subpage items, background preloading, focus management, fallback input handler, and auto-highlighting existing query on modal open for instant replacement). |
 | [`layouts/_default/baseof.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/_default/baseof.html) | Root layout shell with `<head>`, meta tags, theme stylesheets, and footer scripts. |
 | [`layouts/partials/header.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/header.html) | Header partial containing logo, search trigger, and responsive navigation. |
 | [`layouts/partials/search_modal.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/search_modal.html) | Frosted search overlay modal partial housing the fixed search bar, scrollable Pagefind results container, and bottom keyboard hints footer. |
