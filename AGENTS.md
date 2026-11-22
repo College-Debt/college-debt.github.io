@@ -289,6 +289,16 @@ The public status page (`status.collegedebt.app`) is self-hosted using **Uptime 
      TARGET_1_VERSION_PREFIX: "Fabric "
      ```
    - **Database WAL Concurrency**: Writes directly to SQLite `tag` and `monitor_tag` tables in `/opt/uptime-kuma/data/kuma.db` concurrently with Uptime Kuma using WAL mode.
+6. **Routine Reboot Maintenance Window**:
+   - **Context**: The `cdsmp` container on OCI ARM undergoes a daily automated restart executed by the `cdsmp-restart` sidecar at 11:00 UTC (10-minute warning countdown starting at 11:00 UTC, kicking players and rebooting container at 11:10 UTC, returning online by ~11:13 UTC).
+   - **Maintenance Configuration**:
+     - Managed in Uptime Kuma SQLite (`maintenance` table, ID: 1).
+     - Strategy: `cron` (`0 11 * * *`), duration: 900s (15 minutes, covering 11:00 to 11:15 UTC daily), timezone: `UTC`.
+     - Linked to Monitor 2 (`College Debt SMP (Vanilla)`) via `monitor_maintenance`.
+     - Intentionally omitted from `maintenance_status_page` so no global banner clutter appears on the status page.
+   - **Status Page & SLA Behavior**:
+     - During the maintenance window, Uptime Kuma suppresses down penalties and flags the monitor status as `MAINTENANCE` (code 3), displaying **Maintenance** rather than "Down".
+     - Companion daemon `gamedig-sync` checks maintenance status: if probe fails during the reboot window, it sets tag `Players: Maintenance` instead of `Offline`.
 
 ---
 
