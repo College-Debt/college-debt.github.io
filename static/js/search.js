@@ -26,6 +26,10 @@
 
     // Attach click listeners to all search toggle buttons
     document.querySelectorAll('.site-search-btn').forEach(function (btn) {
+      btn.addEventListener('mousedown', function (e) {
+        // Prevent button from stealing focus during click sequence
+        e.preventDefault();
+      });
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -72,6 +76,7 @@
     }
 
     function handleTyping() {
+      cancelSelectionRetries();
       if (!modal.classList.contains('is-typing')) {
         modal.classList.add('is-typing');
       }
@@ -79,6 +84,13 @@
       selectedIndex = -1;
       cachedResultItems = null;
     }
+
+    // Cancel automated selection if user manually clicks into search input to position caret
+    modal.addEventListener('mousedown', function (e) {
+      if (e.target && (e.target.classList.contains('pagefind-ui__search-input') || e.target.classList.contains('site-search-fallback-input'))) {
+        cancelSelectionRetries();
+      }
+    });
 
     // Track when Pagefind input has search query for active results divider & reset selection
     modal.addEventListener('input', function (e) {
@@ -354,9 +366,7 @@
 
     cachedResultItems = null;
     loadPagefindAndInit();
-    var currentInput = pagefindLoaded
-      ? modal.querySelector('.pagefind-ui__search-input')
-      : fallbackInput;
+    var currentInput = getActiveSearchInput();
     if (currentInput && currentInput.value && currentInput.value.trim().length > 0) {
       modal.classList.add('has-search-query');
     }
@@ -371,12 +381,17 @@
 
   function closeSearch() {
     if (!modal) return;
+    cancelSelectionRetries();
     modal.classList.remove('is-open', 'has-search-query', 'is-typing', 'using-keyboard');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('has-search-open');
     document.documentElement.classList.remove('has-search-open');
     clearKeyboardSelection();
     cachedResultItems = null;
+    var activeInput = getActiveSearchInput();
+    if (activeInput) {
+      activeInput.blur();
+    }
   }
 
   function loadPagefindAndInit() {
@@ -481,21 +496,70 @@
     }
   }
 
-  function focusInput() {
-    setTimeout(function () {
-      if (!modal || !modal.classList.contains('is-open')) return;
-      var input = pagefindLoaded
-        ? modal.querySelector('.pagefind-ui__search-input')
-        : fallbackInput;
+  var selectTimer1 = null;
+  var selectTimer2 = null;
+  var selectTimer3 = null;
+  var selectRaf = null;
 
-      if (input) {
-        input.focus();
-        if (input.value && input.value.length > 0) {
-          input.setSelectionRange(0, input.value.length);
-          input.select();
-        }
-      }
-    }, 40);
+  function cancelSelectionRetries() {
+    if (selectTimer1) { clearTimeout(selectTimer1); selectTimer1 = null; }
+    if (selectTimer2) { clearTimeout(selectTimer2); selectTimer2 = null; }
+    if (selectTimer3) { clearTimeout(selectTimer3); selectTimer3 = null; }
+    if (selectRaf) { cancelAnimationFrame(selectRaf); selectRaf = null; }
+  }
+
+  function getActiveSearchInput() {
+    if (!modal) return null;
+    var pfInput = modal.querySelector('.pagefind-ui__search-input');
+    if (pagefindLoaded && pfInput) {
+      return pfInput;
+    }
+    return fallbackInput || pfInput;
+  }
+
+  function selectQueryText(input) {
+    if (!input || !modal || !modal.classList.contains('is-open')) return;
+    if (modal.classList.contains('is-typing')) return;
+    var val = input.value;
+    if (val && val.length > 0) {
+      try {
+        input.setSelectionRange(0, val.length);
+        input.select();
+      } catch (err) {}
+    }
+  }
+
+  function focusInput() {
+    cancelSelectionRetries();
+
+    function executeFocusAndSelect() {
+      if (!modal || !modal.classList.contains('is-open')) return;
+      if (modal.classList.contains('is-typing')) return;
+      var input = getActiveSearchInput();
+      if (!input) return;
+
+      input.focus();
+      selectQueryText(input);
+
+      selectRaf = requestAnimationFrame(function () {
+        selectQueryText(input);
+      });
+
+      selectTimer1 = setTimeout(function () {
+        selectQueryText(input);
+      }, 50);
+
+      selectTimer2 = setTimeout(function () {
+        selectQueryText(input);
+      }, 120);
+
+      selectTimer3 = setTimeout(function () {
+        selectQueryText(input);
+      }, 250);
+    }
+
+    executeFocusAndSelect();
+    setTimeout(executeFocusAndSelect, 30);
   }
 
   if (document.readyState === 'loading') {
