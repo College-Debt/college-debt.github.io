@@ -98,8 +98,10 @@ Colors are declared via CSS Custom Properties in [`static/css/wp-theme.css`](fil
 | `--wp--preset--color--contrast-3` | `#a4a4a4` | `#374151` | Horizontal separators (`<hr>`), subtle borders |
 | `--wp--preset--color--accent` | `#cfcabe` | `#2a2e35` | Subtle accent tint / card structural borders |
 | `--wp--preset--color--accent-2` | `#c2a990` | `#d4bba2` | Warm parchment accent |
-| *Brand Teal Gradient* | `linear-gradient(128deg, #0a4651 0%, #0b6878 100%)` | `linear-gradient(128deg, #0d2c32 0%, #114a54 100%)` | Homepage hero callout box background |
-| *Brand Teal Solid* | `#0a4651` | `#28b4c8` | Search buttons, links, primary interactive accents |
+| *Brand Accent (Default Cyan)* | `#0a4651` | `#28b4c8` | Interactive links, active borders, buttons (`--brand-accent`) |
+| *Brand Accent Hover* | `#0b6878` | `#67e8f9` | Hover & focus glow on interactive elements (`--brand-accent-hover`) |
+| *Brand Accent Muted* | `rgba(10, 70, 81, 0.12)` | `rgba(40, 180, 200, 0.16)` | Search highlights, active row backgrounds, badges (`--brand-accent-muted`) |
+| *Brand Accent Gradient* | `linear-gradient(128deg, #0a4651 0%, #0b6878 100%)` | `linear-gradient(128deg, #0d2c32 0%, #114a54 100%)` | Homepage hero callout box background (`--brand-accent-gradient`) |
 
 ### B. Typography Stack
 Three distinct font families are used intentionally across the site:
@@ -186,6 +188,64 @@ Gutenberg-style spacing tokens provide fluid and responsive padding/margins:
      - **Typography**: Neutral primary text `var(--wp--preset--color--contrast, #111111)` in normal weight (`font-weight: 400`, `font-family: 'Inter', sans-serif`).
      - **Hover & Interaction**: Subtle shadow elevation (`box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05)` light, `0 1px 4px rgba(0, 0, 0, 0.3)` dark), brand teal accent border (`#0a4651` light, `var(--brand-teal)` dark), and teal text color transition.
      - **Scope**: Applied to wiki pagination cards (`.wiki-pager-card`), Pagefind search overlay "Load more results" button (`#site-search-container .pagefind-ui__button`), and future standalone action buttons.
+
+### E. Site-Wide Personalization System (Theme, Dye Accents, Typography)
+
+To allow visitors to customize their visual experience, a global personalization menu is accessible via a **Paint Brush icon** button located in the site header, positioned between the header navigation links and the search button on desktop, and beside the search button in the mobile navigation drawer.
+
+#### 1. Personalization Dimensions & Token Architecture
+
+The personalization system controls three independent dimensions applied as `data-*` attributes on `document.documentElement` (`<html data-theme="..." data-accent="..." data-font="...">`):
+
+##### 1. Theme Mode (`data-theme`)
+- **System Sync (`auto` / default)**: Automatically follows the user's OS preference via CSS media query `@media (prefers-color-scheme: dark)`.
+- **Light (`light`)**: Forces the Twenty Twenty-Four light base palette (`#f0efed` canvas, `#ffffff` card surfaces, `#111111` contrast text).
+- **Dark (`dark`)**: Forces the Twenty Twenty-Four Onyx dark palette (`#131416` canvas, `#1c1e22` elevated surfaces, `#f0f1f3` contrast text).
+
+##### 2. Accent Colors (`data-accent`) — Minecraft Dye Palette
+Replaces the hardcoded brand teal with 8 selectable Minecraft-inspired dye colors. Each accent defines solid, hover, muted, and gradient tokens adapted for both light and dark themes:
+
+| Dye Name | Attribute | Light Solid | Light Hover | Light Muted | Dark Solid | Dark Hover | Dark Muted |
+|---|---|---|---|---|---|---|---|
+| **Cyan (Default)** | `cyan` | `#0a4651` | `#0b6878` | `rgba(10, 70, 81, 0.12)` | `#28b4c8` | `#67e8f9` | `rgba(40, 180, 200, 0.16)` |
+| **Red** | `red` | `#b02e26` | `#c83830` | `rgba(176, 46, 38, 0.12)` | `#e0554c` | `#f87171` | `rgba(224, 85, 76, 0.18)` |
+| **Orange** | `orange` | `#c95a00` | `#e06800` | `rgba(201, 90, 0, 0.12)` | `#f9801d` | `#fb923c` | `rgba(249, 128, 29, 0.18)` |
+| **Lime** | `lime` | `#5e8a00` | `#6f9f00` | `rgba(94, 138, 0, 0.12)` | `#80c71f` | `#a3e635` | `rgba(128, 199, 31, 0.18)` |
+| **Green** | `green` | `#3c6114` | `#4d7a1a` | `rgba(60, 97, 20, 0.12)` | `#5e7c16` | `#84cc16` | `rgba(94, 124, 22, 0.18)` |
+| **Blue** | `blue` | `#2b3fa3` | `#374fc7` | `rgba(43, 63, 163, 0.12)` | `#5865f2` | `#818cf8` | `rgba(88, 101, 242, 0.18)` |
+| **Purple** | `purple` | `#742da3` | `#8a38c2` | `rgba(116, 45, 163, 0.12)` | `#a855f7` | `#c084fc` | `rgba(168, 85, 247, 0.18)` |
+| **Pink** | `pink` | `#b8326a` | `#cf3e7c` | `rgba(184, 50, 106, 0.12)` | `#f472b6` | `#f9a8d4` | `rgba(244, 114, 182, 0.18)` |
+
+- **Callout Gradients**:
+  - `cyan`: `linear-gradient(128deg, #0a4651 0%, #0b6878 100%)` (dark: `linear-gradient(128deg, #0d2c32 0%, #114a54 100%)`)
+  - `red`: `linear-gradient(128deg, #8f201a 0%, #b02e26 100%)` (dark: `linear-gradient(128deg, #3d1412 0%, #5e1c18 100%)`)
+  - `orange`: `linear-gradient(128deg, #a64800 0%, #c95a00 100%)` (dark: `linear-gradient(128deg, #421c04 0%, #632906 100%)`)
+  - `lime`: `linear-gradient(128deg, #4a6d00 0%, #5e8a00 100%)` (dark: `linear-gradient(128deg, #1f3305 0%, #2f4e07 100%)`)
+  - `green`: `linear-gradient(128deg, #2d4a0e 0%, #3c6114 100%)` (dark: `linear-gradient(128deg, #172405 0%, #293b0a 100%)`)
+  - `blue`: `linear-gradient(128deg, #1f2f82 0%, #2b3fa3 100%)` (dark: `linear-gradient(128deg, #13173d 0%, #1e245c 100%)`)
+  - `purple`: `linear-gradient(128deg, #591e80 0%, #742da3 100%)` (dark: `linear-gradient(128deg, #2a1140 0%, #421863 100%)`)
+  - `pink`: `linear-gradient(128deg, #942453 0%, #b8326a 100%)` (dark: `linear-gradient(128deg, #3d1427 0%, #5c1b3a 100%)`)
+
+##### 3. Font Presets (`data-font`)
+Controls typography hierarchy across headings, body prose, navigation links, and UI components:
+- **Default (`default`)**: College Debt signature hybrid — pixel-sharp `'Minecraft', monospace` for primary titles (`h1`, `h2`), site logo subtitle, and header navigation; `'Inter', sans-serif` for body copy, sub-headings (`h3`-`h6`), metadata, tables, and buttons; `'Cardo', serif` for editorial callouts.
+- **Sans (`sans`)**: Clean contemporary editorial look — `'Inter', sans-serif` applied universally across all titles, navigation links, body copy, and UI elements. Standard font smoothing enabled.
+- **Serif (`serif`)**: High-comfort long-form reading typography — `'Cardo', Georgia, serif` applied to titles, headings, and article content for a traditional literary feel.
+- **Mojangles (`mojangles`)**: Full retro Minecraft immersion — `'Minecraft', monospace` applied across all site elements including headings, body paragraphs, navigation links, buttons, and badges. Font smoothing strictly disabled (`font-smooth: never !important; -webkit-font-smoothing: none !important;`).
+
+#### 2. Architecture, State & Zero-FOUC Synchronization
+1. **Local Storage Keys**:
+   - `collegedebt_theme`: `'auto'` | `'light'` | `'dark'`
+   - `collegedebt_accent`: `'cyan'` | `'red'` | `'orange'` | `'lime'` | `'green'` | `'blue'` | `'purple'` | `'pink'`
+   - `collegedebt_font`: `'default'` | `'sans'` | `'serif'` | `'mojangles'`
+2. **Anti-FOUC Pre-Paint Execution**: An inline `<script>` placed in `<head>` (in `layouts/_default/baseof.html`) immediately reads `localStorage` and writes `data-theme`, `data-accent`, and `data-font` onto `document.documentElement` before the browser renders the first frame, guaranteeing zero flash of unstyled content on page load or PJAX navigation.
+3. **UI Trigger & Menu Layout**:
+   - **Trigger**: Paint Brush SVG icon button (`.site-personalize-btn`), styled consistently with `.site-search-btn` (24x24 hit target, transparent background, brand accent hover color). Placed between navigation links and the search button in `layouts/partials/header.html`.
+   - **Popover Menu** (`layouts/partials/personalize_modal.html`): A floating card anchored to the trigger on desktop and positioned as an accessible bottom-sheet or modal drawer on mobile. Features:
+     - **Theme Segmented Control**: 3-state toggle (System, Light, Dark) with matching icons.
+     - **Accent Swatch Grid**: 8 circular color swatches showcasing the Minecraft dye hues, with active selection rings.
+     - **Font Chip Group**: 4 styled option chips (Default, Sans, Serif, Mojangles), each rendered with its preview typography.
+   - **Accessibility**: Full keyboard navigation (<kbd>Escape</kbd> to close, arrow key focus inside chip groups, ARIA attributes `aria-haspopup="dialog"`, `aria-expanded`).
 
 ---
 
@@ -317,6 +377,9 @@ The public status page (`status.collegedebt.app`) is self-hosted using **Uptime 
 | [`layouts/_default/baseof.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/_default/baseof.html) | Root layout shell with `<head>`, meta tags, theme stylesheets, and footer scripts. |
 | [`layouts/partials/header.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/header.html) | Header partial containing logo, search trigger, and responsive navigation. |
 | [`layouts/partials/search_modal.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/search_modal.html) | Frosted search overlay modal partial housing the fixed search bar, scrollable Pagefind results container, and bottom keyboard hints footer. |
+| [`layouts/partials/personalize_modal.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/personalize_modal.html) | Site-wide personalization popover modal with controls for theme mode, Minecraft dye accent colors, and typography presets. |
+| [`static/js/personalize.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/personalize.js) | Client-side state manager and event controller for theme mode, accent colors, and font presets with `localStorage` persistence. |
+| [`static/css/theme-personalize.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/theme-personalize.css) | Personalization popover styles, 8 Minecraft dye color token definitions (`[data-accent]`), and typography override presets (`[data-font]`). |
 | [`layouts/partials/footer.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/footer.html) | Footer partial containing credits, links, and Oak Sign icon. |
 | [`layouts/shortcodes/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/shortcodes/) | Custom Hugo shortcodes for wiki elements (`hint`, `tabs`, `stepper`, `embed`, `content-ref`). |
 | [`layouts/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/wiki/) | Wiki templates (`single.html` article layout, `list.html` section listing). |
