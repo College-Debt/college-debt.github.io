@@ -253,7 +253,7 @@ Controls typography hierarchy across headings, body prose, navigation links, and
      - **Theme Row**: 3 horizontal circular buttons (`Auto` SVG split circle, `Light`, `Dark`) with labels underneath.
      - **Accent Swatch Grid**: **6 × 2** grid of 12 circular swatches (no labels) showcasing the Minecraft dye hues plus `Gray` and animated `jeb_` rainbow cycle, with active selection rings and checkmarks.
      - **Font Style Grid**: 4 horizontal `Ag` specimen tiles (`Default`, `Sans`, `Serif`, `Mojangles`), each rendered with its preview typography.
-   - **Accessibility**: Full keyboard navigation (<kbd>Escape</kbd> to close, arrow key focus inside chip groups, ARIA attributes `aria-haspopup="dialog"`, `aria-expanded`).
+   - **Accessibility**: Full keyboard navigation (<kbd>Escape</kbd> to close, Tab focus trapping via `window.__cdA11y`, initial focus move on open, arrow key focus inside radiogroups, ARIA attributes `aria-haspopup="dialog"`, `aria-expanded`, `role="dialog"`, `aria-modal="true"`).
 
 ---
 
@@ -374,27 +374,66 @@ The public status page (`status.collegedebt.app`) is self-hosted using **Uptime 
 
 ---
 
-## 6. Summary of Key Files
+## 6. Accessibility & Screen Reader Standards
+
+All templates, interactive scripts, stylesheets, and content pages follow semantic HTML and WAI-ARIA practices without altering visual appearance for mouse or touch users:
+
+### A. Landmarks, Skip Navigation & Focus Management
+1. **Single Landmark Hierarchy**:
+   - Every page layout (`index.html`, `_default/*`, `posts/single.html`, `404.html`, `wiki/*`) wraps its primary content in a single `<main id="main-content" tabindex="-1">`.
+   - [`layouts/partials/footer.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/footer.html) exposes a single `<footer>` landmark (`contentinfo`); internal layout containers use `<div>`.
+   - [`layouts/_default/baseof.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/_default/baseof.html) renders `<a href="#main-content" class="skip-link">Skip to main content</a>` as the first focusable element inside `.wp-site-blocks`, hidden off-screen visually until focused via keyboard.
+2. **Keyboard-Only Focus Rings**:
+   - Mouse/touch focus outlines remain suppressed via `:focus:not(:focus-visible)`, while interactive triggers and inputs (`.site-search-btn`, `.site-personalize-btn`, `.site-mobile-nav-close`, `.site-search-fallback-*`, `.pagefind-ui__search-*`, `.skip-link`) define explicit `:focus-visible` outlines using `--brand-accent` in [`static/css/custom.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/custom.css) and [`static/css/theme-personalize.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/theme-personalize.css).
+   - Programmatic focus targets (`main#main-content`, `.wiki-page-title`) suppress focus outlines unless `:focus-visible`.
+3. **Reduced Motion**:
+   - `@media (prefers-reduced-motion: reduce)` in [`static/css/theme-personalize.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/theme-personalize.css) disables continuous `jeb_` rainbow hue-cycling (`@keyframes jeb-rainbow`) and loading spinner animations.
+
+### B. Modals, Drawers, Live Regions & Shortcodes
+1. **Shared Dialog Helper (`window.__cdA11y`)**:
+   - Defined in [`static/js/nav.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/nav.js) and shared with [`static/js/search.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/search.js), [`static/js/personalize.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/personalize.js), and [`static/js/wiki.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/wiki.js).
+   - Provides `trapTab()` (`Tab` / `Shift+Tab` cycling inside open dialogs) and `setBackgroundInert()` (marking `.wp-site-blocks` or sibling children `inert` while an overlay modal is open).
+   - Mobile navigation (`#site-mobile-nav-modal`), Search (`#site-search-modal`), and Personalization (`#site-personalize-modal`) all declare `role="dialog"`, `aria-modal="true"`, and restore focus to the invoking trigger when closed via keyboard (<kbd>Escape</kbd> / close button).
+   - [`layouts/404.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/404.html) routes form submissions into `#site-search-modal` prefilled with the query.
+2. **Screen Reader Status & Decorative Elements**:
+   - `#site-search-live-status` (`aria-live="polite"`) in [`layouts/partials/search_modal.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/search_modal.html) announces Pagefind result counts.
+   - `#wiki-route-announcer` (`aria-live="polite"`) in `wiki/single.html` and `wiki/list.html` announces intra-wiki PJAX transitions and moves focus (`preventScroll: true`) to `.wiki-page-title` when not navigating to an anchor hash.
+   - Closed mobile/tablet wiki drawers (`.wiki-sidebar-card` at `<= 820px`, `.wiki-toc-rail` at `<= 1100px`) apply delayed `visibility: hidden` alongside `inert` and `aria-hidden="true"` so off-screen links are excluded from Tab order and assistive technology until opened.
+   - Decorative SVGs, Font Awesome icons, and breadcrumb `&rsaquo;` dividers carry `aria-hidden="true"`. Footer arrow indicators use `content: "\2197" / ""` paired with `.sr-only` `" (external link)"` text, and the Oak Sign image link carries a descriptive `aria-label`.
+3. **Wiki Components**:
+   - Active sidebar navigation items (`layouts/partials/wiki/sidebar.html` & `updateSidebarActive()` in `wiki.js`) and current breadcrumb items (`breadcrumbs.html`) expose `aria-current="page"`; sidebar groups use `<section aria-labelledby="...">`.
+   - `initWikiTabs()` in `wiki.js` upgrades `.wiki-tabs` into ARIA `role="tablist"`, `role="tab"` (`aria-selected`, `aria-controls`, roving `tabindex`), and `role="tabpanel"` (`aria-labelledby`, `hidden`), supporting `ArrowLeft`, `ArrowRight`, `Home`, and `End` keys.
+   - [`layouts/shortcodes/hint.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/shortcodes/hint.html) prepends `<span class="sr-only">{{ $type | title }}: </span>` so callout severity is never conveyed by color alone.
+   - [`layouts/shortcodes/embed.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/shortcodes/embed.html) accepts an optional `title` parameter for YouTube `<iframe>` titles and external embed card labels.
+
+### C. Content Authoring Rules (`content/`)
+1. **Heading Hierarchy**: Templates render each page title as `<h1>`. All Markdown body headings must start at `##` (`h2`) and increment without skipping levels (`h1` → `h2` → `h3`); never leave empty headings.
+2. **Images & Figures**: Every informative `<img>` must include descriptive `alt` text; omit empty `<figcaption></figcaption>` elements.
+3. **Tables & Links**: Raw HTML `<table>` blocks must include non-empty `<thead><th>` headers with `scope="col"` (or `scope="row"` where appropriate). Links must use descriptive text rather than generic phrases (`here`, `this page`) or bare URLs.
+
+---
+
+## 7. Summary of Key Files
 
 | File | Purpose |
 |---|---|
 | [`static/css/wp-theme.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wp-theme.css) | Core Twenty Twenty-Four Gutenberg variables, layout helpers, and block styles. |
-| [`static/css/custom.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/custom.css) | Custom layout tweaks, Minecraft/Cardo font definitions, header/footer spacing overrides, subpage search typography (0.95rem lock). |
-| [`static/js/nav.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/nav.js) | Accessible vanilla JavaScript for opening/closing mobile overlay menu. |
-| [`static/js/search.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/search.js) | Pagefind search controller (arrow key navigation for parent & subpage items, background preloading, focus management, fallback input handler, resilient auto-highlighting of previous query on modal open with multi-frame selection retry and manual interaction cancellation). |
-| [`layouts/_default/baseof.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/_default/baseof.html) | Root layout shell with `<head>`, meta tags, theme stylesheets, and footer scripts. |
+| [`static/css/custom.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/custom.css) | Custom layout tweaks, Minecraft/Cardo font definitions, header/footer spacing overrides, `.sr-only`/`.skip-link` utilities, `:focus-visible` outlines, and subpage search typography. |
+| [`static/js/nav.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/nav.js) | Accessible mobile overlay menu controller and shared `window.__cdA11y` focus-trap/inert helper. |
+| [`static/js/search.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/search.js) | Pagefind search controller (arrow key navigation, 404 modal handoff, live result announcements, focus trap/restoration, multi-frame auto-highlight). |
+| [`layouts/_default/baseof.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/_default/baseof.html) | Root layout shell with `<head>`, anti-FOUC pre-paint script, skip link, theme stylesheets, and scripts. |
 | [`layouts/partials/header.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/header.html) | Header partial containing logo, search trigger, and responsive navigation. |
 | [`layouts/partials/search_modal.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/search_modal.html) | Frosted search overlay modal partial housing the fixed search bar, scrollable Pagefind results container, and bottom keyboard hints footer. |
 | [`layouts/partials/personalize_modal.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/personalize_modal.html) | Site-wide personalization popover modal with controls for theme mode, Minecraft dye accent colors, and typography presets. |
 | [`static/js/personalize.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/personalize.js) | Client-side state manager and event controller for theme mode, accent colors, and font presets with `localStorage` persistence. |
-| [`static/css/theme-personalize.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/theme-personalize.css) | Personalization popover styles, 8 Minecraft dye color token definitions (`[data-accent]`), and typography override presets (`[data-font]`). |
-| [`layouts/partials/footer.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/footer.html) | Footer partial containing credits, links, and Oak Sign icon. |
+| [`static/css/theme-personalize.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/theme-personalize.css) | Personalization popover styles, 12 Minecraft dye accent color definitions (`[data-accent]`), typography override presets (`[data-font]`), `:focus-visible` trigger rings, and `prefers-reduced-motion` guards. |
+| [`layouts/partials/footer.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/footer.html) | Footer partial containing credits, links with `.sr-only` external indicators, and labeled Oak Sign link. |
 | [`layouts/shortcodes/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/shortcodes/) | Custom Hugo shortcodes for wiki elements (`hint`, `tabs`, `stepper`, `embed`, `content-ref`). |
-| [`layouts/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/wiki/) | Wiki templates (`single.html` article layout, `list.html` section listing). |
+| [`layouts/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/wiki/) | Wiki templates (`single.html` article layout, `list.html` section listing) with `#main-content` and `#wiki-route-announcer`. |
 | [`layouts/partials/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/wiki/) | Wiki modular partials (`sidebar.html`, `breadcrumbs.html`, `cover.html`, `pager.html`, `toc.html`, `icon.html`). |
-| [`static/css/wiki.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wiki.css) | 1440px 3-column desktop layout, floating white card sidebar, and typography styles for the wiki. |
+| [`static/css/wiki.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/wiki.css) | 1440px 3-column desktop layout, floating white card sidebar, delayed off-screen drawer `visibility` transitions, and typography styles for the wiki. |
 | [`static/css/theme-dark.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/theme-dark.css) | Twenty Twenty-Four Onyx dark theme system with automatic browser preference detection and manual toggle support. |
-| [`static/js/wiki.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/wiki.js) | Interactive wiki scripts (tab panels switcher and Table of Contents scroll highlight). |
+| [`static/js/wiki.js`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/js/wiki.js) | Interactive wiki controller (ARIA tab switcher, TOC scroll highlight, drawer `inert`/focus management, PJAX navigation with live route announcements). |
 | [`static/css/all.min.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/all.min.css) | Font Awesome 6 Free CSS icon library. |
 | [`static/webfonts/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/webfonts/) | Bundled Font Awesome webfont files (`.woff2`, `.ttf`). |
 | [`content/wiki/`](file:///Users/cherryquartzio/Repos/college-debt.github.io/content/wiki/) | Wiki markdown pages (29 content pages + group index sections) published under `/wiki/`. |

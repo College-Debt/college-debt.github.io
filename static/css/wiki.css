@@ -186,7 +186,8 @@ body.has-wiki-toc-open {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.wiki-nav-row.is-active {
+.wiki-nav-row.is-active,
+.wiki-nav-row.is-active:hover {
   background-color: var(--brand-accent-muted, rgba(10, 70, 81, 0.09));
   transition: none !important;
 }
@@ -194,6 +195,10 @@ body.has-wiki-toc-open {
 .wiki-nav-row .wiki-nav-item {
   flex: 1;
   min-width: 0;
+}
+
+.wiki-nav-row .wiki-nav-item:hover {
+  background-color: transparent;
 }
 
 /* Nav Item (Top-level & Nested) */

@@ -475,41 +475,126 @@ footer.site-footer-group {
   margin: 0 !important;
 }
 
-/* Heading Vertical Margins for Clear Content Hierarchy */
+/* Heading & Prose Styling (matched to Wiki .wiki-article-body reference) */
+.entry-content,
+.wp-block-post-content {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.entry-content p,
+.wp-block-post-content p {
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.entry-content ul,
+.entry-content ol,
+.wp-block-post-content ul,
+.wp-block-post-content ol {
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.entry-content li,
+.wp-block-post-content li {
+  margin-bottom: 0.35rem;
+}
+
+.entry-content code,
+.wp-block-post-content code {
+  font-family: monospace;
+  background: #e5e3de;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.entry-content pre,
+.wp-block-post-content pre {
+  background: #22252a;
+  color: #f8f8f2;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+
+.entry-content pre code,
+.wp-block-post-content pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.entry-content kbd,
+.wp-block-post-content kbd {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  font-family: inherit;
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--wp--preset--color--contrast, #111111);
+  background-color: #ffffff;
+  border: 1px solid var(--wp--preset--color--contrast-3, #a4a4a4);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffffff;
+  margin: 0 0.2rem;
+}
+
+.entry-content figcaption,
+.wp-block-post-content figcaption {
+  font-size: 0.85rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  text-align: center;
+  margin-top: 0.45rem;
+}
+
 .entry-content h1,
 .wp-block-post-content h1 {
-  margin-top: 2.25em !important;
-  margin-bottom: 0.8em !important;
+  margin-top: 2.25rem !important;
+  margin-bottom: 0.8rem !important;
 }
 
 .entry-content h2,
 .wp-block-post-content h2 {
-  margin-top: 2em !important;
-  margin-bottom: 0.75em !important;
+  font-size: 1.6rem;
+  margin-top: 2.25rem !important;
+  margin-bottom: 0.75rem !important;
+  color: var(--wp--preset--color--contrast, #111111);
 }
 
 .entry-content h3,
 .wp-block-post-content h3 {
-  margin-top: 1.75em !important;
-  margin-bottom: 0.6em !important;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.5rem !important;
+  color: var(--wp--preset--color--contrast, #111111);
 }
 
 .entry-content h4,
 .wp-block-post-content h4 {
-  margin-top: 1.5em !important;
-  margin-bottom: 0.5em !important;
+  font-size: 1.08rem;
+  font-weight: 700;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .entry-content h5,
 .wp-block-post-content h5 {
-  margin-top: 1.25em !important;
-  margin-bottom: 0.4em !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.4rem !important;
 }
 
 .entry-content h6,
 .wp-block-post-content h6 {
-  margin-top: 1em !important;
-  margin-bottom: 0.4em !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0.4rem !important;
 }
 
 .entry-content > *:first-child,
@@ -776,9 +861,6 @@ body.has-search-open {
 
 .site-search-fallback-input:focus {
   border-color: var(--brand-accent, #0a4651) !important;
-}
-
-.site-search-fallback-input:focus:not(:focus-visible) {
   outline: none !important;
 }
 
@@ -919,9 +1001,6 @@ body.has-search-open {
 
 #site-search-container .pagefind-ui__search-input:focus {
   border-color: var(--brand-accent, #0a4651) !important;
-}
-
-#site-search-container .pagefind-ui__search-input:focus:not(:focus-visible) {
   outline: none !important;
 }
 
@@ -1321,11 +1400,5 @@ main#main-content:focus,
   outline: 2px solid var(--brand-accent, #0a4651) !important;
   outline-offset: 3px !important;
   border-radius: 4px !important;
-}
-
-.site-search-fallback-input:focus-visible,
-#site-search-container .pagefind-ui__search-input:focus-visible {
-  outline: 2px solid var(--brand-accent, #0a4651) !important;
-  outline-offset: 2px !important;
 }
 
