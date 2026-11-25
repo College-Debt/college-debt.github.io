@@ -1,0 +1,813 @@
+/* ==========================================================================
+   College Debt SMP — Site-Wide Personalization System
+   - Accent color palette (8 Minecraft dyes) for light and Onyx dark modes
+   - Font preset overrides (default, sans, serif, mojangles)
+   - Personalization header trigger button & floating grid popover card
+   ========================================================================== */
+
+/* --- Default Brand Accent Tokens (Cyan) --- */
+:root,
+html[data-accent="cyan"] {
+  --brand-accent: #0a4651;
+  --brand-accent-hover: #0b6878;
+  --brand-accent-muted: rgba(10, 70, 81, 0.12);
+  --brand-accent-gradient: linear-gradient(128deg, #0a4651 0%, #0b6878 100%);
+  --brand-accent-contrast: #ffffff;
+  --brand-teal: var(--brand-accent);
+  --brand-teal-hover: var(--brand-accent-hover);
+  --brand-teal-muted: var(--brand-accent-muted);
+}
+
+/* --- Minecraft Dye Accents (Light Mode) --- */
+html[data-accent="red"] {
+  --brand-accent: #b02e26;
+  --brand-accent-hover: #c83830;
+  --brand-accent-muted: rgba(176, 46, 38, 0.12);
+  --brand-accent-gradient: linear-gradient(128deg, #8f201a 0%, #b02e26 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-accent="orange"] {
+  --brand-accent: #c95a00;
+  --brand-accent-hover: #e06800;
+  --brand-accent-muted: rgba(201, 90, 0, 0.12);
+  --brand-accent-gradient: linear-gradient(128deg, #a64800 0%, #c95a00 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-accent="lime"] {
+  --brand-accent: #5e8a00;
+  --brand-accent-hover: #6f9f00;
+  --brand-accent-muted: rgba(94, 138, 0, 0.12);
+  --brand-accent-gradient: linear-gradient(128deg, #4a6d00 0%, #5e8a00 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-accent="green"] {
+  --brand-accent: #3c6114;
+  --brand-accent-hover: #4d7a1a;
+  --brand-accent-muted: rgba(60, 97, 20, 0.12);
+  --brand-accent-gradient: linear-gradient(128deg, #2d4a0e 0%, #3c6114 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-accent="blue"] {
+  --brand-accent: #2b3fa3;
+  --brand-accent-hover: #374fc7;
+  --brand-accent-muted: rgba(43, 63, 163, 0.12);
+  --brand-accent-gradient: linear-gradient(128deg, #1f2f82 0%, #2b3fa3 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-accent="purple"] {
+  --brand-accent: #742da3;
+  --brand-accent-hover: #8a38c2;
+  --brand-accent-muted: rgba(116, 45, 163, 0.12);
+  --brand-accent-gradient: linear-gradient(128deg, #591e80 0%, #742da3 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-accent="pink"] {
+  --brand-accent: #b8326a;
+  --brand-accent-hover: #cf3e7c;
+  --brand-accent-muted: rgba(184, 50, 106, 0.12);
+  --brand-accent-gradient: linear-gradient(128deg, #942453 0%, #b8326a 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+/* --- Minecraft Dye Accents (Dark Mode — System Sync & Explicit Dark) --- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]),
+  html:not([data-theme="light"])[data-accent="cyan"] {
+    --brand-accent: #28b4c8;
+    --brand-accent-hover: #67e8f9;
+    --brand-accent-muted: rgba(40, 180, 200, 0.16);
+    --brand-accent-gradient: linear-gradient(128deg, #0d2c32 0%, #114a54 100%);
+    --brand-accent-contrast: #111111;
+  }
+
+  html:not([data-theme="light"])[data-accent="red"] {
+    --brand-accent: #e0554c;
+    --brand-accent-hover: #f87171;
+    --brand-accent-muted: rgba(224, 85, 76, 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, #3d1412 0%, #5e1c18 100%);
+    --brand-accent-contrast: #ffffff;
+  }
+
+  html:not([data-theme="light"])[data-accent="orange"] {
+    --brand-accent: #f9801d;
+    --brand-accent-hover: #fb923c;
+    --brand-accent-muted: rgba(249, 128, 29, 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, #421c04 0%, #632906 100%);
+    --brand-accent-contrast: #111111;
+  }
+
+  html:not([data-theme="light"])[data-accent="lime"] {
+    --brand-accent: #80c71f;
+    --brand-accent-hover: #a3e635;
+    --brand-accent-muted: rgba(128, 199, 31, 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, #1f3305 0%, #2f4e07 100%);
+    --brand-accent-contrast: #111111;
+  }
+
+  html:not([data-theme="light"])[data-accent="green"] {
+    --brand-accent: #5e7c16;
+    --brand-accent-hover: #84cc16;
+    --brand-accent-muted: rgba(94, 124, 22, 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, #172405 0%, #293b0a 100%);
+    --brand-accent-contrast: #ffffff;
+  }
+
+  html:not([data-theme="light"])[data-accent="blue"] {
+    --brand-accent: #5865f2;
+    --brand-accent-hover: #818cf8;
+    --brand-accent-muted: rgba(88, 101, 242, 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, #13173d 0%, #1e245c 100%);
+    --brand-accent-contrast: #ffffff;
+  }
+
+  html:not([data-theme="light"])[data-accent="purple"] {
+    --brand-accent: #a855f7;
+    --brand-accent-hover: #c084fc;
+    --brand-accent-muted: rgba(168, 85, 247, 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, #2a1140 0%, #421863 100%);
+    --brand-accent-contrast: #ffffff;
+  }
+
+  html:not([data-theme="light"])[data-accent="pink"] {
+    --brand-accent: #f472b6;
+    --brand-accent-hover: #f9a8d4;
+    --brand-accent-muted: rgba(244, 114, 182, 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, #3d1427 0%, #5c1b3a 100%);
+    --brand-accent-contrast: #111111;
+  }
+}
+
+html[data-theme="dark"],
+html[data-theme="dark"][data-accent="cyan"] {
+  --brand-accent: #28b4c8;
+  --brand-accent-hover: #67e8f9;
+  --brand-accent-muted: rgba(40, 180, 200, 0.16);
+  --brand-accent-gradient: linear-gradient(128deg, #0d2c32 0%, #114a54 100%);
+  --brand-accent-contrast: #111111;
+}
+
+html[data-theme="dark"][data-accent="red"] {
+  --brand-accent: #e0554c;
+  --brand-accent-hover: #f87171;
+  --brand-accent-muted: rgba(224, 85, 76, 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, #3d1412 0%, #5e1c18 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-theme="dark"][data-accent="orange"] {
+  --brand-accent: #f9801d;
+  --brand-accent-hover: #fb923c;
+  --brand-accent-muted: rgba(249, 128, 29, 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, #421c04 0%, #632906 100%);
+  --brand-accent-contrast: #111111;
+}
+
+html[data-theme="dark"][data-accent="lime"] {
+  --brand-accent: #80c71f;
+  --brand-accent-hover: #a3e635;
+  --brand-accent-muted: rgba(128, 199, 31, 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, #1f3305 0%, #2f4e07 100%);
+  --brand-accent-contrast: #111111;
+}
+
+html[data-theme="dark"][data-accent="green"] {
+  --brand-accent: #5e7c16;
+  --brand-accent-hover: #84cc16;
+  --brand-accent-muted: rgba(94, 124, 22, 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, #172405 0%, #293b0a 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-theme="dark"][data-accent="blue"] {
+  --brand-accent: #5865f2;
+  --brand-accent-hover: #818cf8;
+  --brand-accent-muted: rgba(88, 101, 242, 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, #13173d 0%, #1e245c 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-theme="dark"][data-accent="purple"] {
+  --brand-accent: #a855f7;
+  --brand-accent-hover: #c084fc;
+  --brand-accent-muted: rgba(168, 85, 247, 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, #2a1140 0%, #421863 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-theme="dark"][data-accent="pink"] {
+  --brand-accent: #f472b6;
+  --brand-accent-hover: #f9a8d4;
+  --brand-accent-muted: rgba(244, 114, 182, 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, #3d1427 0%, #5c1b3a 100%);
+  --brand-accent-contrast: #111111;
+}
+
+/* ==========================================================================
+   Typography Preset Overrides (Sans, Serif, Mojangles)
+   ========================================================================== */
+
+/* --- Sans Preset: Inter Only --- */
+html[data-font="sans"] h1,
+html[data-font="sans"] h2,
+html[data-font="sans"] h3,
+html[data-font="sans"] h4,
+html[data-font="sans"] h5,
+html[data-font="sans"] h6,
+html[data-font="sans"] .has-minecraft-font-family,
+html[data-font="sans"] .has-minecraft-font-family *:not([class*="fa-"]),
+html[data-font="sans"] .has-heading-font-family,
+html[data-font="sans"] .has-heading-font-family *:not([class*="fa-"]),
+html[data-font="sans"] .site-header-nav,
+html[data-font="sans"] .site-header-nav *,
+html[data-font="sans"] .site-mobile-nav-links a,
+html[data-font="sans"] .wiki-page-title,
+html[data-font="sans"] .wiki-article-body h2 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  font-smooth: auto !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+html[data-font="sans"] .home-hero-title {
+  letter-spacing: -0.02em !important;
+  font-weight: 700 !important;
+}
+
+html[data-font="sans"] h1,
+html[data-font="sans"] h2,
+html[data-font="sans"] .wiki-page-title,
+html[data-font="sans"] .wiki-article-body h2 {
+  font-weight: 700;
+}
+
+html[data-font="sans"] .site-header-nav .wp-block-navigation-item__label,
+html[data-font="sans"] .site-mobile-nav-links a {
+  font-size: 17px !important;
+  font-weight: 500 !important;
+}
+
+/* --- Serif Preset: Cardo Reading Font --- */
+html[data-font="serif"] body,
+html[data-font="serif"] p,
+html[data-font="serif"] li,
+html[data-font="serif"] blockquote,
+html[data-font="serif"] h1,
+html[data-font="serif"] h2,
+html[data-font="serif"] h3,
+html[data-font="serif"] h4,
+html[data-font="serif"] h5,
+html[data-font="serif"] h6,
+html[data-font="serif"] .entry-content,
+html[data-font="serif"] .entry-content p,
+html[data-font="serif"] .entry-content li,
+html[data-font="serif"] .wiki-article-body,
+html[data-font="serif"] .wiki-article-body p,
+html[data-font="serif"] .wiki-article-body li,
+html[data-font="serif"] .wiki-page-title,
+html[data-font="serif"] .wiki-page-desc,
+html[data-font="serif"] .wiki-article-body h2,
+html[data-font="serif"] .wiki-article-body h3,
+html[data-font="serif"] .wiki-article-body details > summary,
+html[data-font="serif"] .wiki-hint-content,
+html[data-font="serif"] .wiki-step-content,
+html[data-font="serif"] .wp-block-post-title,
+html[data-font="serif"] .wp-block-post-title a,
+html[data-font="serif"] .has-minecraft-font-family,
+html[data-font="serif"] .has-minecraft-font-family *:not([class*="fa-"]),
+html[data-font="serif"] .site-header-nav,
+html[data-font="serif"] .site-header-nav *,
+html[data-font="serif"] .site-mobile-nav-links a {
+  font-family: 'Cardo', Georgia, 'Times New Roman', serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  font-smooth: auto !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+html[data-font="serif"] .home-hero-title {
+  letter-spacing: 0 !important;
+  font-weight: 700 !important;
+}
+
+html[data-font="serif"] .wiki-article-body,
+html[data-font="serif"] .entry-content {
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+/* Preserve monospace inside code blocks & kbd badges in Serif mode */
+html[data-font="serif"] code,
+html[data-font="serif"] pre,
+html[data-font="serif"] code *,
+html[data-font="serif"] pre *,
+html[data-font="serif"] kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+/* --- Mojangles Preset: Minecraft Only --- */
+html[data-font="mojangles"] body,
+html[data-font="mojangles"] h1,
+html[data-font="mojangles"] h2,
+html[data-font="mojangles"] h3,
+html[data-font="mojangles"] h4,
+html[data-font="mojangles"] h5,
+html[data-font="mojangles"] h6,
+html[data-font="mojangles"] p,
+html[data-font="mojangles"] a,
+html[data-font="mojangles"] li,
+html[data-font="mojangles"] blockquote,
+html[data-font="mojangles"] button:not(.site-font-option):not(.site-theme-option),
+html[data-font="mojangles"] input,
+html[data-font="mojangles"] label,
+html[data-font="mojangles"] td,
+html[data-font="mojangles"] th,
+html[data-font="mojangles"] .has-heading-font-family,
+html[data-font="mojangles"] .has-heading-font-family *:not([class*="fa-"]),
+html[data-font="mojangles"] .wiki-sidebar-card *:not(i):not([class*="fa-"]),
+html[data-font="mojangles"] .wiki-toc-rail *:not(i):not([class*="fa-"]),
+html[data-font="mojangles"] .wiki-article-body *:not(code):not(pre):not(i):not([class*="fa-"]),
+html[data-font="mojangles"] .entry-content *:not(code):not(pre):not(i):not([class*="fa-"]),
+html[data-font="mojangles"] #site-search-container *:not(i):not([class*="fa-"]),
+html[data-font="mojangles"] .site-search-modal *:not(i):not([class*="fa-"]) {
+  font-family: 'Minecraft', monospace !important;
+  -webkit-font-smoothing: none !important;
+  -moz-osx-font-smoothing: unset !important;
+  font-smooth: never !important;
+  text-rendering: geometricPrecision !important;
+}
+
+html[data-font="mojangles"] code,
+html[data-font="mojangles"] pre,
+html[data-font="mojangles"] code *,
+html[data-font="mojangles"] pre * {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+/* Keep Font Awesome icons intact regardless of active font preset */
+html[data-font] i[class*="fa-"],
+html[data-font] .fa,
+html[data-font] .fas,
+html[data-font] .far,
+html[data-font] .fab,
+html[data-font] .fa-solid,
+html[data-font] .fa-regular,
+html[data-font] .fa-brands {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+}
+
+/* ==========================================================================
+   Header Personalization Button (Paint Brush Trigger)
+   ========================================================================== */
+.site-personalize-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: var(--wp--preset--color--contrast, #111111);
+  cursor: pointer;
+  line-height: 1;
+  transition: none !important;
+  outline: none;
+  box-shadow: none !important;
+}
+
+.site-personalize-btn:hover,
+.site-personalize-btn:focus,
+.site-personalize-btn[aria-expanded="true"] {
+  color: var(--brand-accent, #0a4651) !important;
+  background: transparent !important;
+  text-decoration: none !important;
+}
+
+.site-personalize-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.site-personalize-btn-mobile-nav {
+  width: 24px !important;
+  height: 24px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--wp--preset--color--contrast, #111111);
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  transition: color 0.15s ease !important;
+  cursor: pointer;
+  box-shadow: none !important;
+}
+
+.site-personalize-btn-mobile-nav:hover,
+.site-personalize-btn-mobile-nav:focus {
+  background: transparent !important;
+  color: var(--brand-accent, #0a4651) !important;
+  text-decoration: none !important;
+}
+
+@media (max-width: 600px) {
+  .site-personalize-btn:not(.site-personalize-btn-mobile-nav) {
+    order: -2 !important;
+    width: 24px !important;
+    height: 24px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--wp--preset--color--contrast, #111111);
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    box-shadow: none !important;
+  }
+
+  .site-personalize-btn:not(.site-personalize-btn-mobile-nav):hover,
+  .site-personalize-btn:not(.site-personalize-btn-mobile-nav)[aria-expanded="true"] {
+    background: transparent !important;
+    color: var(--brand-accent, #0a4651) !important;
+  }
+
+  .site-personalize-btn-mobile-nav {
+    order: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   Personalization Popover Card
+   ========================================================================== */
+.site-personalize-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  display: none;
+  pointer-events: none;
+}
+
+.site-personalize-modal.is-open {
+  display: block;
+  pointer-events: auto;
+}
+
+.site-personalize-backdrop {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 1;
+}
+
+.site-personalize-dialog {
+  position: fixed;
+  top: 72px;
+  right: 20px;
+  z-index: 2;
+  width: min(360px, calc(100vw - 1.5rem));
+  background: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+  padding: 16px 18px 14px;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+@media (max-width: 600px) {
+  .site-personalize-dialog {
+    top: calc(var(--site-header-height, 56px) + 10px) !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(360px, calc(100vw - 1.5rem)) !important;
+  }
+}
+
+.site-personalize-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.site-personalize-label {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  letter-spacing: 0.01em;
+}
+
+.site-personalize-divider {
+  height: 1px;
+  background: var(--wp--preset--color--accent, #cfcabe);
+  opacity: 0.65;
+  margin: 14px 0;
+}
+
+/* --- Theme: 3 Horizontally Aligned Circles --- */
+.site-personalize-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.site-theme-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 6px 4px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  font-family: 'Inter', sans-serif !important;
+  transition: background-color 0.12s ease;
+}
+
+.site-theme-option:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.site-theme-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: block;
+  box-sizing: border-box;
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
+}
+
+.site-theme-circle-auto {
+  background: linear-gradient(135deg, #ffffff 50%, #1c1e22 50%);
+  border: 1px solid rgba(128, 128, 128, 0.35);
+}
+
+.site-theme-circle-light {
+  background: #f8f7f5;
+  border: 1px solid #cfcabe;
+}
+
+.site-theme-circle-dark {
+  background: #1c1e22;
+  border: 1px solid #374151;
+}
+
+.site-theme-option[aria-checked="true"] .site-theme-circle {
+  box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px var(--brand-accent, #0a4651);
+}
+
+.site-theme-option-text {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.76rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.site-theme-option[aria-checked="true"] .site-theme-option-text {
+  color: var(--wp--preset--color--contrast, #111111);
+  font-weight: 600;
+}
+
+/* --- Accent: 4x2 Grid of Colored Circles (No Labels) --- */
+.site-personalize-accent-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  align-items: center;
+  gap: 12px 8px;
+  padding: 2px 0;
+}
+
+.site-accent-swatch {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  color: #ffffff;
+}
+
+.site-accent-swatch:hover {
+  transform: scale(1.08);
+}
+
+.site-accent-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  pointer-events: none;
+}
+
+.site-accent-swatch[aria-checked="true"] .site-accent-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Light-mode Swatch Fills */
+.site-accent-swatch[data-accent-value="red"]    { background-color: #b02e26; }
+.site-accent-swatch[data-accent-value="orange"] { background-color: #c95a00; }
+.site-accent-swatch[data-accent-value="lime"]   { background-color: #5e8a00; }
+.site-accent-swatch[data-accent-value="green"]  { background-color: #3c6114; }
+.site-accent-swatch[data-accent-value="cyan"]   { background-color: #0a4651; }
+.site-accent-swatch[data-accent-value="blue"]   { background-color: #2b3fa3; }
+.site-accent-swatch[data-accent-value="purple"] { background-color: #742da3; }
+.site-accent-swatch[data-accent-value="pink"]   { background-color: #b8326a; }
+
+.site-accent-swatch[data-accent-value="red"][aria-checked="true"]    { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #b02e26; }
+.site-accent-swatch[data-accent-value="orange"][aria-checked="true"] { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #c95a00; }
+.site-accent-swatch[data-accent-value="lime"][aria-checked="true"]   { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #5e8a00; }
+.site-accent-swatch[data-accent-value="green"][aria-checked="true"]  { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #3c6114; }
+.site-accent-swatch[data-accent-value="cyan"][aria-checked="true"]   { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #0a4651; }
+.site-accent-swatch[data-accent-value="blue"][aria-checked="true"]   { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #2b3fa3; }
+.site-accent-swatch[data-accent-value="purple"][aria-checked="true"] { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #742da3; }
+.site-accent-swatch[data-accent-value="pink"][aria-checked="true"]   { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #b8326a; }
+
+/* --- Font Style: 4-Column Tile Grid --- */
+.site-personalize-font-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.site-font-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px 8px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--wp--preset--color--contrast, #111111);
+  transition: background-color 0.12s ease;
+}
+
+.site-font-option:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.site-font-option[aria-checked="true"] {
+  background-color: rgba(0, 0, 0, 0.055);
+}
+
+.site-font-specimen {
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 500;
+  color: var(--wp--preset--color--contrast, #111111);
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  height: 30px;
+}
+
+.site-font-option[aria-checked="true"] .site-font-specimen {
+  color: var(--brand-accent, #0a4651);
+}
+
+/* Lock each specimen tile strictly to its own preview font regardless of active data-font */
+.site-font-specimen-default .specimen-mc,
+.site-font-specimen-mojangles {
+  font-family: 'Minecraft', monospace !important;
+  -webkit-font-smoothing: none !important;
+  -moz-osx-font-smoothing: unset !important;
+  font-smooth: never !important;
+  text-rendering: geometricPrecision !important;
+  font-weight: 400 !important;
+}
+
+.site-font-specimen-default .specimen-mc {
+  font-size: 1.32rem;
+  margin-right: 1px;
+}
+
+.site-font-specimen-default .specimen-sans,
+.site-font-specimen-sans {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  font-smooth: auto !important;
+  font-weight: 500 !important;
+}
+
+.site-font-specimen-serif {
+  font-family: 'Cardo', Georgia, serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  font-smooth: auto !important;
+  font-weight: 600 !important;
+}
+
+.site-font-specimen-mojangles {
+  font-size: 1.38rem;
+}
+
+.site-font-option-text {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  line-height: 1.2;
+}
+
+.site-font-option[aria-checked="true"] .site-font-option-text {
+  color: var(--wp--preset--color--contrast, #111111);
+  font-weight: 600;
+}
+
+/* --- Popover & Swatches Dark Mode Adaptation --- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .site-personalize-dialog {
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+  }
+  :root:not([data-theme="light"]) .site-theme-option:hover,
+  :root:not([data-theme="light"]) .site-font-option:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  :root:not([data-theme="light"]) .site-font-option[aria-checked="true"] {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  :root:not([data-theme="light"]) .site-accent-swatch {
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="red"]    { background-color: #e0554c; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="orange"] { background-color: #f9801d; color: #111111; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="lime"]   { background-color: #80c71f; color: #111111; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="green"]  { background-color: #5e7c16; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="cyan"]   { background-color: #28b4c8; color: #111111; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="blue"]   { background-color: #5865f2; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="purple"] { background-color: #a855f7; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="pink"]   { background-color: #f472b6; color: #111111; }
+
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="red"][aria-checked="true"]    { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #e0554c; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="orange"][aria-checked="true"] { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #f9801d; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="lime"][aria-checked="true"]   { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #80c71f; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="green"][aria-checked="true"]  { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #5e7c16; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="cyan"][aria-checked="true"]   { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #28b4c8; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="blue"][aria-checked="true"]   { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #5865f2; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="purple"][aria-checked="true"] { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #a855f7; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="pink"][aria-checked="true"]   { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #f472b6; }
+}
+
+:root[data-theme="dark"] .site-personalize-dialog {
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+}
+:root[data-theme="dark"] .site-theme-option:hover,
+:root[data-theme="dark"] .site-font-option:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+:root[data-theme="dark"] .site-font-option[aria-checked="true"] {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+:root[data-theme="dark"] .site-accent-swatch {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="red"]    { background-color: #e0554c; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="orange"] { background-color: #f9801d; color: #111111; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="lime"]   { background-color: #80c71f; color: #111111; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="green"]  { background-color: #5e7c16; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="cyan"]   { background-color: #28b4c8; color: #111111; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="blue"]   { background-color: #5865f2; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="purple"] { background-color: #a855f7; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="pink"]   { background-color: #f472b6; color: #111111; }
+
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="red"][aria-checked="true"]    { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #e0554c; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="orange"][aria-checked="true"] { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #f9801d; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="lime"][aria-checked="true"]   { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #80c71f; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="green"][aria-checked="true"]  { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #5e7c16; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="cyan"][aria-checked="true"]   { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #28b4c8; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="blue"][aria-checked="true"]   { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #5865f2; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="purple"][aria-checked="true"] { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #a855f7; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="pink"][aria-checked="true"]   { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #f472b6; }

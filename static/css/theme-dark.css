@@ -18,9 +18,9 @@
     --wp--preset--color--accent-2: #d4bba2;
 
     /* Luminous Brand Accents */
-    --brand-teal: #28b4c8;
-    --brand-teal-hover: #67e8f9;
-    --brand-teal-muted: rgba(40, 180, 200, 0.14);
+    --brand-teal: var(--brand-accent, #28b4c8);
+    --brand-teal-hover: var(--brand-accent-hover, #67e8f9);
+    --brand-teal-muted: var(--brand-accent-muted, rgba(40, 180, 200, 0.14));
 
     /* Surface & Shadow Tokens */
     --header-bg: rgba(19, 20, 22, 0.85);
@@ -45,9 +45,9 @@
   --wp--preset--color--accent-2: #d4bba2;
 
   /* Luminous Brand Accents */
-  --brand-teal: #28b4c8;
-  --brand-teal-hover: #67e8f9;
-  --brand-teal-muted: rgba(40, 180, 200, 0.14);
+  --brand-teal: var(--brand-accent, #28b4c8);
+  --brand-teal-hover: var(--brand-accent-hover, #67e8f9);
+  --brand-teal-muted: var(--brand-accent-muted, rgba(40, 180, 200, 0.14));
 
   /* Surface & Shadow Tokens */
   --header-bg: rgba(19, 20, 22, 0.85);
@@ -175,7 +175,7 @@
 
   /* --- Homepage Hero Callout Box --- */
   :root:not([data-theme="light"]) .home-callout-box {
-    background: linear-gradient(128deg, #0d2c32 0%, #114a54 100%) !important;
+    background: var(--brand-accent-gradient, linear-gradient(128deg, #0d2c32 0%, #114a54 100%)) !important;
     border: none !important;
     box-shadow: none !important;
   }
@@ -479,7 +479,7 @@
 
   :root:not([data-theme="light"]) .wiki-hint-info {
     border-left-color: var(--brand-teal) !important;
-    background: rgba(40, 180, 200, 0.08) !important;
+    background: var(--brand-accent-muted, rgba(40, 180, 200, 0.08)) !important;
   }
 
   :root:not([data-theme="light"]) .wiki-hint-info .wiki-hint-icon {
@@ -561,7 +561,7 @@
   /* --- Wiki Stepper --- */
   :root:not([data-theme="light"]) .wiki-step-number {
     background: var(--brand-teal) !important;
-    color: #111111 !important;
+    color: var(--brand-accent-contrast, #111111) !important;
   }
 
   :root:not([data-theme="light"]) .wiki-step-connector {
@@ -612,7 +612,7 @@
 
   :root:not([data-theme="light"]) .wiki-embed-card:hover {
     border-color: var(--brand-teal) !important;
-    background: rgba(40, 180, 200, 0.08) !important;
+    background: var(--brand-accent-muted, rgba(40, 180, 200, 0.08)) !important;
   }
 
   :root:not([data-theme="light"]) .wiki-embed-card-title {
@@ -719,8 +719,8 @@
   }
 
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-excerpt mark {
-    background-color: rgba(40, 180, 200, 0.18) !important;
-    color: #67e8f9 !important;
+    background-color: var(--brand-accent-muted, rgba(40, 180, 200, 0.18)) !important;
+    color: var(--brand-accent-hover, #67e8f9) !important;
   }
 
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested {
@@ -929,7 +929,7 @@
 }
 
 :root[data-theme="dark"] .home-callout-box {
-  background: linear-gradient(128deg, #0d2c32 0%, #114a54 100%) !important;
+  background: var(--brand-accent-gradient, linear-gradient(128deg, #0d2c32 0%, #114a54 100%)) !important;
   border: none !important;
   box-shadow: none !important;
 }
@@ -1222,7 +1222,7 @@
 
 :root[data-theme="dark"] .wiki-hint-info {
   border-left-color: var(--brand-teal) !important;
-  background: rgba(40, 180, 200, 0.08) !important;
+  background: var(--brand-accent-muted, rgba(40, 180, 200, 0.08)) !important;
 }
 
 :root[data-theme="dark"] .wiki-hint-info .wiki-hint-icon {
@@ -1304,7 +1304,7 @@
   /* --- Wiki Stepper --- */
   :root[data-theme="dark"] .wiki-step-number {
     background: var(--brand-teal) !important;
-    color: #111111 !important;
+    color: var(--brand-accent-contrast, #111111) !important;
   }
 
   :root[data-theme="dark"] .wiki-step-connector {
@@ -1355,7 +1355,7 @@
 
   :root[data-theme="dark"] .wiki-embed-card:hover {
     border-color: var(--brand-teal) !important;
-    background: rgba(40, 180, 200, 0.08) !important;
+    background: var(--brand-accent-muted, rgba(40, 180, 200, 0.08)) !important;
   }
 
   :root[data-theme="dark"] .wiki-embed-card-title {
@@ -1462,8 +1462,8 @@
   }
 
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-excerpt mark {
-    background-color: rgba(40, 180, 200, 0.18) !important;
-    color: #67e8f9 !important;
+    background-color: var(--brand-accent-muted, rgba(40, 180, 200, 0.18)) !important;
+    color: var(--brand-accent-hover, #67e8f9) !important;
   }
 
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested {

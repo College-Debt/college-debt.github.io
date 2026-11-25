@@ -5,6 +5,19 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="max-image-preview:large">
+	<script>
+		(function () {
+			try {
+				var root = document.documentElement;
+				var t = localStorage.getItem('collegedebt_theme');
+				var a = localStorage.getItem('collegedebt_accent');
+				var f = localStorage.getItem('collegedebt_font');
+				root.setAttribute('data-theme', (t === 'light' || t === 'dark' || t === 'auto') ? t : 'auto');
+				root.setAttribute('data-accent', /^(red|orange|lime|green|cyan|blue|purple|pink)$/.test(a) ? a : 'cyan');
+				root.setAttribute('data-font', /^(default|sans|serif|mojangles)$/.test(f) ? f : 'default');
+			} catch (e) {}
+		})();
+	</script>
 	<style>
 		img:is([sizes="auto" i], [sizes^="auto," i]) {
 			contain-intrinsic-size: 3000px 1500px
@@ -20,6 +33,7 @@
 	<link rel="stylesheet" href="/css/wiki.css">
 	{{ end }}
 	<link rel="stylesheet" href="/css/theme-dark.css">
+	<link rel="stylesheet" href="/css/theme-personalize.css">
 	<link rel="icon" href="/assets/images/cropped-Oak_Sign_JE3-32x32.webp" sizes="32x32">
 	<link rel="icon" href="/assets/images/cropped-Oak_Sign_JE3-192x192.webp" sizes="192x192">
 	<link rel="apple-touch-icon" href="/assets/images/cropped-Oak_Sign_JE3-180x180.webp">
@@ -33,7 +47,9 @@
 		{{ partial "footer.html" . }}
 	</div>
 	{{ partial "search_modal.html" . }}
+	{{ partial "personalize_modal.html" . }}
 	<script src="/js/nav.js"></script>
+	<script src="/js/personalize.js"></script>
 	<script src="/js/search.js"></script>
 	{{ if or (eq .Section "wiki") (eq .Type "wiki") (in .RelPermalink "/wiki/") }}
 	<script src="/js/wiki.js"></script>

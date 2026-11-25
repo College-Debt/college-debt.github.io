@@ -146,7 +146,7 @@ header.wp-block-template-part {
 .site-search-btn-mobile-nav:hover,
 .site-search-btn-mobile-nav:focus {
   background: transparent !important;
-  color: #0a4651 !important;
+  color: var(--brand-accent, #0a4651) !important;
   text-decoration: none !important;
 }
 
@@ -171,7 +171,7 @@ header.wp-block-template-part {
 .site-mobile-nav-close:hover,
 .site-mobile-nav-close:focus {
   background: transparent !important;
-  color: #0a4651 !important;
+  color: var(--brand-accent, #0a4651) !important;
   text-decoration: none !important;
 }
 
@@ -209,7 +209,7 @@ header.wp-block-template-part {
 
 .site-mobile-nav-links a:hover,
 .site-mobile-nav-links a:focus {
-  color: #0a4651 !important;
+  color: var(--brand-accent, #0a4651) !important;
 }
 
 @media (min-width: 601px) {
@@ -317,7 +317,7 @@ h1, h2,
 .site-header-nav .wp-block-navigation-item__content:hover,
 .site-header-nav .wp-block-navigation-item__label:hover {
   text-decoration: none !important;
-  color: #0a4651 !important;
+  color: var(--brand-accent, #0a4651) !important;
   opacity: 1 !important;
   transition: none !important;
 }
@@ -392,7 +392,7 @@ figcaption {
 
 .home-callout-box {
   border-radius: 8px !important;
-  background: linear-gradient(128deg, rgb(10, 70, 81) 0%, rgb(11, 104, 120) 100%) !important;
+  background: var(--brand-accent-gradient, linear-gradient(128deg, rgb(10, 70, 81) 0%, rgb(11, 104, 120) 100%)) !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding: 60px var(--wp--preset--spacing--40) !important;
@@ -595,7 +595,7 @@ button:active {
 
 .site-search-btn:hover,
 .site-search-btn:focus {
-  color: #0a4651 !important;
+  color: var(--brand-accent, #0a4651) !important;
   background: transparent !important;
   text-decoration: none !important;
 }
@@ -635,7 +635,7 @@ button:active {
 
   .site-search-btn:hover {
     background: transparent !important;
-    color: #0a4651 !important;
+    color: var(--brand-accent, #0a4651) !important;
   }
 
   .site-search-btn-kbd {
@@ -750,7 +750,7 @@ body.has-search-open {
 }
 
 .site-search-fallback-form:focus-within::before {
-  background-color: #0a4651 !important;
+  background-color: var(--brand-accent, #0a4651) !important;
 }
 
 .site-search-fallback-input {
@@ -775,7 +775,7 @@ body.has-search-open {
 }
 
 .site-search-fallback-input:focus {
-  border-color: #0a4651 !important;
+  border-color: var(--brand-accent, #0a4651) !important;
   outline: none !important;
 }
 
@@ -837,7 +837,7 @@ body.has-search-open {
   width: 18px;
   height: 18px;
   border: 2px solid var(--wp--preset--color--accent, #cfcabe);
-  border-top-color: #0a4651;
+  border-top-color: var(--brand-accent, #0a4651);
   border-radius: 50%;
   animation: site-search-spin 0.6s linear infinite;
 }
@@ -849,7 +849,7 @@ body.has-search-open {
 /* Pagefind UI Component Overrides */
 :root {
   --pagefind-ui-scale: 0.95;
-  --pagefind-ui-primary: #0a4651;
+  --pagefind-ui-primary: var(--brand-accent, #0a4651);
   --pagefind-ui-text: var(--wp--preset--color--contrast, #111111);
   --pagefind-ui-background: var(--wp--preset--color--base-2, #ffffff);
   --pagefind-ui-border: var(--wp--preset--color--accent, #cfcabe);
@@ -916,7 +916,7 @@ body.has-search-open {
 }
 
 #site-search-container .pagefind-ui__search-input:focus {
-  border-color: #0a4651 !important;
+  border-color: var(--brand-accent, #0a4651) !important;
   outline: none !important;
 }
 
@@ -944,7 +944,7 @@ body.has-search-open {
 }
 
 #site-search-container .pagefind-ui__form:focus-within::before {
-  background-color: #0a4651 !important;
+  background-color: var(--brand-accent, #0a4651) !important;
 }
 
 /* Locked Clear X button position aligned to search input center */
@@ -1078,8 +1078,8 @@ body.has-search-open {
 }
 
 #site-search-container .pagefind-ui__result-excerpt mark {
-  background-color: rgba(10, 70, 81, 0.15) !important;
-  color: #0a4651 !important;
+  background-color: var(--brand-accent-muted, rgba(10, 70, 81, 0.15)) !important;
+  color: var(--brand-accent, #0a4651) !important;
   border-radius: 2px !important;
   padding: 0 0.15rem !important;
   font-weight: 600 !important;
@@ -1201,8 +1201,8 @@ body.has-search-open {
 
 #site-search-container .pagefind-ui__button:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
-  border-color: #0a4651 !important;
-  color: #0a4651 !important;
+  border-color: var(--brand-accent, #0a4651) !important;
+  color: var(--brand-accent, #0a4651) !important;
 }
 
 #site-search-container .pagefind-ui__button:active {

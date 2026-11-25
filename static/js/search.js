@@ -353,9 +353,17 @@
   function openSearch() {
     if (!modal) return;
 
-    // Close any open mobile navigation or wiki drawers
+    // Close any open mobile navigation, personalize popover, or wiki drawers
     var mobileNav = document.getElementById('site-mobile-nav-modal');
     if (mobileNav) mobileNav.classList.remove('is-open');
+    var personalizeModal = document.getElementById('site-personalize-modal');
+    if (personalizeModal && personalizeModal.classList.contains('is-open')) {
+      personalizeModal.classList.remove('is-open');
+      personalizeModal.setAttribute('aria-hidden', 'true');
+      document.querySelectorAll('.site-personalize-btn').forEach(function (b) {
+        b.setAttribute('aria-expanded', 'false');
+      });
+    }
     document.body.classList.remove('has-wiki-sidebar-open', 'has-wiki-toc-open', 'has-modal-open');
     document.documentElement.classList.remove('has-modal-open');
 

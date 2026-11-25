@@ -18,6 +18,14 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', syncHeaderHeight);
 
     function openMobileNav() {
+        var personalizeModal = document.getElementById('site-personalize-modal');
+        if (personalizeModal && personalizeModal.classList.contains('is-open')) {
+            personalizeModal.classList.remove('is-open');
+            personalizeModal.setAttribute('aria-hidden', 'true');
+            document.querySelectorAll('.site-personalize-btn').forEach(function (b) {
+                b.setAttribute('aria-expanded', 'false');
+            });
+        }
         if (mobileModal) {
             mobileModal.classList.add('is-open');
             mobileModal.setAttribute('aria-hidden', 'false');
