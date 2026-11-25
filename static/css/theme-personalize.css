@@ -1,10 +1,33 @@
 /* ==========================================================================
    College Debt SMP — Site-Wide Personalization System
-   - Accent color palette (10 Minecraft dyes) for light and Onyx dark modes
+   - Accent color palette (12 Minecraft dyes incl. Gray & jeb_) for light/dark modes
    - Global accent application across links, posts, footer, hero & wiki
    - Font preset overrides (default, sans, serif [Noto Serif], mojangles)
-   - Personalization header trigger button & floating 5x2 grid popover card
+   - Personalization header trigger button & floating 6x2 grid popover card
    ========================================================================== */
+
+@property --jeb-hue {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --jeb-hue-2 {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 45deg;
+}
+
+@keyframes jeb-rainbow {
+  0% {
+    --jeb-hue: 0deg;
+    --jeb-hue-2: 45deg;
+  }
+  100% {
+    --jeb-hue: 360deg;
+    --jeb-hue-2: 405deg;
+  }
+}
 
 @font-face {
   font-family: 'Noto Serif';
@@ -108,6 +131,27 @@ html[data-accent="pink"] {
   --brand-accent-contrast: #ffffff;
 }
 
+html[data-accent="gray"] {
+  --brand-accent: #4b5563;
+  --brand-accent-hover: #374151;
+  --brand-accent-muted: rgba(75, 85, 99, 0.13);
+  --brand-accent-gradient: linear-gradient(128deg, #374151 0%, #4b5563 100%);
+  --brand-accent-contrast: #ffffff;
+}
+
+html[data-accent="jeb"] {
+  --brand-accent: #742da3;
+  --brand-accent-hover: #8a38c2;
+  --brand-accent-muted: rgba(116, 45, 163, 0.14);
+  --brand-accent-gradient: linear-gradient(128deg, #b02e26 0%, #742da3 100%);
+  --brand-accent-contrast: #ffffff;
+  --brand-accent: oklch(0.52 0.18 var(--jeb-hue));
+  --brand-accent-hover: oklch(0.44 0.18 var(--jeb-hue-2));
+  --brand-accent-muted: oklch(0.55 0.16 var(--jeb-hue) / 0.14);
+  --brand-accent-gradient: linear-gradient(128deg, oklch(0.46 0.18 var(--jeb-hue)) 0%, oklch(0.52 0.18 var(--jeb-hue-2)) 100%);
+  animation: jeb-rainbow 8s linear infinite;
+}
+
 /* --- Minecraft Dye Accents (Dark Mode — System Sync & Explicit Dark) --- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]),
@@ -190,6 +234,27 @@ html[data-accent="pink"] {
     --brand-accent-gradient: linear-gradient(128deg, #3d1427 0%, #5c1b3a 100%);
     --brand-accent-contrast: #111111;
   }
+
+  html:not([data-theme="light"])[data-accent="gray"] {
+    --brand-accent: #9ca3af;
+    --brand-accent-hover: #d1d5db;
+    --brand-accent-muted: rgba(156, 163, 175, 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, #27272a 0%, #3f3f46 100%);
+    --brand-accent-contrast: #111111;
+  }
+
+  html:not([data-theme="light"])[data-accent="jeb"] {
+    --brand-accent: #a855f7;
+    --brand-accent-hover: #c084fc;
+    --brand-accent-muted: rgba(168, 85, 247, 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, #3d1427 0%, #2a1140 100%);
+    --brand-accent-contrast: #111111;
+    --brand-accent: oklch(0.76 0.16 var(--jeb-hue));
+    --brand-accent-hover: oklch(0.84 0.14 var(--jeb-hue-2));
+    --brand-accent-muted: oklch(0.76 0.16 var(--jeb-hue) / 0.18);
+    --brand-accent-gradient: linear-gradient(128deg, oklch(0.28 0.09 var(--jeb-hue)) 0%, oklch(0.36 0.11 var(--jeb-hue-2)) 100%);
+    animation: jeb-rainbow 8s linear infinite;
+  }
 }
 
 html[data-theme="dark"],
@@ -271,6 +336,27 @@ html[data-theme="dark"][data-accent="pink"] {
   --brand-accent-muted: rgba(244, 114, 182, 0.18);
   --brand-accent-gradient: linear-gradient(128deg, #3d1427 0%, #5c1b3a 100%);
   --brand-accent-contrast: #111111;
+}
+
+html[data-theme="dark"][data-accent="gray"] {
+  --brand-accent: #9ca3af;
+  --brand-accent-hover: #d1d5db;
+  --brand-accent-muted: rgba(156, 163, 175, 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, #27272a 0%, #3f3f46 100%);
+  --brand-accent-contrast: #111111;
+}
+
+html[data-theme="dark"][data-accent="jeb"] {
+  --brand-accent: #a855f7;
+  --brand-accent-hover: #c084fc;
+  --brand-accent-muted: rgba(168, 85, 247, 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, #3d1427 0%, #2a1140 100%);
+  --brand-accent-contrast: #111111;
+  --brand-accent: oklch(0.76 0.16 var(--jeb-hue));
+  --brand-accent-hover: oklch(0.84 0.14 var(--jeb-hue-2));
+  --brand-accent-muted: oklch(0.76 0.16 var(--jeb-hue) / 0.18);
+  --brand-accent-gradient: linear-gradient(128deg, oklch(0.28 0.09 var(--jeb-hue)) 0%, oklch(0.36 0.11 var(--jeb-hue-2)) 100%);
+  animation: jeb-rainbow 8s linear infinite;
 }
 
 /* ==========================================================================
@@ -728,13 +814,13 @@ html[data-font] .fa-brands {
   font-weight: 600;
 }
 
-/* --- Accent: 5x2 Grid of Colored Circles (No Labels) --- */
+/* --- Accent: 6x2 Grid of Colored Circles (No Labels) --- */
 .site-personalize-accent-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   justify-items: center;
   align-items: center;
-  gap: 12px 8px;
+  gap: 12px 6px;
   padding: 2px 0;
 }
 
@@ -784,6 +870,14 @@ html[data-font] .fa-brands {
 .site-accent-swatch[data-accent-value="blue"]       { background-color: #2b3fa3; }
 .site-accent-swatch[data-accent-value="purple"]     { background-color: #742da3; }
 .site-accent-swatch[data-accent-value="pink"]       { background-color: #b8326a; }
+.site-accent-swatch[data-accent-value="gray"]       { background-color: #6b7280; }
+.site-accent-swatch[data-accent-value="jeb"] {
+  background: conic-gradient(from 0deg, #e0554c, #f9801d, #facc15, #80c71f, #28b4c8, #5865f2, #a855f7, #f472b6, #e0554c);
+  color: #ffffff;
+}
+.site-accent-swatch[data-accent-value="jeb"] .site-accent-check {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+}
 
 .site-accent-swatch[data-accent-value="red"][aria-checked="true"]        { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #b02e26; }
 .site-accent-swatch[data-accent-value="orange"][aria-checked="true"]     { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #c95a00; }
@@ -795,6 +889,8 @@ html[data-font] .fa-brands {
 .site-accent-swatch[data-accent-value="blue"][aria-checked="true"]       { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #2b3fa3; }
 .site-accent-swatch[data-accent-value="purple"][aria-checked="true"]     { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #742da3; }
 .site-accent-swatch[data-accent-value="pink"][aria-checked="true"]       { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #b8326a; }
+.site-accent-swatch[data-accent-value="gray"][aria-checked="true"]       { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px #4b5563; }
+.site-accent-swatch[data-accent-value="jeb"][aria-checked="true"]        { box-shadow: 0 0 0 2px var(--wp--preset--color--base-2, #ffffff), 0 0 0 4px var(--brand-accent); }
 
 /* --- Font Style: 4-Column Tile Grid --- */
 .site-personalize-font-grid {
@@ -917,6 +1013,7 @@ html[data-font] .fa-brands {
   :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="blue"]       { background-color: #5865f2; }
   :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="purple"]     { background-color: #a855f7; }
   :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="pink"]       { background-color: #f472b6; color: #111111; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="gray"]       { background-color: #9ca3af; color: #111111; }
 
   :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="red"][aria-checked="true"]        { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #e0554c; }
   :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="orange"][aria-checked="true"]     { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #f9801d; }
@@ -928,6 +1025,8 @@ html[data-font] .fa-brands {
   :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="blue"][aria-checked="true"]       { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #5865f2; }
   :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="purple"][aria-checked="true"]     { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #a855f7; }
   :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="pink"][aria-checked="true"]       { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #f472b6; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="gray"][aria-checked="true"]       { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #9ca3af; }
+  :root:not([data-theme="light"]) .site-accent-swatch[data-accent-value="jeb"][aria-checked="true"]        { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px var(--brand-accent); }
 }
 
 :root[data-theme="dark"] .site-personalize-dialog {
@@ -956,6 +1055,7 @@ html[data-font] .fa-brands {
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="blue"]       { background-color: #5865f2; }
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="purple"]     { background-color: #a855f7; }
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="pink"]       { background-color: #f472b6; color: #111111; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="gray"]       { background-color: #9ca3af; color: #111111; }
 
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="red"][aria-checked="true"]        { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #e0554c; }
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="orange"][aria-checked="true"]     { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #f9801d; }
@@ -967,3 +1067,5 @@ html[data-font] .fa-brands {
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="blue"][aria-checked="true"]       { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #5865f2; }
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="purple"][aria-checked="true"]     { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #a855f7; }
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="pink"][aria-checked="true"]       { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #f472b6; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="gray"][aria-checked="true"]       { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #9ca3af; }
+:root[data-theme="dark"] .site-accent-swatch[data-accent-value="jeb"][aria-checked="true"]        { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px var(--brand-accent); }

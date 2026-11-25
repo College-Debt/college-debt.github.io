@@ -8,7 +8,7 @@
   };
 
   var VALID_THEMES = ['auto', 'light', 'dark'];
-  var VALID_ACCENTS = ['red', 'orange', 'yellow', 'lime', 'green', 'cyan', 'light-blue', 'blue', 'purple', 'pink'];
+  var VALID_ACCENTS = ['red', 'orange', 'yellow', 'lime', 'green', 'cyan', 'light-blue', 'blue', 'purple', 'pink', 'gray', 'jeb'];
   var VALID_FONTS = ['default', 'sans', 'serif', 'mojangles'];
 
   var modal = null;
