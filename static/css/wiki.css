@@ -32,8 +32,10 @@
   transition: color 0.15s ease;
 }
 
-.wiki-mobile-sidebar-toggle:hover {
-  color: var(--brand-accent, #0a4651);
+@media (hover: hover) {
+  .wiki-mobile-sidebar-toggle:hover {
+    color: var(--brand-accent, #0a4651);
+  }
 }
 
 .wiki-mobile-sidebar-toggle svg {
@@ -182,12 +184,7 @@ body.has-wiki-toc-open {
   transition: background 0.15s ease;
 }
 
-.wiki-nav-row:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-.wiki-nav-row.is-active,
-.wiki-nav-row.is-active:hover {
+.wiki-nav-row.is-active {
   background-color: var(--brand-accent-muted, rgba(10, 70, 81, 0.09));
   transition: none !important;
 }
@@ -195,10 +192,6 @@ body.has-wiki-toc-open {
 .wiki-nav-row .wiki-nav-item {
   flex: 1;
   min-width: 0;
-}
-
-.wiki-nav-row .wiki-nav-item:hover {
-  background-color: transparent;
 }
 
 /* Nav Item (Top-level & Nested) */
@@ -216,15 +209,29 @@ body.has-wiki-toc-open {
   position: relative;
 }
 
-.wiki-nav-item:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-  color: var(--wp--preset--color--contrast, #111111);
-}
-
 .wiki-nav-item.is-active {
   color: var(--brand-accent, #0a4651);
   font-weight: 600;
   transition: none !important;
+}
+
+@media (hover: hover) {
+  .wiki-nav-row:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  .wiki-nav-row.is-active:hover {
+    background-color: var(--brand-accent-muted, rgba(10, 70, 81, 0.09));
+  }
+
+  .wiki-nav-item:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: var(--wp--preset--color--contrast, #111111);
+  }
+
+  .wiki-nav-row .wiki-nav-item:hover {
+    background-color: transparent;
+  }
 }
 
 .wiki-nav-item .wiki-item-icon {
@@ -266,9 +273,11 @@ body.has-wiki-toc-open {
   transition: color 0.15s ease, background 0.15s ease;
 }
 
-.wiki-nav-toggle:hover {
-  color: var(--wp--preset--color--contrast, #111111);
-  background-color: rgba(0, 0, 0, 0.06);
+@media (hover: hover) {
+  .wiki-nav-toggle:hover {
+    color: var(--wp--preset--color--contrast, #111111);
+    background-color: rgba(0, 0, 0, 0.06);
+  }
 }
 
 .wiki-nav-toggle .wiki-nav-chevron {
@@ -356,11 +365,13 @@ body.wiki-is-navigating .wiki-content-wrapper {
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.wiki-mobile-toc-toggle:hover {
-  color: var(--brand-accent, #0a4651);
-  border-color: var(--brand-accent, #0a4651);
-  background-color: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+@media (hover: hover) {
+  .wiki-mobile-toc-toggle:hover {
+    color: var(--brand-accent, #0a4651);
+    border-color: var(--brand-accent, #0a4651);
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
 }
 
 body.has-wiki-toc-open .wiki-mobile-toc-toggle {
@@ -375,8 +386,10 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
   transition: color 0.15s ease;
 }
 
-.wiki-breadcrumbs a:hover {
-  color: var(--wp--preset--color--contrast, #111111);
+@media (hover: hover) {
+  .wiki-breadcrumbs a:hover {
+    color: var(--wp--preset--color--contrast, #111111);
+  }
 }
 
 .wiki-breadcrumbs-sep {
@@ -501,8 +514,10 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
   text-underline-offset: 3px;
 }
 
-.wiki-article-body a:hover {
-  color: var(--brand-accent-hover, #0b6878);
+@media (hover: hover) {
+  .wiki-article-body a:hover {
+    color: var(--brand-accent-hover, #0b6878);
+  }
 }
 
 .wiki-article-body code {
@@ -593,68 +608,6 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
 }
 
 /* ==========================================================================
-   Bottom Sequential Navigation Cards (< Previous | Next >)
-   ========================================================================== */
-.wiki-pager-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-  margin-top: 3.5rem;
-  margin-bottom: 1rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--wp--preset--color--contrast-3, #a4a4a4);
-}
-
-.wiki-pager-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 1.25rem;
-  background: var(--wp--preset--color--base-2, #ffffff);
-  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 8px;
-  text-decoration: none !important;
-  transition: box-shadow 0.15s ease, border-color 0.15s ease;
-  box-sizing: border-box;
-}
-
-.wiki-pager-card:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  border-color: var(--brand-accent, #0a4651);
-}
-
-.wiki-pager-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--wp--preset--color--contrast-2, #636363);
-  letter-spacing: 0.05em;
-  margin-bottom: 0.3rem;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.wiki-pager-card.next {
-  text-align: right;
-  margin-left: auto;
-  width: 100%;
-}
-
-.wiki-pager-card.next .wiki-pager-label {
-  justify-content: flex-end;
-}
-
-.wiki-pager-title {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--wp--preset--color--contrast, #111111);
-}
-
-.wiki-pager-card:hover .wiki-pager-title {
-  color: var(--brand-accent, #0a4651);
-}
-
-/* ==========================================================================
    Right Column: Persistent Table of Contents ("ON THIS PAGE")
    ========================================================================== */
 .wiki-toc-rail {
@@ -716,9 +669,11 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
   line-height: 1.35;
 }
 
-#TableOfContents a:hover {
-  color: var(--wp--preset--color--contrast, #111111);
-  background-color: rgba(0, 0, 0, 0.04);
+@media (hover: hover) {
+  #TableOfContents a:hover {
+    color: var(--wp--preset--color--contrast, #111111);
+    background-color: rgba(0, 0, 0, 0.04);
+  }
 }
 
 #TableOfContents a.is-active {
@@ -814,8 +769,10 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
   transform: rotate(90deg);
 }
 
-.wiki-article-body details > summary:hover .wiki-expandable-chevron {
-  color: var(--wp--preset--color--contrast, #111111);
+@media (hover: hover) {
+  .wiki-article-body details > summary:hover .wiki-expandable-chevron {
+    color: var(--wp--preset--color--contrast, #111111);
+  }
 }
 
 /* Fallback chevron indicator when JS is not active */
@@ -837,12 +794,14 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
   transform: rotate(45deg);
 }
 
-.wiki-article-body details > summary:hover {
-  background-color: rgba(0, 0, 0, 0.02);
-}
+@media (hover: hover) {
+  .wiki-article-body details > summary:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
 
-.wiki-article-body details > summary:hover:not(:has(.wiki-expandable-chevron))::before {
-  border-color: var(--wp--preset--color--contrast, #111111);
+  .wiki-article-body details > summary:hover:not(:has(.wiki-expandable-chevron))::before {
+    border-color: var(--wp--preset--color--contrast, #111111);
+  }
 }
 
 .wiki-article-body details > summary:focus-visible {
@@ -1056,9 +1015,11 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
   box-sizing: border-box;
 }
 
-.wiki-content-ref-link:hover {
-  border-color: var(--brand-accent, #0a4651);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+@media (hover: hover) {
+  .wiki-content-ref-link:hover {
+    border-color: var(--brand-accent, #0a4651);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
 }
 
 .wiki-content-ref-icon {
@@ -1072,8 +1033,10 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
   transition: color 0.15s ease;
 }
 
-.wiki-content-ref-link:hover .wiki-content-ref-icon {
-  color: var(--brand-accent, #0a4651);
+@media (hover: hover) {
+  .wiki-content-ref-link:hover .wiki-content-ref-icon {
+    color: var(--brand-accent, #0a4651);
+  }
 }
 
 .wiki-content-ref-body {
@@ -1110,9 +1073,11 @@ body.has-wiki-toc-open .wiki-mobile-toc-toggle {
   transition: transform 0.15s ease, color 0.15s ease;
 }
 
-.wiki-content-ref-link:hover .wiki-content-ref-arrow {
-  color: var(--brand-accent, #0a4651);
-  transform: translateX(3px);
+@media (hover: hover) {
+  .wiki-content-ref-link:hover .wiki-content-ref-arrow {
+    color: var(--brand-accent, #0a4651);
+    transform: translateX(3px);
+  }
 }
 
 /* Embed */
@@ -1251,9 +1216,11 @@ i.fa-arrows-rotate {
     transition: color 0.15s ease, background-color 0.15s ease;
   }
 
-  .wiki-toc-close:hover {
-    color: var(--wp--preset--color--contrast, #111111);
-    background-color: rgba(0, 0, 0, 0.05);
+  @media (hover: hover) {
+    .wiki-toc-close:hover {
+      color: var(--wp--preset--color--contrast, #111111);
+      background-color: rgba(0, 0, 0, 0.05);
+    }
   }
 }
 
@@ -1300,19 +1267,5 @@ i.fa-arrows-rotate {
     transform: translateX(0);
     visibility: visible;
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
-  }
-
-  .wiki-pager-container {
-    grid-template-columns: 1fr;
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-  }
-
-  .wiki-pager-card.next {
-    text-align: left;
-  }
-
-  .wiki-pager-card.next .wiki-pager-label {
-    justify-content: flex-start;
   }
 }

@@ -78,11 +78,8 @@
     border-bottom: 1px solid var(--wp--preset--color--accent) !important;
   }
 
-  :root:not([data-theme="light"]) .site-header-nav a:hover,
-  :root:not([data-theme="light"]) .site-header-nav a:focus,
-  :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item a:hover,
-  :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item__content:hover,
-  :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item__label:hover {
+  :root:not([data-theme="light"]) .site-header-nav a:focus-visible,
+  :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item a:focus-visible {
     color: var(--brand-teal) !important;
   }
 
@@ -90,16 +87,8 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-mobile-sidebar-toggle:hover {
-    color: var(--brand-teal) !important;
-  }
-
   :root:not([data-theme="light"]) .wp-block-navigation__responsive-container-open {
     color: var(--wp--preset--color--contrast) !important;
-  }
-
-  :root:not([data-theme="light"]) .wp-block-navigation__responsive-container-open:hover {
-    color: var(--brand-teal) !important;
   }
 
   /* --- Site Search Button --- */
@@ -109,8 +98,7 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .site-search-btn:hover,
-  :root:not([data-theme="light"]) .site-search-btn:focus {
+  :root:not([data-theme="light"]) .site-search-btn:focus-visible {
     color: var(--brand-teal) !important;
     background: transparent !important;
   }
@@ -124,10 +112,6 @@
       color: var(--wp--preset--color--contrast) !important;
       background: transparent !important;
     }
-    :root:not([data-theme="light"]) .site-search-btn:hover {
-      color: var(--brand-teal) !important;
-      background: transparent !important;
-    }
   }
 
   /* --- Mobile Navigation Fullscreen Modal --- */
@@ -139,8 +123,7 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .site-search-btn-mobile-nav:hover,
-  :root:not([data-theme="light"]) .site-search-btn-mobile-nav:focus {
+  :root:not([data-theme="light"]) .site-search-btn-mobile-nav:focus-visible {
     color: var(--brand-teal) !important;
     background: transparent !important;
   }
@@ -149,8 +132,7 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .site-mobile-nav-close:hover,
-  :root:not([data-theme="light"]) .site-mobile-nav-close:focus {
+  :root:not([data-theme="light"]) .site-mobile-nav-close:focus-visible {
     color: var(--brand-teal) !important;
     background: transparent !important;
   }
@@ -159,8 +141,7 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .site-mobile-nav-links a:hover,
-  :root:not([data-theme="light"]) .site-mobile-nav-links a:focus {
+  :root:not([data-theme="light"]) .site-mobile-nav-links a:focus-visible {
     color: var(--brand-teal) !important;
   }
 
@@ -169,8 +150,21 @@
     border-top: 1px solid var(--wp--preset--color--accent) !important;
   }
 
-  :root:not([data-theme="light"]) .site-footer-wrapper a:hover {
-    color: var(--brand-teal) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .site-header-nav a:hover,
+    :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item a:hover,
+    :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item__content:hover,
+    :root:not([data-theme="light"]) .site-header-nav .wp-block-navigation-item__label:hover,
+    :root:not([data-theme="light"]) .wiki-mobile-sidebar-toggle:hover,
+    :root:not([data-theme="light"]) .wp-block-navigation__responsive-container-open:hover,
+    :root:not([data-theme="light"]) .site-search-btn:hover,
+    :root:not([data-theme="light"]) .site-search-btn-mobile-nav:hover,
+    :root:not([data-theme="light"]) .site-mobile-nav-close:hover,
+    :root:not([data-theme="light"]) .site-mobile-nav-links a:hover,
+    :root:not([data-theme="light"]) .site-footer-wrapper a:hover {
+      color: var(--brand-teal) !important;
+      background: transparent !important;
+    }
   }
 
   /* --- Homepage Hero Callout Box --- */
@@ -194,17 +188,19 @@
     box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6) !important;
   }
 
-  :root:not([data-theme="light"]) .home-wiki-button:hover {
-    background-color: #f0efed !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .home-wiki-button:hover {
+      background-color: #f0efed !important;
+    }
+
+    :root:not([data-theme="light"]) .wp-block-post-title a:hover {
+      color: var(--brand-teal) !important;
+    }
   }
 
   /* --- Post Teaser List --- */
   :root:not([data-theme="light"]) .wp-block-post-title a {
     color: var(--wp--preset--color--contrast) !important;
-  }
-
-  :root:not([data-theme="light"]) .wp-block-post-title a:hover {
-    color: var(--brand-teal) !important;
   }
 
   :root:not([data-theme="light"]) .wp-block-separator {
@@ -235,8 +231,14 @@
     color: var(--brand-teal);
   }
 
-  :root:not([data-theme="light"]) .entry-content a:hover {
-    color: var(--brand-teal-hover);
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .entry-content a:hover {
+      color: var(--brand-teal-hover);
+    }
+
+    :root:not([data-theme="light"]) .post-navigation-row a:hover {
+      color: var(--brand-teal) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .entry-content blockquote {
@@ -264,10 +266,6 @@
 
   :root:not([data-theme="light"]) .post-navigation-row a {
     color: var(--wp--preset--color--contrast) !important;
-  }
-
-  :root:not([data-theme="light"]) .post-navigation-row a:hover {
-    color: var(--brand-teal) !important;
   }
 
   /* --- Search & Form Inputs --- */
@@ -300,31 +298,16 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-nav-row:hover {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-  }
-
   :root:not([data-theme="light"]) .wiki-nav-item {
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-nav-item:hover {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    color: #ffffff !important;
-  }
-
-  :root:not([data-theme="light"]) .wiki-nav-row .wiki-nav-item:hover {
-    background-color: transparent !important;
-  }
-
-  :root:not([data-theme="light"]) .wiki-nav-row.is-active,
-  :root:not([data-theme="light"]) .wiki-nav-row.is-active:hover {
+  :root:not([data-theme="light"]) .wiki-nav-row.is-active {
     background-color: var(--brand-teal-muted) !important;
     transition: none !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-nav-item.is-active,
-  :root:not([data-theme="light"]) .wiki-nav-item.is-active:hover {
+  :root:not([data-theme="light"]) .wiki-nav-item.is-active {
     color: var(--brand-teal) !important;
     transition: none !important;
   }
@@ -345,22 +328,12 @@
     color: var(--brand-teal) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-nav-toggle:hover {
-    color: var(--wp--preset--color--contrast) !important;
-    background-color: rgba(255, 255, 255, 0.08) !important;
-  }
-
   :root:not([data-theme="light"]) .wiki-subnav-list {
     border-left: 1px solid var(--wp--preset--color--accent) !important;
   }
 
   :root:not([data-theme="light"]) .wiki-subnav-item {
     color: var(--wp--preset--color--contrast-2) !important;
-  }
-
-  :root:not([data-theme="light"]) .wiki-subnav-item:hover {
-    color: #ffffff !important;
-    background-color: rgba(255, 255, 255, 0.05) !important;
   }
 
   :root:not([data-theme="light"]) .wiki-subnav-item.is-active {
@@ -377,8 +350,41 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-breadcrumbs a:hover {
-    color: var(--brand-teal) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .wiki-nav-row:hover {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+      color: #ffffff !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-nav-row .wiki-nav-item:hover {
+      background-color: transparent !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-nav-row.is-active:hover {
+      background-color: var(--brand-teal-muted) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-nav-item.is-active:hover {
+      color: var(--brand-teal) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-nav-toggle:hover {
+      color: var(--wp--preset--color--contrast) !important;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-subnav-item:hover {
+      color: #ffffff !important;
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-breadcrumbs a:hover {
+      color: var(--brand-teal) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .wiki-article-title {
@@ -413,8 +419,10 @@
     color: var(--brand-teal) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-article-body a:hover {
-    color: var(--brand-teal-hover) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .wiki-article-body a:hover {
+      color: var(--brand-teal-hover) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .wiki-article-body blockquote {
@@ -458,8 +466,10 @@
     color: #e2e4e8 !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-article-body tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.03) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .wiki-article-body tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.03) !important;
+    }
   }
 
   /* --- Wiki Expandables (<details>) --- */
@@ -472,12 +482,14 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-article-body details summary:hover {
-    background-color: rgba(255, 255, 255, 0.03) !important;
-  }
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .wiki-article-body details summary:hover {
+      background-color: rgba(255, 255, 255, 0.03) !important;
+    }
 
-  :root:not([data-theme="light"]) .wiki-article-body details summary:hover .wiki-expandable-chevron {
-    color: var(--brand-teal) !important;
+    :root:not([data-theme="light"]) .wiki-article-body details summary:hover .wiki-expandable-chevron {
+      color: var(--brand-teal) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .wiki-expandable-content {
@@ -495,8 +507,10 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-pager-card:hover {
-    border-color: var(--brand-teal) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .wiki-pager-card:hover {
+      border-color: var(--brand-teal) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .wiki-pager-label {
@@ -516,9 +530,11 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root:not([data-theme="light"]) #TableOfContents a:hover {
-    color: var(--wp--preset--color--contrast) !important;
-    background-color: rgba(255, 255, 255, 0.04) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) #TableOfContents a:hover {
+      color: var(--wp--preset--color--contrast) !important;
+      background-color: rgba(255, 255, 255, 0.04) !important;
+    }
   }
 
   :root:not([data-theme="light"]) #TableOfContents a.is-active {
@@ -587,8 +603,10 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-tab-btn:hover {
-    color: var(--wp--preset--color--contrast) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .wiki-tab-btn:hover {
+      color: var(--wp--preset--color--contrast) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .wiki-tab-btn.is-active {
@@ -634,11 +652,6 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-content-ref-link:hover {
-    border-color: var(--brand-teal) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
-  }
-
   :root:not([data-theme="light"]) .wiki-content-ref-title {
     color: var(--brand-teal) !important;
   }
@@ -655,19 +668,26 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-content-ref-link:hover .wiki-content-ref-arrow {
-    color: var(--brand-teal) !important;
-  }
-
   /* --- Wiki Embeds --- */
   :root:not([data-theme="light"]) .wiki-embed-card {
     background: var(--wp--preset--color--base-2) !important;
     border: 1px solid var(--wp--preset--color--accent) !important;
   }
 
-  :root:not([data-theme="light"]) .wiki-embed-card:hover {
-    border-color: var(--brand-teal) !important;
-    background: var(--brand-accent-muted, rgba(40, 180, 200, 0.08)) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .wiki-content-ref-link:hover {
+      border-color: var(--brand-teal) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-content-ref-link:hover .wiki-content-ref-arrow {
+      color: var(--brand-teal) !important;
+    }
+
+    :root:not([data-theme="light"]) .wiki-embed-card:hover {
+      border-color: var(--brand-teal) !important;
+      background: var(--brand-accent-muted, rgba(40, 180, 200, 0.08)) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .wiki-embed-card-title {
@@ -719,9 +739,11 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root:not([data-theme="light"]) .site-search-fallback-clear:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: var(--brand-teal) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .site-search-fallback-clear:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: var(--brand-teal) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .site-search-loading-notice {
@@ -761,12 +783,18 @@
   }
 
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link,
-  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link:hover,
-  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link:focus,
-  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-parent:hover .pagefind-ui__result-link,
-  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested:hover .pagefind-ui__result-link {
+  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link:focus-visible {
     color: var(--wp--preset--color--contrast) !important;
     text-decoration: none !important;
+  }
+
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-link:hover,
+    :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-parent:hover .pagefind-ui__result-link,
+    :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested:hover .pagefind-ui__result-link {
+      color: var(--wp--preset--color--contrast) !important;
+      text-decoration: none !important;
+    }
   }
 
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-excerpt {
@@ -789,11 +817,16 @@
     background: transparent !important;
   }
 
-  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-parent:hover,
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-parent.is-selected,
-  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested:hover,
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested.is-selected {
     background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-parent:hover,
+    :root:not([data-theme="light"]) #site-search-container .pagefind-ui__result-nested:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .site-search-footer {
@@ -816,9 +849,11 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__search-clear:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: var(--wp--preset--color--contrast) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) #site-search-container .pagefind-ui__search-clear:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: var(--wp--preset--color--contrast) !important;
+    }
   }
 
   :root:not([data-theme="light"]) #site-search-container .pagefind-ui__message,
@@ -837,9 +872,11 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
   }
 
-  :root:not([data-theme="light"]) #site-search-container .pagefind-ui__button:hover {
-    border-color: var(--brand-teal) !important;
-    color: var(--brand-teal) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) #site-search-container .pagefind-ui__button:hover {
+      border-color: var(--brand-teal) !important;
+      color: var(--brand-teal) !important;
+    }
   }
 
   :root:not([data-theme="light"]) .error-404-btn {
@@ -849,9 +886,11 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   }
 
-  :root:not([data-theme="light"]) .error-404-btn:hover {
-    border-color: var(--brand-teal) !important;
-    color: var(--brand-teal) !important;
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .error-404-btn:hover {
+      border-color: var(--brand-teal) !important;
+      color: var(--brand-teal) !important;
+    }
   }
 
   /* --- Mobile Drawers & Overrides --- */
@@ -865,8 +904,10 @@
       color: var(--wp--preset--color--contrast) !important;
     }
 
-    :root:not([data-theme="light"]) .wiki-toc-close:hover {
-      color: var(--brand-teal) !important;
+    @media (hover: hover) {
+      :root:not([data-theme="light"]) .wiki-toc-close:hover {
+        color: var(--brand-teal) !important;
+      }
     }
 
     :root:not([data-theme="light"]) .wiki-mobile-toc-toggle {
@@ -902,11 +943,8 @@
   border-bottom: 1px solid var(--wp--preset--color--accent) !important;
 }
 
-:root[data-theme="dark"] .site-header-nav a:hover,
-:root[data-theme="dark"] .site-header-nav a:focus,
-:root[data-theme="dark"] .site-header-nav .wp-block-navigation-item a:hover,
-:root[data-theme="dark"] .site-header-nav .wp-block-navigation-item__content:hover,
-:root[data-theme="dark"] .site-header-nav .wp-block-navigation-item__label:hover {
+:root[data-theme="dark"] .site-header-nav a:focus-visible,
+:root[data-theme="dark"] .site-header-nav .wp-block-navigation-item a:focus-visible {
   color: var(--brand-teal) !important;
 }
 
@@ -914,16 +952,8 @@
   color: var(--wp--preset--color--contrast) !important;
 }
 
-:root[data-theme="dark"] .wiki-mobile-sidebar-toggle:hover {
-  color: var(--brand-teal) !important;
-}
-
 :root[data-theme="dark"] .wp-block-navigation__responsive-container-open {
   color: var(--wp--preset--color--contrast) !important;
-}
-
-:root[data-theme="dark"] .wp-block-navigation__responsive-container-open:hover {
-  color: var(--brand-teal) !important;
 }
 
 /* --- Site Search Button --- */
@@ -933,8 +963,7 @@
   color: var(--wp--preset--color--contrast) !important;
 }
 
-:root[data-theme="dark"] .site-search-btn:hover,
-:root[data-theme="dark"] .site-search-btn:focus {
+:root[data-theme="dark"] .site-search-btn:focus-visible {
   color: var(--brand-teal) !important;
   background: transparent !important;
 }
@@ -948,10 +977,6 @@
     color: var(--wp--preset--color--contrast) !important;
     background: transparent !important;
   }
-  :root[data-theme="dark"] .site-search-btn:hover {
-    color: var(--brand-teal) !important;
-    background: transparent !important;
-  }
 }
 
 :root[data-theme="dark"] .site-mobile-nav-modal {
@@ -962,8 +987,7 @@
   color: var(--wp--preset--color--contrast) !important;
 }
 
-:root[data-theme="dark"] .site-search-btn-mobile-nav:hover,
-:root[data-theme="dark"] .site-search-btn-mobile-nav:focus {
+:root[data-theme="dark"] .site-search-btn-mobile-nav:focus-visible {
   color: var(--brand-teal) !important;
   background: transparent !important;
 }
@@ -972,8 +996,7 @@
   color: var(--wp--preset--color--contrast) !important;
 }
 
-:root[data-theme="dark"] .site-mobile-nav-close:hover,
-:root[data-theme="dark"] .site-mobile-nav-close:focus {
+:root[data-theme="dark"] .site-mobile-nav-close:focus-visible {
   color: var(--brand-teal) !important;
   background: transparent !important;
 }
@@ -982,8 +1005,7 @@
   color: var(--wp--preset--color--contrast) !important;
 }
 
-:root[data-theme="dark"] .site-mobile-nav-links a:hover,
-:root[data-theme="dark"] .site-mobile-nav-links a:focus {
+:root[data-theme="dark"] .site-mobile-nav-links a:focus-visible {
   color: var(--brand-teal) !important;
 }
 
@@ -991,8 +1013,21 @@
   border-top: 1px solid var(--wp--preset--color--accent) !important;
 }
 
-:root[data-theme="dark"] .site-footer-wrapper a:hover {
-  color: var(--brand-teal) !important;
+@media (hover: hover) {
+  :root[data-theme="dark"] .site-header-nav a:hover,
+  :root[data-theme="dark"] .site-header-nav .wp-block-navigation-item a:hover,
+  :root[data-theme="dark"] .site-header-nav .wp-block-navigation-item__content:hover,
+  :root[data-theme="dark"] .site-header-nav .wp-block-navigation-item__label:hover,
+  :root[data-theme="dark"] .wiki-mobile-sidebar-toggle:hover,
+  :root[data-theme="dark"] .wp-block-navigation__responsive-container-open:hover,
+  :root[data-theme="dark"] .site-search-btn:hover,
+  :root[data-theme="dark"] .site-search-btn-mobile-nav:hover,
+  :root[data-theme="dark"] .site-mobile-nav-close:hover,
+  :root[data-theme="dark"] .site-mobile-nav-links a:hover,
+  :root[data-theme="dark"] .site-footer-wrapper a:hover {
+    color: var(--brand-teal) !important;
+    background: transparent !important;
+  }
 }
 
 :root[data-theme="dark"] .home-callout-box {
@@ -1015,16 +1050,18 @@
   box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6) !important;
 }
 
-:root[data-theme="dark"] .home-wiki-button:hover {
-  background-color: #f0efed !important;
+@media (hover: hover) {
+  :root[data-theme="dark"] .home-wiki-button:hover {
+    background-color: #f0efed !important;
+  }
+
+  :root[data-theme="dark"] .wp-block-post-title a:hover {
+    color: var(--brand-teal) !important;
+  }
 }
 
 :root[data-theme="dark"] .wp-block-post-title a {
   color: var(--wp--preset--color--contrast) !important;
-}
-
-:root[data-theme="dark"] .wp-block-post-title a:hover {
-  color: var(--brand-teal) !important;
 }
 
 :root[data-theme="dark"] .wp-block-separator {
@@ -1054,8 +1091,18 @@
   color: var(--brand-teal);
 }
 
-:root[data-theme="dark"] .entry-content a:hover {
-  color: var(--brand-teal-hover);
+:root[data-theme="dark"] .post-navigation-row a {
+  color: var(--wp--preset--color--contrast) !important;
+}
+
+@media (hover: hover) {
+  :root[data-theme="dark"] .entry-content a:hover {
+    color: var(--brand-teal-hover);
+  }
+
+  :root[data-theme="dark"] .post-navigation-row a:hover {
+    color: var(--brand-teal) !important;
+  }
 }
 
 :root[data-theme="dark"] .entry-content blockquote {
@@ -1079,14 +1126,6 @@
 :root[data-theme="dark"] .entry-content pre {
   background: var(--code-bg) !important;
   border: 1px solid var(--wp--preset--color--accent) !important;
-}
-
-:root[data-theme="dark"] .post-navigation-row a {
-  color: var(--wp--preset--color--contrast) !important;
-}
-
-:root[data-theme="dark"] .post-navigation-row a:hover {
-  color: var(--brand-teal) !important;
 }
 
 :root[data-theme="dark"] input,
@@ -1116,31 +1155,16 @@
   color: var(--wp--preset--color--contrast-2) !important;
 }
 
-:root[data-theme="dark"] .wiki-nav-row:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-}
-
 :root[data-theme="dark"] .wiki-nav-item {
   color: var(--wp--preset--color--contrast) !important;
 }
 
-:root[data-theme="dark"] .wiki-nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  color: #ffffff !important;
-}
-
-:root[data-theme="dark"] .wiki-nav-row .wiki-nav-item:hover {
-  background-color: transparent !important;
-}
-
-:root[data-theme="dark"] .wiki-nav-row.is-active,
-:root[data-theme="dark"] .wiki-nav-row.is-active:hover {
+:root[data-theme="dark"] .wiki-nav-row.is-active {
   background-color: var(--brand-teal-muted) !important;
   transition: none !important;
 }
 
-:root[data-theme="dark"] .wiki-nav-item.is-active,
-:root[data-theme="dark"] .wiki-nav-item.is-active:hover {
+:root[data-theme="dark"] .wiki-nav-item.is-active {
   color: var(--brand-teal) !important;
   transition: none !important;
 }
@@ -1161,22 +1185,12 @@
   color: var(--brand-teal) !important;
 }
 
-:root[data-theme="dark"] .wiki-nav-toggle:hover {
-  color: var(--wp--preset--color--contrast) !important;
-  background-color: rgba(255, 255, 255, 0.08) !important;
-}
-
 :root[data-theme="dark"] .wiki-subnav-list {
   border-left: 1px solid var(--wp--preset--color--accent) !important;
 }
 
 :root[data-theme="dark"] .wiki-subnav-item {
   color: var(--wp--preset--color--contrast-2) !important;
-}
-
-:root[data-theme="dark"] .wiki-subnav-item:hover {
-  color: #ffffff !important;
-  background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 :root[data-theme="dark"] .wiki-subnav-item.is-active {
@@ -1192,8 +1206,41 @@
   color: var(--wp--preset--color--contrast-2) !important;
 }
 
-:root[data-theme="dark"] .wiki-breadcrumbs a:hover {
-  color: var(--brand-teal) !important;
+@media (hover: hover) {
+  :root[data-theme="dark"] .wiki-nav-row:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+  }
+
+  :root[data-theme="dark"] .wiki-nav-row .wiki-nav-item:hover {
+    background-color: transparent !important;
+  }
+
+  :root[data-theme="dark"] .wiki-nav-row.is-active:hover {
+    background-color: var(--brand-teal-muted) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-nav-item.is-active:hover {
+    color: var(--brand-teal) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-nav-toggle:hover {
+    color: var(--wp--preset--color--contrast) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-subnav-item:hover {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-breadcrumbs a:hover {
+    color: var(--brand-teal) !important;
+  }
 }
 
 :root[data-theme="dark"] .wiki-article-title {
@@ -1228,8 +1275,10 @@
   color: var(--brand-teal) !important;
 }
 
-:root[data-theme="dark"] .wiki-article-body a:hover {
-  color: var(--brand-teal-hover) !important;
+@media (hover: hover) {
+  :root[data-theme="dark"] .wiki-article-body a:hover {
+    color: var(--brand-teal-hover) !important;
+  }
 }
 
 :root[data-theme="dark"] .wiki-article-body blockquote {
@@ -1272,8 +1321,10 @@
   color: #e2e4e8 !important;
 }
 
-:root[data-theme="dark"] .wiki-article-body tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.03) !important;
+@media (hover: hover) {
+  :root[data-theme="dark"] .wiki-article-body tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+  }
 }
 
 :root[data-theme="dark"] .wiki-article-body details {
@@ -1283,14 +1334,6 @@
 
 :root[data-theme="dark"] .wiki-article-body details summary {
   color: var(--wp--preset--color--contrast) !important;
-}
-
-:root[data-theme="dark"] .wiki-article-body details summary:hover {
-  background-color: rgba(255, 255, 255, 0.03) !important;
-}
-
-:root[data-theme="dark"] .wiki-article-body details summary:hover .wiki-expandable-chevron {
-  color: var(--brand-teal) !important;
 }
 
 :root[data-theme="dark"] .wiki-expandable-content {
@@ -1305,10 +1348,6 @@
   background: var(--wp--preset--color--base-2) !important;
   border-color: var(--wp--preset--color--accent) !important;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
-}
-
-:root[data-theme="dark"] .wiki-pager-card:hover {
-  border-color: var(--brand-teal) !important;
 }
 
 :root[data-theme="dark"] .wiki-pager-label {
@@ -1327,9 +1366,23 @@
   color: var(--wp--preset--color--contrast-2) !important;
 }
 
-:root[data-theme="dark"] #TableOfContents a:hover {
-  color: var(--wp--preset--color--contrast) !important;
-  background-color: rgba(255, 255, 255, 0.04) !important;
+@media (hover: hover) {
+  :root[data-theme="dark"] .wiki-article-body details summary:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-article-body details summary:hover .wiki-expandable-chevron {
+    color: var(--brand-teal) !important;
+  }
+
+  :root[data-theme="dark"] .wiki-pager-card:hover {
+    border-color: var(--brand-teal) !important;
+  }
+
+  :root[data-theme="dark"] #TableOfContents a:hover {
+    color: var(--wp--preset--color--contrast) !important;
+    background-color: rgba(255, 255, 255, 0.04) !important;
+  }
 }
 
 :root[data-theme="dark"] #TableOfContents a.is-active {
@@ -1397,8 +1450,10 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root[data-theme="dark"] .wiki-tab-btn:hover {
-    color: var(--wp--preset--color--contrast) !important;
+  @media (hover: hover) {
+    :root[data-theme="dark"] .wiki-tab-btn:hover {
+      color: var(--wp--preset--color--contrast) !important;
+    }
   }
 
   :root[data-theme="dark"] .wiki-tab-btn.is-active {
@@ -1444,11 +1499,6 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root[data-theme="dark"] .wiki-content-ref-link:hover {
-    border-color: var(--brand-teal) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
-  }
-
   :root[data-theme="dark"] .wiki-content-ref-title {
     color: var(--brand-teal) !important;
   }
@@ -1465,19 +1515,26 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root[data-theme="dark"] .wiki-content-ref-link:hover .wiki-content-ref-arrow {
-    color: var(--brand-teal) !important;
-  }
-
   /* --- Wiki Embeds --- */
   :root[data-theme="dark"] .wiki-embed-card {
     background: var(--wp--preset--color--base-2) !important;
     border: 1px solid var(--wp--preset--color--accent) !important;
   }
 
-  :root[data-theme="dark"] .wiki-embed-card:hover {
-    border-color: var(--brand-teal) !important;
-    background: var(--brand-accent-muted, rgba(40, 180, 200, 0.08)) !important;
+  @media (hover: hover) {
+    :root[data-theme="dark"] .wiki-content-ref-link:hover {
+      border-color: var(--brand-teal) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    :root[data-theme="dark"] .wiki-content-ref-link:hover .wiki-content-ref-arrow {
+      color: var(--brand-teal) !important;
+    }
+
+    :root[data-theme="dark"] .wiki-embed-card:hover {
+      border-color: var(--brand-teal) !important;
+      background: var(--brand-accent-muted, rgba(40, 180, 200, 0.08)) !important;
+    }
   }
 
   :root[data-theme="dark"] .wiki-embed-card-title {
@@ -1529,9 +1586,11 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root[data-theme="dark"] .site-search-fallback-clear:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: var(--brand-teal) !important;
+  @media (hover: hover) {
+    :root[data-theme="dark"] .site-search-fallback-clear:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: var(--brand-teal) !important;
+    }
   }
 
   :root[data-theme="dark"] .site-search-loading-notice {
@@ -1571,12 +1630,18 @@
   }
 
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link,
-  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link:hover,
-  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link:focus,
-  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-parent:hover .pagefind-ui__result-link,
-  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested:hover .pagefind-ui__result-link {
+  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link:focus-visible {
     color: var(--wp--preset--color--contrast) !important;
     text-decoration: none !important;
+  }
+
+  @media (hover: hover) {
+    :root[data-theme="dark"] #site-search-container .pagefind-ui__result-link:hover,
+    :root[data-theme="dark"] #site-search-container .pagefind-ui__result-parent:hover .pagefind-ui__result-link,
+    :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested:hover .pagefind-ui__result-link {
+      color: var(--wp--preset--color--contrast) !important;
+      text-decoration: none !important;
+    }
   }
 
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-excerpt {
@@ -1599,11 +1664,16 @@
     background: transparent !important;
   }
 
-  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-parent:hover,
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-parent.is-selected,
-  :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested:hover,
   :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested.is-selected {
     background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  @media (hover: hover) {
+    :root[data-theme="dark"] #site-search-container .pagefind-ui__result-parent:hover,
+    :root[data-theme="dark"] #site-search-container .pagefind-ui__result-nested:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+    }
   }
 
   :root[data-theme="dark"] .site-search-footer {
@@ -1626,11 +1696,6 @@
     color: var(--wp--preset--color--contrast-2) !important;
   }
 
-  :root[data-theme="dark"] #site-search-container .pagefind-ui__search-clear:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: var(--wp--preset--color--contrast) !important;
-  }
-
   :root[data-theme="dark"] #site-search-container .pagefind-ui__message,
   :root[data-theme="dark"] #site-search-container .pagefind-ui__message * {
     color: var(--wp--preset--color--contrast-2) !important;
@@ -1647,11 +1712,6 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
   }
 
-  :root[data-theme="dark"] #site-search-container .pagefind-ui__button:hover {
-    border-color: var(--brand-teal) !important;
-    color: var(--brand-teal) !important;
-  }
-
   :root[data-theme="dark"] .error-404-btn {
     background: var(--wp--preset--color--base-2) !important;
     border-color: var(--wp--preset--color--accent) !important;
@@ -1659,9 +1719,21 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   }
 
-  :root[data-theme="dark"] .error-404-btn:hover {
-    border-color: var(--brand-teal) !important;
-    color: var(--brand-teal) !important;
+  @media (hover: hover) {
+    :root[data-theme="dark"] #site-search-container .pagefind-ui__search-clear:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: var(--wp--preset--color--contrast) !important;
+    }
+
+    :root[data-theme="dark"] #site-search-container .pagefind-ui__button:hover {
+      border-color: var(--brand-teal) !important;
+      color: var(--brand-teal) !important;
+    }
+
+    :root[data-theme="dark"] .error-404-btn:hover {
+      border-color: var(--brand-teal) !important;
+      color: var(--brand-teal) !important;
+    }
   }
 
   @media (max-width: 1100px) {
@@ -1674,8 +1746,10 @@
       color: var(--wp--preset--color--contrast) !important;
     }
 
-    :root[data-theme="dark"] .wiki-toc-close:hover {
-      color: var(--brand-teal) !important;
+    @media (hover: hover) {
+      :root[data-theme="dark"] .wiki-toc-close:hover {
+        color: var(--brand-teal) !important;
+      }
     }
 
     :root[data-theme="dark"] .wiki-mobile-toc-toggle {

@@ -378,36 +378,48 @@ html[data-theme="dark"][data-accent="jeb"] {
   text-underline-offset: 3px;
 }
 
-.entry-content a:where(:not(.wp-element-button)):hover,
-.entry-content a:where(:not(.wp-element-button)):focus,
-.wp-block-post-content a:where(:not(.wp-element-button)):hover,
-.wp-block-post-content a:where(:not(.wp-element-button)):focus {
+.entry-content a:where(:not(.wp-element-button)):focus-visible,
+.wp-block-post-content a:where(:not(.wp-element-button)):focus-visible {
   color: var(--brand-accent-hover, #0b6878) !important;
 }
 
 /* Post lists, taxonomy links, post pagination & footer links */
-.wp-block-post-title a:hover,
-.wp-block-post-title a:focus,
-.wp-block-post-date a:hover,
-.wp-block-post-date a:focus,
-.wp-block-post-author-name a:hover,
-.wp-block-post-author-name a:focus,
-.wp-block-post-terms a:hover,
-.wp-block-post-terms a:focus,
-.post-navigation-row a:hover,
-.post-navigation-row a:focus,
-.site-footer-wrapper a:hover,
-.site-footer-wrapper a:focus,
-.wp-block-navigation__responsive-container-open:hover,
-.wp-block-navigation__responsive-container-open:focus {
+.wp-block-post-title a:focus-visible,
+.wp-block-post-date a:focus-visible,
+.wp-block-post-author-name a:focus-visible,
+.wp-block-post-terms a:focus-visible,
+.post-navigation-row a:focus-visible,
+.site-footer-wrapper a:focus-visible,
+.wp-block-navigation__responsive-container-open:focus-visible {
   color: var(--brand-accent, #0a4651) !important;
 }
 
-/* Homepage hero callout button hover accent */
-.home-wiki-button:hover,
-.home-wiki-button:focus {
+/* Homepage hero callout button focus accent */
+.home-wiki-button:focus-visible {
   background-color: #ffffff !important;
   color: var(--brand-accent, #0a4651) !important;
+}
+
+@media (hover: hover) {
+  .entry-content a:where(:not(.wp-element-button)):hover,
+  .wp-block-post-content a:where(:not(.wp-element-button)):hover {
+    color: var(--brand-accent-hover, #0b6878) !important;
+  }
+
+  .wp-block-post-title a:hover,
+  .wp-block-post-date a:hover,
+  .wp-block-post-author-name a:hover,
+  .wp-block-post-terms a:hover,
+  .post-navigation-row a:hover,
+  .site-footer-wrapper a:hover,
+  .wp-block-navigation__responsive-container-open:hover {
+    color: var(--brand-accent, #0a4651) !important;
+  }
+
+  .home-wiki-button:hover {
+    background-color: #ffffff !important;
+    color: var(--brand-accent, #0a4651) !important;
+  }
 }
 
 /* Blockquote left accent border */
@@ -608,12 +620,19 @@ html[data-font] .fa-brands {
   border-radius: 4px !important;
 }
 
-.site-personalize-btn:hover,
-.site-personalize-btn:focus,
+.site-personalize-btn:focus-visible,
 .site-personalize-btn[aria-expanded="true"] {
   color: var(--brand-accent, #0a4651) !important;
   background: transparent !important;
   text-decoration: none !important;
+}
+
+@media (hover: hover) {
+  .site-personalize-btn:hover {
+    color: var(--brand-accent, #0a4651) !important;
+    background: transparent !important;
+    text-decoration: none !important;
+  }
 }
 
 .site-personalize-btn-icon {
@@ -641,11 +660,18 @@ html[data-font] .fa-brands {
   box-shadow: none !important;
 }
 
-.site-personalize-btn-mobile-nav:hover,
-.site-personalize-btn-mobile-nav:focus {
+.site-personalize-btn-mobile-nav:focus-visible {
   background: transparent !important;
   color: var(--brand-accent, #0a4651) !important;
   text-decoration: none !important;
+}
+
+@media (hover: hover) {
+  .site-personalize-btn-mobile-nav:hover {
+    background: transparent !important;
+    color: var(--brand-accent, #0a4651) !important;
+    text-decoration: none !important;
+  }
 }
 
 @media (max-width: 600px) {
@@ -666,10 +692,16 @@ html[data-font] .fa-brands {
     box-shadow: none !important;
   }
 
-  .site-personalize-btn:not(.site-personalize-btn-mobile-nav):hover,
   .site-personalize-btn:not(.site-personalize-btn-mobile-nav)[aria-expanded="true"] {
     background: transparent !important;
     color: var(--brand-accent, #0a4651) !important;
+  }
+
+  @media (hover: hover) {
+    .site-personalize-btn:not(.site-personalize-btn-mobile-nav):hover {
+      background: transparent !important;
+      color: var(--brand-accent, #0a4651) !important;
+    }
   }
 
   .site-personalize-btn-mobile-nav {
@@ -772,8 +804,10 @@ html[data-font] .fa-brands {
   transition: background-color 0.12s ease;
 }
 
-.site-theme-option:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+@media (hover: hover) {
+  .site-theme-option:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
 }
 
 .site-theme-circle {
@@ -855,8 +889,10 @@ html[data-font] .fa-brands {
   color: #ffffff;
 }
 
-.site-accent-swatch:hover {
-  transform: scale(1.08);
+@media (hover: hover) {
+  .site-accent-swatch:hover {
+    transform: scale(1.08);
+  }
 }
 
 .site-accent-check {
@@ -950,8 +986,10 @@ html[data-font] .fa-brands {
   transition: background-color 0.12s ease;
 }
 
-.site-font-option:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+@media (hover: hover) {
+  .site-font-option:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
 }
 
 .site-font-option[aria-checked="true"] {
@@ -1031,9 +1069,11 @@ html[data-font] .fa-brands {
   :root:not([data-theme="light"]) .site-accent-jeb-ring circle {
     stroke: #4b5563;
   }
-  :root:not([data-theme="light"]) .site-theme-option:hover,
-  :root:not([data-theme="light"]) .site-font-option:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+  @media (hover: hover) {
+    :root:not([data-theme="light"]) .site-theme-option:hover,
+    :root:not([data-theme="light"]) .site-font-option:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
   }
   :root:not([data-theme="light"]) .site-font-option[aria-checked="true"] {
     background-color: rgba(255, 255, 255, 0.08);
@@ -1074,9 +1114,11 @@ html[data-font] .fa-brands {
 :root[data-theme="dark"] .site-accent-jeb-ring circle {
   stroke: #4b5563;
 }
-:root[data-theme="dark"] .site-theme-option:hover,
-:root[data-theme="dark"] .site-font-option:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+@media (hover: hover) {
+  :root[data-theme="dark"] .site-theme-option:hover,
+  :root[data-theme="dark"] .site-font-option:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
 }
 :root[data-theme="dark"] .site-font-option[aria-checked="true"] {
   background-color: rgba(255, 255, 255, 0.08);

@@ -1092,9 +1092,11 @@ h1.has-background,
 			text-decoration: underline;
 		}
 
-		:root :where(a:where(:not(.wp-element-button)):hover) {
-			color: var(--wp--preset--color--contrast-2);
-			text-decoration: none;
+		@media (hover: hover) {
+			:root :where(a:where(:not(.wp-element-button)):hover) {
+				color: var(--wp--preset--color--contrast-2);
+				text-decoration: none;
+			}
 		}
 
 		h1,
@@ -1152,13 +1154,15 @@ h1.has-background,
 			text-decoration: none;
 		}
 
-		:root :where(.wp-element-button:hover, .wp-block-button__link:hover) {
-			background-color: var(--wp--preset--color--contrast-2);
-			border-color: var(--wp--preset--color--contrast-2);
-			color: var(--wp--preset--color--base);
+		@media (hover: hover) {
+			:root :where(.wp-element-button:hover, .wp-block-button__link:hover) {
+				background-color: var(--wp--preset--color--contrast-2);
+				border-color: var(--wp--preset--color--contrast-2);
+				color: var(--wp--preset--color--base);
+			}
 		}
 
-		:root :where(.wp-element-button:focus, .wp-block-button__link:focus) {
+		:root :where(.wp-element-button:focus-visible, .wp-block-button__link:focus-visible) {
 			background-color: var(--wp--preset--color--contrast-2);
 			border-color: var(--wp--preset--color--contrast-2);
 			color: var(--wp--preset--color--base);
