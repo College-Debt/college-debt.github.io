@@ -494,7 +494,12 @@ html[data-font="serif"] .has-heading-font-family,
 html[data-font="serif"] .has-heading-font-family *:not([class*="fa-"]),
 html[data-font="serif"] .site-header-nav,
 html[data-font="serif"] .site-header-nav *,
-html[data-font="serif"] .site-mobile-nav-links a {
+html[data-font="serif"] .site-mobile-nav-links a,
+html[data-font="serif"] .site-personalize-dialog,
+html[data-font="serif"] .site-personalize-label,
+html[data-font="serif"] .site-theme-option,
+html[data-font="serif"] .site-theme-option-text,
+html[data-font="serif"] .site-font-option-text {
   font-family: 'Noto Serif', Georgia, 'Times New Roman', serif !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
@@ -534,7 +539,7 @@ html[data-font="mojangles"] p,
 html[data-font="mojangles"] a,
 html[data-font="mojangles"] li,
 html[data-font="mojangles"] blockquote,
-html[data-font="mojangles"] button:not(.site-font-option):not(.site-theme-option),
+html[data-font="mojangles"] button:not(.site-font-option),
 html[data-font="mojangles"] input,
 html[data-font="mojangles"] label,
 html[data-font="mojangles"] td,
@@ -546,7 +551,11 @@ html[data-font="mojangles"] .wiki-toc-rail *:not(i):not([class*="fa-"]),
 html[data-font="mojangles"] .wiki-article-body *:not(code):not(pre):not(i):not([class*="fa-"]),
 html[data-font="mojangles"] .entry-content *:not(code):not(pre):not(i):not([class*="fa-"]),
 html[data-font="mojangles"] #site-search-container *:not(i):not([class*="fa-"]),
-html[data-font="mojangles"] .site-search-modal *:not(i):not([class*="fa-"]) {
+html[data-font="mojangles"] .site-search-modal *:not(i):not([class*="fa-"]),
+html[data-font="mojangles"] .site-personalize-dialog,
+html[data-font="mojangles"] .site-personalize-label,
+html[data-font="mojangles"] .site-theme-option-text,
+html[data-font="mojangles"] .site-font-option-text {
   font-family: 'Minecraft', monospace !important;
   -webkit-font-smoothing: none !important;
   -moz-osx-font-smoothing: unset !important;
@@ -697,7 +706,7 @@ html[data-font] .fa-brands {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
   padding: 14px;
   box-sizing: border-box;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--wp--preset--color--contrast, #111111);
@@ -720,7 +729,7 @@ html[data-font] .fa-brands {
 }
 
 .site-personalize-label {
-  font-family: 'Inter', sans-serif !important;
+  font-family: inherit;
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--wp--preset--color--contrast-2, #636363);
@@ -753,7 +762,7 @@ html[data-font] .fa-brands {
   border-radius: 10px;
   cursor: pointer;
   color: var(--wp--preset--color--contrast-2, #636363);
-  font-family: 'Inter', sans-serif !important;
+  font-family: inherit;
   transition: background-color 0.12s ease;
 }
 
@@ -803,7 +812,7 @@ html[data-font] .fa-brands {
 }
 
 .site-theme-option-text {
-  font-family: 'Inter', sans-serif !important;
+  font-family: inherit;
   font-size: 0.76rem;
   font-weight: 500;
   line-height: 1.2;
@@ -872,10 +881,31 @@ html[data-font] .fa-brands {
 .site-accent-swatch[data-accent-value="pink"]       { background-color: #b8326a; }
 .site-accent-swatch[data-accent-value="gray"]       { background-color: #6b7280; }
 .site-accent-swatch[data-accent-value="jeb"] {
-  background: conic-gradient(from 0deg, #e0554c, #f9801d, #facc15, #80c71f, #28b4c8, #5865f2, #a855f7, #f472b6, #e0554c);
+  background: transparent;
+  border: none;
   color: #ffffff;
 }
+.site-accent-jeb-disc {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #e0554c, #f9801d, #facc15, #80c71f, #28b4c8, #5865f2, #a855f7, #f472b6, #e0554c);
+  pointer-events: none;
+}
+.site-accent-jeb-ring {
+  position: absolute;
+  inset: 0;
+  width: 32px;
+  height: 32px;
+  display: block;
+  pointer-events: none;
+}
+.site-accent-jeb-ring circle {
+  stroke: #cfcabe;
+}
 .site-accent-swatch[data-accent-value="jeb"] .site-accent-check {
+  position: relative;
+  z-index: 2;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
 }
 
@@ -973,11 +1003,12 @@ html[data-font] .fa-brands {
 }
 
 .site-font-option-text {
-  font-family: 'Inter', sans-serif !important;
+  font-family: inherit;
   font-size: 0.72rem;
   font-weight: 500;
   color: var(--wp--preset--color--contrast-2, #636363);
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .site-font-option[aria-checked="true"] .site-font-option-text {
@@ -990,7 +1021,8 @@ html[data-font] .fa-brands {
   :root:not([data-theme="light"]) .site-personalize-dialog {
     box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
   }
-  :root:not([data-theme="light"]) .site-theme-auto-stroke {
+  :root:not([data-theme="light"]) .site-theme-auto-stroke,
+  :root:not([data-theme="light"]) .site-accent-jeb-ring circle {
     stroke: #4b5563;
   }
   :root:not([data-theme="light"]) .site-theme-option:hover,
@@ -1032,7 +1064,8 @@ html[data-font] .fa-brands {
 :root[data-theme="dark"] .site-personalize-dialog {
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
 }
-:root[data-theme="dark"] .site-theme-auto-stroke {
+:root[data-theme="dark"] .site-theme-auto-stroke,
+:root[data-theme="dark"] .site-accent-jeb-ring circle {
   stroke: #4b5563;
 }
 :root[data-theme="dark"] .site-theme-option:hover,
