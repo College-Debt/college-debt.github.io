@@ -1396,9 +1396,97 @@ main#main-content:focus,
 .site-search-btn-mobile-nav:focus-visible,
 .site-mobile-nav-close:focus-visible,
 .site-search-fallback-clear:focus-visible,
-#site-search-container .pagefind-ui__search-clear:focus-visible {
+#site-search-container .pagefind-ui__search-clear:focus-visible,
+.error-404-btn:focus-visible {
   outline: 2px solid var(--brand-accent, #0a4651) !important;
   outline-offset: 3px !important;
-  border-radius: 4px !important;
+  border-radius: 6px !important;
+}
+
+/* ==========================================================================
+   404 Page
+   ========================================================================== */
+.error-404-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(3rem, 8vh, 5.5rem) 1.25rem;
+  box-sizing: border-box;
+}
+
+.error-404-container {
+  max-width: 540px;
+  width: 100%;
+  text-align: center;
+}
+
+.error-404-badge {
+  display: inline-block;
+  margin: 0 0 1rem 0;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: var(--brand-accent-muted, rgba(10, 70, 81, 0.12));
+  color: var(--brand-accent, #0a4651);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.error-404-title {
+  margin: 0 0 0.85rem 0;
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: 1px;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.error-404-desc {
+  margin: 0 auto 2rem auto;
+  max-width: 46ch;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--wp--preset--color--contrast-2, #636363);
+}
+
+.error-404-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+/* Standalone Button Styling (Unified with wiki-pager-card design system) */
+.error-404-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.65rem 1.25rem;
+  background: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--wp--preset--color--contrast, #111111);
+  text-decoration: none !important;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.error-404-btn:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-color: var(--brand-accent, #0a4651);
+  color: var(--brand-accent, #0a4651);
+}
+
+.error-404-btn:active {
+  transform: translateY(1px);
 }
 

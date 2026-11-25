@@ -842,6 +842,18 @@
     color: var(--brand-teal) !important;
   }
 
+  :root:not([data-theme="light"]) .error-404-btn {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--wp--preset--color--contrast) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  :root:not([data-theme="light"]) .error-404-btn:hover {
+    border-color: var(--brand-teal) !important;
+    color: var(--brand-teal) !important;
+  }
+
   /* --- Mobile Drawers & Overrides --- */
   @media (max-width: 1100px) {
     :root:not([data-theme="light"]) .wiki-toc-rail {
@@ -1636,6 +1648,18 @@
   }
 
   :root[data-theme="dark"] #site-search-container .pagefind-ui__button:hover {
+    border-color: var(--brand-teal) !important;
+    color: var(--brand-teal) !important;
+  }
+
+  :root[data-theme="dark"] .error-404-btn {
+    background: var(--wp--preset--color--base-2) !important;
+    border-color: var(--wp--preset--color--accent) !important;
+    color: var(--wp--preset--color--contrast) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  :root[data-theme="dark"] .error-404-btn:hover {
     border-color: var(--brand-teal) !important;
     color: var(--brand-teal) !important;
   }

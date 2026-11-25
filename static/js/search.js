@@ -48,17 +48,14 @@
       });
     });
 
-    // Wire 404 page search form to local Pagefind search modal
-    var form404 = document.querySelector('.site-404-search-form');
-    if (form404) {
-      form404.addEventListener('submit', function (e) {
+    // Wire 404 page search trigger button to open the site search modal
+    document.querySelectorAll('.error-404-search-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
         e.preventDefault();
-        var input404 = form404.querySelector('input[type="search"], input[name="s"]');
-        var submitBtn = form404.querySelector('button[type="submit"]');
-        var q = input404 ? input404.value.trim() : '';
-        openSearch(submitBtn || input404, q);
+        e.stopPropagation();
+        openSearch(btn);
       });
-    }
+    });
 
     if (backdrop) {
       backdrop.addEventListener('click', function (e) {

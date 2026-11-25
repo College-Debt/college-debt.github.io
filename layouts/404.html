@@ -1,17 +1,23 @@
 {{ define "main" }}
-<main id="main-content" tabindex="-1" class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
-    <div class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
-        <h1 class="has-text-align-left wp-block-post-title has-xx-large-font-size has-minecraft-font-family" style="margin-top: 40px; margin-bottom: 40px;">Page Not Found</h1>
+<main id="main-content" tabindex="-1" class="error-404-main">
+  <div class="error-404-container">
+    <p class="error-404-badge">Error 404</p>
+    <h1 class="error-404-title">Page Not Found</h1>
+    <p class="error-404-desc">The page you are looking for does not exist or may have been moved. Please double-check the URL, or head back to Home.</p>
+    <div class="error-404-actions">
+      <a href="/" class="error-404-btn">
+        <span aria-hidden="true">←</span>
+        <span>Back to Home</span>
+      </a>
+      <button type="button" class="error-404-btn error-404-search-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span>Search site</span>
+      </button>
     </div>
-    <div class="entry-content wp-block-post-content has-global-padding is-layout-constrained wp-block-post-content-is-layout-constrained">
-        <p>The page you are looking for does not exist, or it has been moved. Please try searching using the form below.</p>
-
-        <form role="search" action="javascript:void(0);" class="wp-block-search__button-outside wp-block-search__text-button wp-block-search site-404-search-form">
-        <label class="wp-block-search__label screen-reader-text" for="wp-block-search__input-5">Search</label><div class="wp-block-search__inside-wrapper ">
-        <input class="wp-block-search__input has-medium-font-size" id="wp-block-search__input-5" placeholder="" value="" type="search" name="s" required style="border-radius: 0px"><button class="wp-block-search__button has-background has-medium-font-size wp-element-button" type="submit" style="border-radius: 0px;background-color: var(--brand-accent, #0a4651)">Search</button>
-        </div>
-        </form>
-    </div>
+  </div>
 </main>
 {{ end }}
 
