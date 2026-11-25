@@ -1,4 +1,5 @@
 {{ $url := .Get "url" | default (.Get 0) }}
+{{ $title := .Get "title" | default (.Get 1) }}
 {{ if or (findRE `youtube\.com` $url) (findRE `youtu\.be` $url) }}
   {{ $videoID := "" }}
   {{ if findRE `youtube\.com/watch\?v=` $url }}
@@ -9,12 +10,12 @@
     {{ $videoID = index (split (index $parts 1) "?") 0 }}
   {{ end }}
   <figure class="wiki-embed-video">
-    <iframe src="https://www.youtube.com/embed/{{ $videoID }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:8px;"></iframe>
+    <iframe src="https://www.youtube.com/embed/{{ $videoID }}" title="{{ $title | default "Embedded YouTube video" }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:8px;"></iframe>
   </figure>
 {{ else }}
   <div class="wiki-embed-link">
-    <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="wiki-embed-card">
-      <span class="wiki-embed-card-title">{{ $url }} ↗</span>
+    <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="wiki-embed-card"{{ with $title }} aria-label="{{ . }} (external link)"{{ end }}>
+      <span class="wiki-embed-card-title">{{ $title | default $url }} <span aria-hidden="true">↗</span><span class="sr-only"> (external link)</span></span>
     </a>
   </div>
 {{ end }}

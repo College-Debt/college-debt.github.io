@@ -12,23 +12,23 @@ wiki_group: "College Debt SMP"
 
 [Full post](https://collegedebt.app/updates/updates-qol/)
 
-### Maintenance
+## Maintenance
 
-#### Automatic update
+### Automatic update
 
 The server was able to automatically update all of its mods for a while now, but it can now do the same for Minecraft updates. If every baseline mods for the server has been updated to the latest version, the server will bump the Minecraft version by itself on the next maintenance reboot. This will decouple the update process from Quang's own schedule to speed things up in the end.
 
 Baseline mods consist of those that add new features to the game's world such as Dungeons and Taverns, Geophilic, and Portfolio. The remainder mods will get disabled if its not yet compatible with the latest version of the game; it will re-enable itself once updated.
 
-#### Server configurations
+### Server configurations
 
 As a server member, you're granted access to the server's Docker Compose file if you need to manually reboot the server or want to see how it's configured. Refer to the wiki for more information.
 
 Unless you know what you're doing, you may not modify the compose file without prior permission. Misconfiguration can break the server.
 
-### In-game
+## In-game
 
-#### Modded structure changes
+### Modded structure changes
 
 To make Minecraft more fun to explore and feel less grindy, I continue to explore on how I can modify the world without making it too bloated. For this iteration, I have decided to remove the Explorify and Hearths mod and replace them with the following:
 
@@ -37,21 +37,21 @@ To make Minecraft more fun to explore and feel less grindy, I continue to explor
 
 These have less overlap with existing mods like Dungeons and Taverns while adding more lore to the game. You do want your world to feel alive. You're free to suggest on what else would you like to see on the server.
 
-#### Decorations
+### Decorations
 
 I've reintroduced the Portfolio mod, which adds more paintings to the game from the artist [Yapetto](https://bsky.app/profile/yptsh.bsky.social), that got accidentally removed. If you want more things to put in your house, you can [name stuff with anvils](https://modrinth.com/datapack/vanilla-plus-data-pack)!
 
-#### Voxy LOD streaming (workaround for slow chunks)
+### Voxy LOD streaming (workaround for slow chunks)
 
 I'm aware that the server can get quite sluggish trying to load chunks on faster speed without the risk of hitting an invisible wall. I unfortunately can't improve it without switching to either [Pumpkin MC](https://pumpkinmc.org/) (not stable) or switch to a faster server (too broke). The best remedy available is to add [level of detail](https://en.wikipedia.org/wiki/Level_of_detail_\(computer_graphics\)) (LOD) to the server. By installing [Voxy](https://modrinth.com/mod/voxy), you can see at greater rendering distance including chunks the server has not loaded yet.
 
 As an added bonus, it allows you to see further with much less performance impact by employing the same technique seeing in modern open-world video games.
 
-#### Bring your own paintings
+### Bring your own paintings
 
-You can now take any digital images you have and bring it into the server as a Minecraft painting. [The process](/wiki/college-debt-smp/features/custom-paintings/) involves creating a custom painting resource pack with those images before uploading it to the server automatically via an automated system. You can make it high definition like the original image or have it be more pixelated like the one in the game.
+You can now take any digital images you have and bring it into the server as a Minecraft painting. Read the [custom painting submission process](/wiki/college-debt-smp/features/custom-paintings/), which involves creating a custom painting resource pack with those images before uploading it to the server automatically via an automated system. You can make it high definition like the original image or have it be more pixelated like the one in the game.
 
-### A custom modpack: Together Optimized
+## A custom modpack: Together Optimized
 
 To make the process of using mods on the server more simple, I've decided to publish a custom modpack made specifically for the College Debt SMP that has all of the modded bells and whistles seen on the server's wiki bundled in. It has:
 
@@ -73,11 +73,11 @@ Using this modpack or any other similar modpacks is not required for playing on 
 
 After some hiatus due to server-sided issues, the server is now on Minecraft 26.2. Everything is still intact.
 
-### Temporarily disabled
+## Temporarily disabled
 
 * Bedrock support
 
-### Performance note
+## Performance note
 
 This version of the game added Vulkan support. If you play on an Apple Silicon Mac or any PC with a modern GPU, set preferred graphics to Vulkan within the game's video options for those extra performance boost
 
@@ -89,7 +89,7 @@ This version of the game added Vulkan support. If you play on an Apple Silicon M
 
 The server is now updated to Minecraft 26.1.2, aka the Tiny Takeover Update. You can now play around with the new baby mobs while being in debt. monkas
 
-### Additional changes:
+## Additional changes:
 
 * The mineshaft now used the design from the Dungeons and Taverns mod. It doesn't look as gigantic, but are more in line with vanilla parity.
 * Some custom structures are disabled (for now).
@@ -177,7 +177,7 @@ Ok, now for the new stuff:
 * You can now sit down. Simply do `/sit` while standing on any block, stair, or slab you wish to lay your butt on
 * Craftable invisible item frame. Combine an Item Frame with Glass Pane to create. Useful for decorations
 
-<img src="/assets/images/2024-08-05_20.12.10.png" alt="" data-size="original">
+<img src="/assets/images/2024-08-05_20.12.10.png" alt="Player sitting atop a giant block-built Tort statue with Lumity the cat nearby" data-size="original">
 
 **World**
 
@@ -220,9 +220,9 @@ Full change-log:
 
 <summary>April server update – 4/5/2024</summary>
 
-#### Highlight
+### Highlight
 
-* Bedrock support: Useful for when you're away from your PC, you can now join the server using the Bedrock Edition of Minecraft on any supported platform. Compatibility is not flawless, but is beyond playable. More info about playing on Bedrock [here](https://www.notion.so/Server-info-407e97beb438452c8bc93f41f75eb93a?pvs=21).
+* Bedrock support: Useful for when you're away from your PC, you can now join the server using the Bedrock Edition of Minecraft on any supported platform. Compatibility is not flawless, but is beyond playable. Read more info about [playing on Bedrock Edition](https://www.notion.so/Server-info-407e97beb438452c8bc93f41f75eb93a?pvs=21).
   * Known issue: Chunks may fail to load randomly unless you reload or go into a different dimension. If this happens, you may try to set your render distance to 24 or at least 6 above the server’s max value as a temporary work around.
 * Image2Map tweaks:
   * Generating custom map now requires that you have enough empty map(s) in your inventory.
@@ -231,7 +231,7 @@ Full change-log:
   * Breaking a bigger map out of the item frame will no longer delete the entire thing and not giving any back.
   * Fix a bug where the custom maps will get automatically remove if the player’s inventory is full.
 
-#### Full changelog
+### Full changelog
 
 * Added the [Geyser](https://geysermc.org/) mod for Bedrock support.
 * Added the [Hurricane](https://modrinth.com/mod/hurricane) mod to improve Bedrock compatibility with the server.

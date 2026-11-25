@@ -7,7 +7,7 @@ weight: 60
 wiki_group: "College Debt SMP"
 ---
 
-### Joining the server
+## Joining the server
 
 The server supports both Java (as the primary version) as well as Bedrock client. Refer to the server's [update history](../update-history/) for which version of Minecraft to play on. Bedrock support may not be readily available especially after a major Minecraft version came out, so I encouraged you to play on Java whenever you can.
 
@@ -31,6 +31,6 @@ Once you got on the "proxy server", you will be presented with a custom server m
 
 For Bedrock, you must authenticate with your Java Edition account on each join. To have this information saved, provide the server admin your Bedrock username.
 
-### Additional information
+## Additional information
 
 {{< content-ref url="performance-improvement.md" >}}performance-improvement.md{{< /content-ref >}}

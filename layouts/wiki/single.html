@@ -1,5 +1,6 @@
 {{ define "main" }}
-<main id="main-content" class="wiki-main">
+<main id="main-content" tabindex="-1" class="wiki-main">
+  <div class="sr-only" id="wiki-route-announcer" aria-live="polite" aria-atomic="true"></div>
   <div class="wiki-container">
     <div class="wiki-grid">
       {{/* Left Column: Floating Card Sidebar */}}

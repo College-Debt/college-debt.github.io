@@ -110,6 +110,8 @@
     if (mobileNav && mobileNav.classList.contains('is-open')) {
       mobileNav.classList.remove('is-open');
       mobileNav.setAttribute('aria-hidden', 'true');
+      var navToggle = document.querySelector('.wp-block-navigation__responsive-container-open');
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
     }
     var searchModal = document.getElementById('site-search-modal');
     if (searchModal && searchModal.classList.contains('is-open')) {
@@ -126,17 +128,26 @@
 
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
+    if (window.__cdA11y) window.__cdA11y.setBackgroundInert(modal, true);
     triggerButtons.forEach(function (btn) {
       btn.setAttribute('aria-expanded', 'true');
     });
 
     positionDialog();
+
+    if (dialog) {
+      var initialFocus = dialog.querySelector('[role="radio"][aria-checked="true"]') || dialog.querySelector('[role="radio"]');
+      if (initialFocus) {
+        setTimeout(function () { initialFocus.focus({ preventScroll: true }); }, 15);
+      }
+    }
   }
 
   function closePersonalize(restoreFocus) {
     if (!modal || !modal.classList.contains('is-open')) return;
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
+    if (window.__cdA11y) window.__cdA11y.setBackgroundInert(modal, false);
     triggerButtons.forEach(function (btn) {
       btn.setAttribute('aria-expanded', 'false');
     });
@@ -233,11 +244,14 @@
       });
     });
 
-    // Close on Escape
+    // Close on Escape and trap Tab inside dialog
     window.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      if (!modal.classList.contains('is-open')) return;
+      if (e.key === 'Escape') {
         e.preventDefault();
         closePersonalize(true);
+      } else if (e.key === 'Tab' && window.__cdA11y) {
+        window.__cdA11y.trapTab(e, dialog || modal);
       }
     });
 

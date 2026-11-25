@@ -8,7 +8,7 @@
     {{ end }}
   </div>
   <div class="wiki-hint-content">
-    {{ .Inner | markdownify }}
+    <span class="sr-only">{{ $type | title }}: </span>{{ .Inner | markdownify }}
   </div>
 </div>
 

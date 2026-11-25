@@ -8,10 +8,20 @@
   var fallbackClear = null;
   var loadingNotice = null;
   var searchContainer = null;
+  var liveStatus = null;
+  var lastFocusedTrigger = null;
   var pagefindInstance = null;
   var isAssetsLoading = false;
   var pagefindLoaded = false;
   var selectedIndex = -1;
+
+  function announceStatus(msg) {
+    if (!liveStatus) return;
+    liveStatus.textContent = '';
+    setTimeout(function () {
+      if (liveStatus) liveStatus.textContent = msg;
+    }, 30);
+  }
 
   function init() {
     modal = document.getElementById('site-search-modal');
@@ -23,6 +33,7 @@
     fallbackClear = modal.querySelector('.site-search-fallback-clear');
     loadingNotice = document.getElementById('site-search-loading-notice');
     searchContainer = document.getElementById('site-search-container');
+    liveStatus = document.getElementById('site-search-live-status');
 
     // Attach click listeners to all search toggle buttons
     document.querySelectorAll('.site-search-btn').forEach(function (btn) {
@@ -33,9 +44,21 @@
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        openSearch();
+        openSearch(btn);
       });
     });
+
+    // Wire 404 page search form to local Pagefind search modal
+    var form404 = document.querySelector('.site-404-search-form');
+    if (form404) {
+      form404.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var input404 = form404.querySelector('input[type="search"], input[name="s"]');
+        var submitBtn = form404.querySelector('button[type="submit"]');
+        var q = input404 ? input404.value.trim() : '';
+        openSearch(submitBtn || input404, q);
+      });
+    }
 
     if (backdrop) {
       backdrop.addEventListener('click', function (e) {
@@ -177,9 +200,9 @@
       if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
         if (modal.classList.contains('is-open')) {
-          closeSearch();
+          closeSearch(true);
         } else {
-          openSearch();
+          openSearch(document.activeElement);
         }
         return;
       }
@@ -187,7 +210,13 @@
       // Escape to close
       if (e.key === 'Escape' && modal.classList.contains('is-open')) {
         e.preventDefault();
-        closeSearch();
+        closeSearch(true);
+        return;
+      }
+
+      // Trap Tab focus inside open search dialog
+      if (e.key === 'Tab' && modal.classList.contains('is-open') && window.__cdA11y) {
+        window.__cdA11y.trapTab(e, modal);
         return;
       }
 
@@ -350,12 +379,19 @@
     }
   }
 
-  function openSearch() {
+  function openSearch(triggerEl, prefillQuery) {
     if (!modal) return;
+
+    lastFocusedTrigger = triggerEl || document.activeElement;
 
     // Close any open mobile navigation, personalize popover, or wiki drawers
     var mobileNav = document.getElementById('site-mobile-nav-modal');
-    if (mobileNav) mobileNav.classList.remove('is-open');
+    if (mobileNav && mobileNav.classList.contains('is-open')) {
+      mobileNav.classList.remove('is-open');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      var navToggle = document.querySelector('.wp-block-navigation__responsive-container-open');
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+    }
     var personalizeModal = document.getElementById('site-personalize-modal');
     if (personalizeModal && personalizeModal.classList.contains('is-open')) {
       personalizeModal.classList.remove('is-open');
@@ -371,6 +407,19 @@
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('has-search-open');
     document.documentElement.classList.add('has-search-open');
+    if (window.__cdA11y) window.__cdA11y.setBackgroundInert(modal, true);
+
+    if (typeof prefillQuery === 'string' && prefillQuery.length > 0) {
+      if (fallbackInput) {
+        fallbackInput.value = prefillQuery;
+        if (fallbackClear) fallbackClear.style.display = 'flex';
+      }
+      if (pagefindLoaded && pagefindInstance) {
+        var existingPf = modal.querySelector('.pagefind-ui__search-input');
+        if (existingPf) existingPf.value = prefillQuery;
+        pagefindInstance.triggerSearch(prefillQuery);
+      }
+    }
 
     cachedResultItems = null;
     loadPagefindAndInit();
@@ -387,19 +436,24 @@
     focusInput();
   }
 
-  function closeSearch() {
+  function closeSearch(restoreFocus) {
     if (!modal) return;
     cancelSelectionRetries();
     modal.classList.remove('is-open', 'has-search-query', 'is-typing', 'using-keyboard');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('has-search-open');
     document.documentElement.classList.remove('has-search-open');
+    if (window.__cdA11y) window.__cdA11y.setBackgroundInert(modal, false);
     clearKeyboardSelection();
     cachedResultItems = null;
     var activeInput = getActiveSearchInput();
     if (activeInput) {
       activeInput.blur();
     }
+    if (restoreFocus && lastFocusedTrigger && lastFocusedTrigger.offsetParent !== null) {
+      lastFocusedTrigger.focus();
+    }
+    lastFocusedTrigger = null;
   }
 
   function loadPagefindAndInit() {
@@ -480,6 +534,10 @@
             }
           } else {
             clearKeyboardSelection();
+          }
+          var msgEl = searchContainer.querySelector('.pagefind-ui__message');
+          if (msgEl && msgEl.textContent) {
+            announceStatus(msgEl.textContent.trim());
           }
         });
         resultsObserver.observe(searchContainer, { childList: true, subtree: true });

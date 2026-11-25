@@ -50,6 +50,7 @@ header.wp-block-template-part {
 /* Arrow indicator for navigation links (e.g. Discord ↗, YouTube Playlist ↗) */
 .is-style-arrow-link .wp-block-navigation-item__label:after {
   content: "\2197" !important;
+  content: "\2197" / "" !important;
   padding-inline-start: 0.25rem !important;
   vertical-align: middle !important;
   text-decoration: none !important;
@@ -589,7 +590,6 @@ button:active {
   cursor: pointer;
   line-height: 1;
   transition: none !important;
-  outline: none;
   box-shadow: none !important;
 }
 
@@ -776,6 +776,9 @@ body.has-search-open {
 
 .site-search-fallback-input:focus {
   border-color: var(--brand-accent, #0a4651) !important;
+}
+
+.site-search-fallback-input:focus:not(:focus-visible) {
   outline: none !important;
 }
 
@@ -793,7 +796,6 @@ body.has-search-open {
   background: transparent !important;
   color: var(--wp--preset--color--contrast-2, #636363) !important;
   border: none !important;
-  outline: none !important;
   box-shadow: none !important;
   border-radius: 4px !important;
   cursor: pointer !important;
@@ -917,6 +919,9 @@ body.has-search-open {
 
 #site-search-container .pagefind-ui__search-input:focus {
   border-color: var(--brand-accent, #0a4651) !important;
+}
+
+#site-search-container .pagefind-ui__search-input:focus:not(:focus-visible) {
   outline: none !important;
 }
 
@@ -962,7 +967,6 @@ body.has-search-open {
   background: transparent !important;
   color: var(--wp--preset--color--contrast-2, #636363) !important;
   border: none !important;
-  outline: none !important;
   box-shadow: none !important;
   -webkit-appearance: none !important;
   appearance: none !important;
@@ -1262,5 +1266,66 @@ body.has-search-open {
   .site-search-footer {
     display: none;
   }
+}
+
+/* ==========================================================================
+   Accessibility Utilities (Screen Reader Only, Skip Link, Keyboard Focus)
+   ========================================================================== */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100001;
+  padding: 0.65rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brand-accent-contrast, #ffffff);
+  background: var(--brand-accent, #0a4651);
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  outline: 2px solid var(--wp--preset--color--base-2, #ffffff);
+  outline-offset: 2px;
+}
+
+main#main-content:focus,
+.wiki-page-title:focus {
+  outline: none;
+}
+
+.site-search-btn:focus-visible,
+.site-search-btn-mobile-nav:focus-visible,
+.site-mobile-nav-close:focus-visible,
+.site-search-fallback-clear:focus-visible,
+#site-search-container .pagefind-ui__search-clear:focus-visible {
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 3px !important;
+  border-radius: 4px !important;
+}
+
+.site-search-fallback-input:focus-visible,
+#site-search-container .pagefind-ui__search-input:focus-visible {
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 2px !important;
 }
 

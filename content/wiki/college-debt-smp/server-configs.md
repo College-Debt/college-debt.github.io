@@ -8,7 +8,7 @@ wiki_group: "College Debt SMP"
 
 ## Base game rules
 
-Below are some of the game rules set for the world. Other not listed use the default value for a survival world. For a full list of existing game rules, refer to [this page](https://minecraft.wiki/w/Game_rule).
+Below are some of the game rules set for the world. Other not listed use the default value for a survival world. For a full list of existing game rules, refer to the [Minecraft Wiki Game rule page](https://minecraft.wiki/w/Game_rule).
 
 * Difficulty: Hard
 * Max render distance: 16
@@ -32,7 +32,7 @@ World backups are taking place at the following time:
 * After a server restart at 12pm UTC or 4am PST
 * At least 12 hours after a server restart (on or after 12am UTC or 4pm PST). If there are no players on the server, backup will only be made when someone join after that time
 
-Up to 15 days of world backups are stored remotely [here](https://sheldonbois.sharepoint.com/sites/CollegeDebtSMPFiles/).
+Up to 15 days of world backups are stored remotely on the [College Debt SMP Files SharePoint site](https://sheldonbois.sharepoint.com/sites/CollegeDebtSMPFiles/).
 
 ## Chunk pruning
 

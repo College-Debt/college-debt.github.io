@@ -6,7 +6,7 @@ weight: 30
 wiki_group: "About"
 ---
 
-### Origin
+## Origin
 
 Starting at the beginning, I'm always interested in being able to play Minecraft with someone that I know of. That, unfortunately, was quite challenging back then when we were all introverts... until high school graduation day. My first ever friend group, the _Sheldon Bois_, was formulated after that day due to some crazy level of coincidence and prior acquaintances that would otherwise end up very differently. In hope that I could get everyone together in someway to test the water out on our collective relationships, I created my Minecraft server. When I first demonstrate this to a friend, they suggested calling it "Student Debt SMP" — since we were all in college at that point, the current name was chosen.
 
@@ -14,7 +14,7 @@ The Minecraft server itself and its underlying host starts out simple, but is th
 
 Beyond Minecraft, we did gradually span out to more multiplayer games like Among Us and Counter Strike, but for most of the time it's Minecraft since we're all too poor to get everyone to buy a certain game out of pocket :p.
 
-### Corporate structure
+## Corporate structure
 
 Canonically, College Debt is an organization with a ruling figure. That individual is a certain small green and yellow stuffed turtle named Tortellini (or Tort) from Quang's profile. He became the God of College Debt by the collective mind of most members, and he can even grant you luck if you stare into his eye long enough.
 

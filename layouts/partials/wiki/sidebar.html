@@ -18,8 +18,9 @@
     {{- end -}}
 
     {{- if gt (len $groupPages) 0 -}}
-      <div class="wiki-group">
-        <div class="wiki-group-title">
+      {{- $groupId := printf "wiki-group-%s" ($groupName | urlize) -}}
+      <section class="wiki-group" aria-labelledby="{{ $groupId }}">
+        <div class="wiki-group-title" id="{{ $groupId }}">
           {{ $groupName }}
         </div>
         <ul class="wiki-group-list">
@@ -46,7 +47,7 @@
 
               <li>
                 <div class="wiki-nav-row{{ if $isActive }} is-active{{ end }}">
-                  <a href="{{ $topPage.RelPermalink }}" class="wiki-nav-item{{ if $isActive }} is-active{{ end }}">
+                  <a href="{{ $topPage.RelPermalink }}" class="wiki-nav-item{{ if $isActive }} is-active{{ end }}"{{ if $isActive }} aria-current="page"{{ end }}>
                     <span class="wiki-item-icon">
                       {{ partial "wiki/icon.html" (dict "icon" $topPage.Params.icon) }}
                     </span>
@@ -64,7 +65,7 @@
                     {{- range (sort $children "Weight" "asc") -}}
                       {{- $isChildActive := eq .RelPermalink $currentPage.RelPermalink -}}
                       <li>
-                        <a href="{{ .RelPermalink }}" class="wiki-nav-item{{ if $isChildActive }} is-active{{ end }}">
+                        <a href="{{ .RelPermalink }}" class="wiki-nav-item{{ if $isChildActive }} is-active{{ end }}"{{ if $isChildActive }} aria-current="page"{{ end }}>
                           <span class="wiki-item-icon">
                             {{ partial "wiki/icon.html" (dict "icon" .Params.icon) }}
                           </span>
@@ -78,7 +79,7 @@
             {{- end -}}
           {{- end -}}
         </ul>
-      </div>
+      </section>
     {{- end -}}
   {{- end -}}
 </aside>

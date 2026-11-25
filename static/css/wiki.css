@@ -1203,7 +1203,8 @@ i.fa-arrows-rotate {
     border-radius: 14px 0 0 14px;
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
     transform: translateX(100%);
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.25s;
     margin: 0;
     padding: 1.25rem 1rem;
     overflow-y: auto;
@@ -1213,6 +1214,8 @@ i.fa-arrows-rotate {
 
   body.has-wiki-toc-open .wiki-toc-rail {
     transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
   }
 
   .wiki-toc-header {
@@ -1280,7 +1283,8 @@ i.fa-arrows-rotate {
     border-radius: 0 14px 14px 0;
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
     transform: translateX(-100%);
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.25s;
     margin: 0;
     padding: 1rem 0.75rem;
     overflow-y: auto;
@@ -1289,6 +1293,8 @@ i.fa-arrows-rotate {
 
   body.has-wiki-sidebar-open .wiki-sidebar-card {
     transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
   }
 
   .wiki-pager-container {

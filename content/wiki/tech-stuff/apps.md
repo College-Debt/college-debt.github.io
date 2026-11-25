@@ -9,4 +9,4 @@ wiki_group: "Tech stuff"
 
 For maintenance only
 
-<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><strong>Portainer</strong></td><td>Container management interface</td><td><a href="https://cmi.cherri.qzz.io/">https://cmi.cherri.qzz.io/</a></td></tr><tr><td><strong>Beszel</strong></td><td>Performance monitoring</td><td><a href="https://beszel.cherri.qzz.io/">https://beszel.cherri.qzz.io/</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th scope="col">App</th><th scope="col">Description</th><th scope="col">URL</th></tr></thead><tbody><tr><td><strong>Portainer</strong></td><td>Container management interface</td><td><a href="https://cmi.cherri.qzz.io/">cmi.cherri.qzz.io</a></td></tr><tr><td><strong>Beszel</strong></td><td>Performance monitoring</td><td><a href="https://beszel.cherri.qzz.io/">beszel.cherri.qzz.io</a></td></tr></tbody></table>

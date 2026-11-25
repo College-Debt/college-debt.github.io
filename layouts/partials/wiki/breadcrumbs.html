@@ -4,7 +4,7 @@
       <span>{{ . }}</span>
     {{- end }}
     {{- if and .Parent (ne .Parent.RelPermalink "/wiki/") (ne .Parent.RelPermalink "/") (ne .Parent.Title .Title) (ne .Parent.Title .Params.wiki_group) }}
-      <span class="wiki-breadcrumbs-sep">&rsaquo;</span>
+      <span class="wiki-breadcrumbs-sep" aria-hidden="true">&rsaquo;</span>
       <a href="{{ .Parent.RelPermalink }}">
         {{- with .Parent.Params.icon }}
           {{- partial "wiki/icon.html" (dict "icon" . "class" "wiki-bc-icon") }}
@@ -12,8 +12,8 @@
         {{ .Parent.Title }}
       </a>
     {{- end }}
-    <span class="wiki-breadcrumbs-sep">&rsaquo;</span>
-    <span class="wiki-breadcrumbs-current">{{ .Title }}</span>
+    <span class="wiki-breadcrumbs-sep" aria-hidden="true">&rsaquo;</span>
+    <span class="wiki-breadcrumbs-current" aria-current="page">{{ .Title }}</span>
   </nav>
 
   {{- $contentWithoutDetails := replaceRE "(?s)<details\\b.*?</details>" "" .Content -}}

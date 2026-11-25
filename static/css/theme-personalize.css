@@ -598,8 +598,14 @@ html[data-font] .fa-brands {
   cursor: pointer;
   line-height: 1;
   transition: none !important;
-  outline: none;
   box-shadow: none !important;
+}
+
+.site-personalize-btn:focus-visible,
+.site-personalize-btn-mobile-nav:focus-visible {
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 3px !important;
+  border-radius: 4px !important;
 }
 
 .site-personalize-btn:hover,
@@ -1102,3 +1108,15 @@ html[data-font] .fa-brands {
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="pink"][aria-checked="true"]       { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #f472b6; }
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="gray"][aria-checked="true"]       { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px #9ca3af; }
 :root[data-theme="dark"] .site-accent-swatch[data-accent-value="jeb"][aria-checked="true"]        { box-shadow: 0 0 0 2px #1c1e22, 0 0 0 4px var(--brand-accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-accent="jeb"],
+  html[data-accent="jeb"] .site-accent-jeb-disc,
+  .site-accent-jeb-disc {
+    animation: none !important;
+  }
+
+  .site-search-spinner {
+    animation: none !important;
+  }
+}

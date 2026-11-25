@@ -9,4 +9,4 @@ nested: true
 
 Lumity is Zeroaf's cat who is the Supreme Leader of the Sheldon Bois. Everyone within the group all wants to pet her every time they see her.
 
-<figure><img src="/assets/wiki/PXL_20240324_073743048-1024x771.jpg" alt=""><figcaption><p>No worries, she's friendly.</p></figcaption></figure>
+<figure><img src="/assets/wiki/PXL_20240324_073743048-1024x771.jpg" alt="Lumity, a black cat loafing on a dark gray blanket beside a small ceramic figurine and a framed Owl House print"><figcaption><p>No worries, she's friendly.</p></figcaption></figure>

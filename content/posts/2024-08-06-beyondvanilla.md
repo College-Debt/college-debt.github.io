@@ -20,7 +20,7 @@ Before getting into the new stuff, here are the boring changes since updating to
 
 Ok, now for the new stuff:
 
-### Gameplay
+## Gameplay
 
 - You can now sit down. Simply do `/sit` while standing on any block, stair, or slab you wish to lay your butt on
 - Craftable invisible item frame. Combine an Item Frame with Glass Pane to create. Useful for decorations
@@ -30,14 +30,14 @@ Ok, now for the new stuff:
     <figcaption>Lumity the cat with a massive tort</figcaption>
 </figure>
 
-### World
+## World
 
 - You will now find new dungeons across biomes and dimensions to fight your way through to find possibly new enchantments. It’s trial chambers galore. You might need to get a drink first
 - Other than houses waiting to kill you, you will also find simple structures around the world too
 - Most biomes now received some subtle overhaul to spruce things up a bit. Same things for the nether
 - Fireflies are now a thing. They’re just chilling, and frogs don’t eat them
 
-### Combat
+## Combat
 
 - Ender Dragon got buffed with new abilities. Good luck lol.
 - ~~All mobs, ranging from Zombies to Elder Guardian, got slightly buffed with longer sighting range. Also good luck lol~~ (Edit: temporarily disabled due to potential impact to redstone contraptions. Lmk if you want to try it out)
