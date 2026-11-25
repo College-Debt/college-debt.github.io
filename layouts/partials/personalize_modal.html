@@ -5,7 +5,20 @@
       <div class="site-personalize-label">Theme</div>
       <div class="site-personalize-theme-grid" role="radiogroup" aria-label="Theme">
         <button type="button" class="site-theme-option" data-theme-value="auto" role="radio" aria-checked="true" title="System sync">
-          <span class="site-theme-circle site-theme-circle-auto" aria-hidden="true"></span>
+          <span class="site-theme-circle site-theme-circle-auto" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+              <defs>
+                <clipPath id="site-theme-auto-clip">
+                  <circle cx="17" cy="17" r="16"></circle>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#site-theme-auto-clip)">
+                <rect x="0" y="0" width="34" height="34" fill="#f8f7f5"></rect>
+                <polygon points="34,0 34,34 0,34" fill="#1c1e22"></polygon>
+              </g>
+              <circle class="site-theme-auto-stroke" cx="17" cy="17" r="16" fill="none" stroke-width="1"></circle>
+            </svg>
+          </span>
           <span class="site-theme-option-text">Auto</span>
         </button>
         <button type="button" class="site-theme-option" data-theme-value="light" role="radio" aria-checked="false" title="Light theme">
@@ -34,6 +47,11 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </span>
         </button>
+        <button type="button" class="site-accent-swatch" data-accent-value="yellow" role="radio" aria-checked="false" aria-label="Yellow" title="Yellow">
+          <span class="site-accent-check" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </span>
+        </button>
         <button type="button" class="site-accent-swatch" data-accent-value="lime" role="radio" aria-checked="false" aria-label="Lime" title="Lime">
           <span class="site-accent-check" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -45,6 +63,11 @@
           </span>
         </button>
         <button type="button" class="site-accent-swatch" data-accent-value="cyan" role="radio" aria-checked="true" aria-label="Cyan (Default)" title="Cyan (Default)">
+          <span class="site-accent-check" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </span>
+        </button>
+        <button type="button" class="site-accent-swatch" data-accent-value="light-blue" role="radio" aria-checked="false" aria-label="Light Blue" title="Light Blue">
           <span class="site-accent-check" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </span>
@@ -80,7 +103,7 @@
           <span class="site-font-specimen site-font-specimen-sans" aria-hidden="true">Ag</span>
           <span class="site-font-option-text">Sans</span>
         </button>
-        <button type="button" class="site-font-option" data-font-value="serif" role="radio" aria-checked="false" title="Serif (Cardo reading font)">
+        <button type="button" class="site-font-option" data-font-value="serif" role="radio" aria-checked="false" title="Serif (Noto Serif)">
           <span class="site-font-specimen site-font-specimen-serif" aria-hidden="true">Ag</span>
           <span class="site-font-option-text">Serif</span>
         </button>

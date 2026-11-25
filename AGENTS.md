@@ -203,15 +203,17 @@ The personalization system controls three independent dimensions applied as `dat
 - **Dark (`dark`)**: Forces the Twenty Twenty-Four Onyx dark palette (`#131416` canvas, `#1c1e22` elevated surfaces, `#f0f1f3` contrast text).
 
 ##### 2. Accent Colors (`data-accent`) — Minecraft Dye Palette
-Replaces the hardcoded brand teal with 8 selectable Minecraft-inspired dye colors. Each accent defines solid, hover, muted, and gradient tokens adapted for both light and dark themes:
+Replaces the hardcoded brand teal with 10 selectable Minecraft-inspired dye colors arranged in a **5 × 2** grid. Each accent defines solid, hover, muted, and gradient tokens adapted for both light and dark themes:
 
 | Dye Name | Attribute | Light Solid | Light Hover | Light Muted | Dark Solid | Dark Hover | Dark Muted |
 |---|---|---|---|---|---|---|---|
 | **Cyan (Default)** | `cyan` | `#0a4651` | `#0b6878` | `rgba(10, 70, 81, 0.12)` | `#28b4c8` | `#67e8f9` | `rgba(40, 180, 200, 0.16)` |
 | **Red** | `red` | `#b02e26` | `#c83830` | `rgba(176, 46, 38, 0.12)` | `#e0554c` | `#f87171` | `rgba(224, 85, 76, 0.18)` |
 | **Orange** | `orange` | `#c95a00` | `#e06800` | `rgba(201, 90, 0, 0.12)` | `#f9801d` | `#fb923c` | `rgba(249, 128, 29, 0.18)` |
+| **Yellow** | `yellow` | `#9a6e00` | `#b88400` | `rgba(234, 179, 8, 0.18)` | `#facc15` | `#fde047` | `rgba(250, 204, 21, 0.18)` |
 | **Lime** | `lime` | `#5e8a00` | `#6f9f00` | `rgba(94, 138, 0, 0.12)` | `#80c71f` | `#a3e635` | `rgba(128, 199, 31, 0.18)` |
 | **Green** | `green` | `#3c6114` | `#4d7a1a` | `rgba(60, 97, 20, 0.12)` | `#5e7c16` | `#84cc16` | `rgba(94, 124, 22, 0.18)` |
+| **Light Blue** | `light-blue` | `#0284c7` | `#0369a1` | `rgba(2, 132, 199, 0.13)` | `#38bdf8` | `#7dd3fc` | `rgba(56, 189, 248, 0.18)` |
 | **Blue** | `blue` | `#2b3fa3` | `#374fc7` | `rgba(43, 63, 163, 0.12)` | `#5865f2` | `#818cf8` | `rgba(88, 101, 242, 0.18)` |
 | **Purple** | `purple` | `#742da3` | `#8a38c2` | `rgba(116, 45, 163, 0.12)` | `#a855f7` | `#c084fc` | `rgba(168, 85, 247, 0.18)` |
 | **Pink** | `pink` | `#b8326a` | `#cf3e7c` | `rgba(184, 50, 106, 0.12)` | `#f472b6` | `#f9a8d4` | `rgba(244, 114, 182, 0.18)` |
@@ -220,8 +222,10 @@ Replaces the hardcoded brand teal with 8 selectable Minecraft-inspired dye color
   - `cyan`: `linear-gradient(128deg, #0a4651 0%, #0b6878 100%)` (dark: `linear-gradient(128deg, #0d2c32 0%, #114a54 100%)`)
   - `red`: `linear-gradient(128deg, #8f201a 0%, #b02e26 100%)` (dark: `linear-gradient(128deg, #3d1412 0%, #5e1c18 100%)`)
   - `orange`: `linear-gradient(128deg, #a64800 0%, #c95a00 100%)` (dark: `linear-gradient(128deg, #421c04 0%, #632906 100%)`)
+  - `yellow`: `linear-gradient(128deg, #7d5800 0%, #9a6e00 100%)` (dark: `linear-gradient(128deg, #423204 0%, #634b07 100%)`)
   - `lime`: `linear-gradient(128deg, #4a6d00 0%, #5e8a00 100%)` (dark: `linear-gradient(128deg, #1f3305 0%, #2f4e07 100%)`)
   - `green`: `linear-gradient(128deg, #2d4a0e 0%, #3c6114 100%)` (dark: `linear-gradient(128deg, #172405 0%, #293b0a 100%)`)
+  - `light-blue`: `linear-gradient(128deg, #0369a1 0%, #0284c7 100%)` (dark: `linear-gradient(128deg, #0c2d42 0%, #114563 100%)`)
   - `blue`: `linear-gradient(128deg, #1f2f82 0%, #2b3fa3 100%)` (dark: `linear-gradient(128deg, #13173d 0%, #1e245c 100%)`)
   - `purple`: `linear-gradient(128deg, #591e80 0%, #742da3 100%)` (dark: `linear-gradient(128deg, #2a1140 0%, #421863 100%)`)
   - `pink`: `linear-gradient(128deg, #942453 0%, #b8326a 100%)` (dark: `linear-gradient(128deg, #3d1427 0%, #5c1b3a 100%)`)
@@ -230,21 +234,21 @@ Replaces the hardcoded brand teal with 8 selectable Minecraft-inspired dye color
 Controls typography hierarchy across headings, body prose, navigation links, and UI components:
 - **Default (`default`)**: College Debt signature hybrid — pixel-sharp `'Minecraft', monospace` for primary titles (`h1`, `h2`), site logo subtitle, and header navigation; `'Inter', sans-serif` for body copy, sub-headings (`h3`-`h6`), metadata, tables, and buttons; `'Cardo', serif` for editorial callouts.
 - **Sans (`sans`)**: Clean contemporary editorial look — `'Inter', sans-serif` applied universally across all titles, navigation links, body copy, and UI elements. Standard font smoothing enabled.
-- **Serif (`serif`)**: High-comfort long-form reading typography — `'Cardo', Georgia, serif` applied to titles, headings, and article content for a traditional literary feel.
+- **Serif (`serif`)**: High-comfort long-form reading typography — `'Noto Serif', Georgia, serif` (bundled locally at `/assets/fonts/noto-serif/`) applied to titles, headings, and article content for a traditional literary feel.
 - **Mojangles (`mojangles`)**: Full retro Minecraft immersion — `'Minecraft', monospace` applied across all site elements including headings, body paragraphs, navigation links, buttons, and badges. Font smoothing strictly disabled (`font-smooth: never !important; -webkit-font-smoothing: none !important;`).
 
 #### 2. Architecture, State & Zero-FOUC Synchronization
 1. **Local Storage Keys**:
    - `collegedebt_theme`: `'auto'` | `'light'` | `'dark'`
-   - `collegedebt_accent`: `'cyan'` | `'red'` | `'orange'` | `'lime'` | `'green'` | `'blue'` | `'purple'` | `'pink'`
+   - `collegedebt_accent`: `'red'` | `'orange'` | `'yellow'` | `'lime'` | `'green'` | `'cyan'` | `'light-blue'` | `'blue'` | `'purple'` | `'pink'`
    - `collegedebt_font`: `'default'` | `'sans'` | `'serif'` | `'mojangles'`
 2. **Anti-FOUC Pre-Paint Execution**: An inline `<script>` placed in `<head>` (in `layouts/_default/baseof.html`) immediately reads `localStorage` and writes `data-theme`, `data-accent`, and `data-font` onto `document.documentElement` before the browser renders the first frame, guaranteeing zero flash of unstyled content on page load or PJAX navigation.
 3. **UI Trigger & Menu Layout**:
    - **Trigger**: Paint Brush SVG icon button (`.site-personalize-btn`), styled consistently with `.site-search-btn` (24x24 hit target, transparent background, brand accent hover color). Placed between navigation links and the search button in `layouts/partials/header.html`.
-   - **Popover Menu** (`layouts/partials/personalize_modal.html`): A floating card anchored to the trigger on desktop and positioned as an accessible bottom-sheet or modal drawer on mobile. Features:
-     - **Theme Segmented Control**: 3-state toggle (System, Light, Dark) with matching icons.
-     - **Accent Swatch Grid**: 8 circular color swatches showcasing the Minecraft dye hues, with active selection rings.
-     - **Font Chip Group**: 4 styled option chips (Default, Sans, Serif, Mojangles), each rendered with its preview typography.
+   - **Popover Menu** (`layouts/partials/personalize_modal.html`, `14px` uniform padding): A floating card anchored to the trigger on desktop and positioned centered below the sticky header on mobile. Features:
+     - **Theme Row**: 3 horizontal circular buttons (`Auto` SVG split circle, `Light`, `Dark`) with labels underneath.
+     - **Accent Swatch Grid**: **5 × 2** grid of 10 circular color swatches (no labels) showcasing the Minecraft dye hues, with active selection rings and checkmarks.
+     - **Font Style Grid**: 4 horizontal `Ag` specimen tiles (`Default`, `Sans`, `Serif`, `Mojangles`), each rendered with its preview typography.
    - **Accessibility**: Full keyboard navigation (<kbd>Escape</kbd> to close, arrow key focus inside chip groups, ARIA attributes `aria-haspopup="dialog"`, `aria-expanded`).
 
 ---
