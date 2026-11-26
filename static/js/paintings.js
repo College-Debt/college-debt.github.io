@@ -5,6 +5,7 @@
   var BASE_PX_PER_BLOCK = 16;
   var MAX_BLOCKS = 4;
   var ALLOWED_SCALES = [1, 2, 4, 8];
+  var MAX_CROP_ZOOM = 5.0;
   var DEFAULT_AUTHOR = 'College Debt SMP';
   var WORKER_BASE = '/api/paintings';
   var IDENTITY_URL = '/cdn-cgi/access/get-identity';
@@ -70,8 +71,18 @@
       loading: false,
       readOnlyFallback: false,
       items: [],
+      filtered: [],
       editingSlug: null,
       confirmDeleteSlug: null
+    },
+    lightbox: {
+      open: false,
+      index: -1,
+      mode: 'scale', /* 'scale' (to 4x4 block scale) | 'fill' (fill viewport) */
+      zoom: 1,
+      panX: 0,
+      panY: 0,
+      lastTrigger: null
     },
     busy: false
   };
@@ -106,10 +117,27 @@
     gallerySizeFilter: document.getElementById('pt-gallery-size-filter'),
     galleryRefresh: document.getElementById('pt-gallery-refresh'),
     galleryBanner: document.getElementById('pt-gallery-banner'),
-    galleryGrid: document.getElementById('pt-gallery-grid')
+    galleryGrid: document.getElementById('pt-gallery-grid'),
+    lightbox: document.getElementById('pt-gallery-lightbox'),
+    lightboxStage: document.getElementById('pt-lightbox-stage'),
+    lightboxImg: document.getElementById('pt-lightbox-img'),
+    lightboxTitle: document.getElementById('pt-lightbox-title'),
+    lightboxMeta: document.getElementById('pt-lightbox-meta'),
+    lightboxPrev: document.getElementById('pt-lightbox-prev'),
+    lightboxNext: document.getElementById('pt-lightbox-next'),
+    lightboxZoomOut: document.getElementById('pt-lightbox-zoom-out'),
+    lightboxZoomReset: document.getElementById('pt-lightbox-zoom-reset'),
+    lightboxZoomIn: document.getElementById('pt-lightbox-zoom-in'),
+    lightboxFit: document.getElementById('pt-lightbox-fit'),
+    lightboxClose: document.getElementById('pt-lightbox-close')
   };
 
   if (!els.dropzone || !els.studioGrid) return;
+
+  /* Keep lightbox at document.body level so window.__cdA11y.setBackgroundInert works cleanly */
+  if (els.lightbox && document.body && els.lightbox.parentElement !== document.body) {
+    document.body.appendChild(els.lightbox);
+  }
 
   /* --- Utilities --- */
   function announce(msg) {
@@ -140,7 +168,6 @@
       .replace(/'/g, '&#39;');
   }
 
-  /* Mirrors College-Debt/resource-pack/scripts/process_paintings.py sanitize_name */
   function sanitizeSlug(raw) {
     var s = String(raw || '').trim().toLowerCase().replace(/\s+/g, '_');
     s = s.replace(/[^a-z0-9_.\-]/g, '');
@@ -165,7 +192,10 @@
     return h === 'localhost' || h === '127.0.0.1' || h === '[::1]';
   }
 
-  /* Compute best (w, h) in 1..4 x 1..4 for image aspect ratio */
+  function clamp(val, min, max) {
+    return Math.max(min, Math.min(max, val));
+  }
+
   function pickInitialBlockSize(imgW, imgH) {
     var ar = imgW / imgH;
     var best = { w: 2, h: 2, score: Infinity };
@@ -174,7 +204,6 @@
     for (var w = 1; w <= MAX_BLOCKS; w++) {
       for (var h = 1; h <= MAX_BLOCKS; h++) {
         var diff = Math.abs(ar - w / h);
-        /* Tiny tie-breaker among equal aspect ratios toward balanced pixel scale */
         var tie = Math.abs(w * 64 - targetWidthPx) * 0.0001 + (w + h) * 0.00001;
         var score = diff + tie;
         if (score < best.score) {
@@ -206,7 +235,55 @@
     });
   }
 
-  /* --- Canvas Frame + Crop Renderer (mc-tools scaled crop + vanilla frames) --- */
+  /* --- Full 2D Crop + Zoom Math --- */
+  function computeCropWindow(item) {
+    var hasFrame = Boolean(FRAME_MAP[item.frame] && FRAME_MAP[item.frame].colors);
+    var border = hasFrame ? item.scale : 0;
+    var stw = item.blocksW * BASE_PX_PER_BLOCK * item.scale;
+    var sth = item.blocksH * BASE_PX_PER_BLOCK * item.scale;
+    var iw = stw - border * 2;
+    var ih = sth - border * 2;
+
+    var srcW = item.img.naturalWidth || item.img.width;
+    var srcH = item.img.naturalHeight || item.img.height;
+    var ar = srcW / srcH;
+    var tar = iw / ih;
+
+    var baseSw = ar > tar ? srcH * tar : srcW;
+    var baseSh = ar > tar ? srcH : srcW / tar;
+    var zoom = clamp(item.zoom || 1, 1, MAX_CROP_ZOOM);
+    var sw = baseSw / zoom;
+    var sh = baseSh / zoom;
+    var slackX = Math.max(0, srcW - sw);
+    var slackY = Math.max(0, srcH - sh);
+
+    return {
+      stw: stw,
+      sth: sth,
+      border: border,
+      iw: iw,
+      ih: ih,
+      srcW: srcW,
+      srcH: srcH,
+      sw: sw,
+      sh: sh,
+      sx: slackX * clamp(item.panX, 0, 1),
+      sy: slackY * clamp(item.panY, 0, 1),
+      canPanX: slackX > 0.5,
+      canPanY: slackY > 0.5
+    };
+  }
+
+  /* Keep preview visual size constant across 1x/2x/4x/8x scales */
+  function applyPreviewDisplaySize(canvas, item) {
+    var maxW = 288;
+    var maxH = 190;
+    var dispScale = Math.min(maxW / item.blocksW, maxH / item.blocksH);
+    canvas.style.width = Math.round(item.blocksW * dispScale) + 'px';
+    canvas.style.height = Math.round(item.blocksH * dispScale) + 'px';
+  }
+
+  /* --- Canvas Frame + Crop Renderer --- */
   function drawVanillaFrame(ctx, tw, th, scale, preset) {
     if (!preset || !preset.colors) return;
     var palette = preset.colors;
@@ -218,7 +295,6 @@
         var onRight = gx === tw - 1;
         if (!onTop && !onBottom && !onLeft && !onRight) continue;
 
-        /* Deterministic wood/stone mottling with slight top-left highlight bias */
         var h = ((gx * 73856093) ^ (gy * 19349663) ^ 0x9e3779b9) >>> 0;
         var idx = h % palette.length;
         if ((onTop || onLeft) && !onBottom && !onRight && idx < palette.length - 1 && (h & 3) !== 0) {
@@ -236,52 +312,29 @@
     var tw = item.blocksW * BASE_PX_PER_BLOCK;
     var th = item.blocksH * BASE_PX_PER_BLOCK;
     var scale = item.scale;
-    var stw = tw * scale;
-    var sth = th * scale;
+    var win = computeCropWindow(item);
     var preset = FRAME_MAP[item.frame] || FRAME_MAP['dark-oak'];
-    var hasFrame = Boolean(preset && preset.colors);
-    var border = hasFrame ? scale : 0;
 
     var cvs = targetCanvas || document.createElement('canvas');
-    if (cvs.width !== stw) cvs.width = stw;
-    if (cvs.height !== sth) cvs.height = sth;
+    if (cvs.width !== win.stw) cvs.width = win.stw;
+    if (cvs.height !== win.sth) cvs.height = win.sth;
 
     var ctx = cvs.getContext('2d');
-    ctx.clearRect(0, 0, stw, sth);
+    ctx.clearRect(0, 0, win.stw, win.sth);
 
-    if (hasFrame) {
+    if (win.border > 0) {
       drawVanillaFrame(ctx, tw, th, scale, preset);
-    }
-
-    var iw = stw - border * 2;
-    var ih = sth - border * 2;
-    var srcW = item.img.naturalWidth || item.img.width;
-    var srcH = item.img.naturalHeight || item.img.height;
-    var ar = srcW / srcH;
-    var tar = iw / ih;
-
-    var sw = srcW;
-    var sh = srcH;
-    var sx = 0;
-    var sy = 0;
-
-    if (ar > tar) {
-      sw = srcH * tar;
-      sx = (srcW - sw) * item.panX;
-    } else if (ar < tar) {
-      sh = srcW / tar;
-      sy = (srcH - sh) * item.panY;
     }
 
     ctx.save();
     ctx.beginPath();
-    ctx.rect(border, border, iw, ih);
+    ctx.rect(win.border, win.border, win.iw, win.ih);
     ctx.clip();
     ctx.imageSmoothingEnabled = !item.pixelArt;
     if (!item.pixelArt && ctx.imageSmoothingQuality) {
       ctx.imageSmoothingQuality = 'high';
     }
-    ctx.drawImage(item.img, sx, sy, sw, sh, border, border, iw, ih);
+    ctx.drawImage(item.img, win.sx, win.sy, win.sw, win.sh, win.border, win.border, win.iw, win.ih);
     ctx.restore();
 
     return cvs;
@@ -387,13 +440,11 @@
           state.identity.source = 'cf-get-identity';
         }
       }
-    } catch (err) {
-      /* Non-fatal in local preview or when CF Access route is not yet attached */
-    }
+    } catch (err) {}
     updateSsoPill();
   }
 
-  /* --- Sequential Image Import (matches mc-tools ptAddFiles ordering guarantee) --- */
+  /* --- Sequential Image Import --- */
   function loadImageFile(file) {
     return new Promise(function (resolve) {
       var reader = new FileReader();
@@ -454,6 +505,7 @@
         frame: frameDefault,
         panX: 0.5,
         panY: 0.5,
+        zoom: 1.0,
         pixelArt: false
       });
       addedCount += 1;
@@ -503,68 +555,129 @@
       ' ready (' + totalPxAreas.toLocaleString() + ' total output pixels)';
   }
 
-  function needsCropAxes(item) {
-    var hasFrame = (FRAME_MAP[item.frame] && FRAME_MAP[item.frame].colors) ? true : false;
-    var border = hasFrame ? item.scale : 0;
-    var iw = item.blocksW * BASE_PX_PER_BLOCK * item.scale - border * 2;
-    var ih = item.blocksH * BASE_PX_PER_BLOCK * item.scale - border * 2;
-    var srcW = item.img.naturalWidth || item.img.width;
-    var srcH = item.img.naturalHeight || item.img.height;
-    var ar = srcW / srcH;
-    var tar = iw / ih;
-    return {
-      needsH: ar - tar > 0.005,
-      needsV: tar - ar > 0.005
-    };
+  function syncCropControlsUI(item, canvas, sliderZoom, valZoom, sliderX, valX, sliderY, valY) {
+    var win = computeCropWindow(item);
+    if (sliderZoom) sliderZoom.value = String(Math.round(item.zoom * 100));
+    if (valZoom) valZoom.textContent = item.zoom.toFixed(1) + '×';
+    if (sliderX) {
+      sliderX.disabled = !win.canPanX;
+      sliderX.value = String(Math.round(item.panX * 100));
+    }
+    if (valX) valX.textContent = win.canPanX ? Math.round(item.panX * 100) + '%' : '—';
+    if (sliderY) {
+      sliderY.disabled = !win.canPanY;
+      sliderY.value = String(Math.round(item.panY * 100));
+    }
+    if (valY) valY.textContent = win.canPanY ? Math.round(item.panY * 100) + '%' : '—';
+    canvas.classList.toggle('is-pannable', win.canPanX || win.canPanY);
   }
 
-  function attachCanvasDrag(canvas, item, sliderX, sliderY) {
+  /* Supports 1-finger/mouse pan, mousewheel zoom, and 2-finger pinch zoom */
+  function attachCanvasInteractions(stage, canvas, item, controls) {
+    var activePointers = new Map();
     var dragging = false;
     var startX = 0;
     var startY = 0;
     var startPanX = 0;
     var startPanY = 0;
+    var pinchStartDist = 0;
+    var pinchStartZoom = 1;
+
+    function refreshAll() {
+      syncCropControlsUI(
+        item, canvas,
+        controls.sliderZoom, controls.valZoom,
+        controls.sliderX, controls.valX,
+        controls.sliderY, controls.valY
+      );
+      renderPaintingToCanvas(item, canvas);
+    }
+
+    function distance(p1, p2) {
+      var dx = p1.x - p2.x;
+      var dy = p1.y - p2.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
 
     canvas.addEventListener('pointerdown', function (e) {
-      var crop = needsCropAxes(item);
-      if (!crop.needsH && !crop.needsV) return;
-      dragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      startPanX = item.panX;
-      startPanY = item.panY;
-      canvas.classList.add('is-dragging');
-      if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId);
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (canvas.setPointerCapture) {
+        try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+
+      if (activePointers.size === 2) {
+        var pts = Array.from(activePointers.values());
+        pinchStartDist = Math.max(1, distance(pts[0], pts[1]));
+        pinchStartZoom = item.zoom || 1;
+        dragging = false;
+        canvas.classList.remove('is-dragging');
+        return;
+      }
+
+      var win = computeCropWindow(item);
+      if (activePointers.size === 1 && (win.canPanX || win.canPanY)) {
+        dragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startPanX = item.panX;
+        startPanY = item.panY;
+        canvas.classList.add('is-dragging');
+      }
     });
 
     canvas.addEventListener('pointermove', function (e) {
+      if (!activePointers.has(e.pointerId)) return;
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (activePointers.size === 2) {
+        var pts = Array.from(activePointers.values());
+        var dist = distance(pts[0], pts[1]);
+        if (pinchStartDist > 0) {
+          item.zoom = clamp(pinchStartZoom * (dist / pinchStartDist), 1, MAX_CROP_ZOOM);
+          refreshAll();
+        }
+        return;
+      }
+
       if (!dragging) return;
       var rect = canvas.getBoundingClientRect();
-      var crop = needsCropAxes(item);
-      if (crop.needsH && rect.width > 0) {
-        var dx = (e.clientX - startX) / rect.width;
-        item.panX = Math.max(0, Math.min(1, startPanX - dx));
-        if (sliderX) sliderX.value = String(Math.round(item.panX * 100));
+      var win = computeCropWindow(item);
+      var zoomFactor = Math.max(1, item.zoom || 1);
+
+      if (win.canPanX && rect.width > 0) {
+        var dx = ((e.clientX - startX) / rect.width) / (zoomFactor * 0.75);
+        item.panX = clamp(startPanX - dx, 0, 1);
       }
-      if (crop.needsV && rect.height > 0) {
-        var dy = (e.clientY - startY) / rect.height;
-        item.panY = Math.max(0, Math.min(1, startPanY - dy));
-        if (sliderY) sliderY.value = String(Math.round(item.panY * 100));
+      if (win.canPanY && rect.height > 0) {
+        var dy = ((e.clientY - startY) / rect.height) / (zoomFactor * 0.75);
+        item.panY = clamp(startPanY - dy, 0, 1);
       }
-      renderPaintingToCanvas(item, canvas);
+      refreshAll();
     });
 
-    function endDrag(e) {
-      if (!dragging) return;
-      dragging = false;
-      canvas.classList.remove('is-dragging');
+    function endPointer(e) {
+      activePointers.delete(e.pointerId);
       if (canvas.releasePointerCapture) {
         try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
       }
+      if (activePointers.size < 2) {
+        pinchStartDist = 0;
+      }
+      if (activePointers.size === 0) {
+        dragging = false;
+        canvas.classList.remove('is-dragging');
+      }
     }
 
-    canvas.addEventListener('pointerup', endDrag);
-    canvas.addEventListener('pointercancel', endDrag);
+    canvas.addEventListener('pointerup', endPointer);
+    canvas.addEventListener('pointercancel', endPointer);
+
+    stage.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var factor = Math.exp(-e.deltaY * 0.0022);
+      item.zoom = clamp((item.zoom || 1) * factor, 1, MAX_CROP_ZOOM);
+      refreshAll();
+    }, { passive: false });
   }
 
   function renderStudio() {
@@ -583,17 +696,18 @@
 
       var canvas = document.createElement('canvas');
       canvas.className = 'pt-preview-canvas';
-      var cropInfo = needsCropAxes(item);
-      if (cropInfo.needsH || cropInfo.needsV) {
-        canvas.classList.add('is-pannable');
-        canvas.title = 'Drag to adjust crop framing';
-      }
+      canvas.title = 'Scroll or pinch to zoom; drag to pan crop';
+      applyPreviewDisplaySize(canvas, item);
       stage.appendChild(canvas);
 
       var rmBtn = document.createElement('button');
       rmBtn.type = 'button';
       rmBtn.className = 'pt-card-remove';
-      rmBtn.innerHTML = '&times;';
+      rmBtn.innerHTML =
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<line x1="18" y1="6" x2="6" y2="18"></line>' +
+        '<line x1="6" y1="6" x2="18" y2="18"></line>' +
+        '</svg>';
       rmBtn.setAttribute('aria-label', 'Remove ' + item.title);
       rmBtn.title = 'Remove painting';
       rmBtn.addEventListener('click', function () {
@@ -630,79 +744,117 @@
       stage.appendChild(chipRow);
       card.appendChild(stage);
 
-      /* --- Crop Sliders (shown when aspect ratio requires cropping) --- */
-      var sliderX = null;
-      var sliderY = null;
-      if (cropInfo.needsH || cropInfo.needsV) {
-        var cropBox = document.createElement('div');
-        cropBox.className = 'pt-crop-box';
+      /* --- Full 2D Crop + Zoom Box --- */
+      var cropBox = document.createElement('div');
+      cropBox.className = 'pt-crop-box';
 
-        if (cropInfo.needsH) {
-          var rowX = document.createElement('div');
-          rowX.className = 'pt-crop-row';
-          var lblX = document.createElement('label');
-          lblX.className = 'pt-crop-axis';
-          lblX.htmlFor = 'pt-panx-' + item.id;
-          lblX.textContent = 'Crop X';
-          sliderX = document.createElement('input');
-          sliderX.type = 'range';
-          sliderX.id = 'pt-panx-' + item.id;
-          sliderX.className = 'pt-range';
-          sliderX.min = '0';
-          sliderX.max = '100';
-          sliderX.value = String(Math.round(item.panX * 100));
-          sliderX.setAttribute('aria-label', 'Horizontal crop position');
-          sliderX.addEventListener('input', function () {
-            item.panX = Number(sliderX.value) / 100;
-            renderPaintingToCanvas(item, canvas);
-          });
-          rowX.appendChild(lblX);
-          rowX.appendChild(sliderX);
-          cropBox.appendChild(rowX);
-        }
+      /* Zoom row */
+      var rowZoom = document.createElement('div');
+      rowZoom.className = 'pt-crop-row';
+      var lblZoom = document.createElement('label');
+      lblZoom.className = 'pt-crop-axis';
+      lblZoom.htmlFor = 'pt-zoom-' + item.id;
+      lblZoom.textContent = 'Zoom';
+      var sliderZoom = document.createElement('input');
+      sliderZoom.type = 'range';
+      sliderZoom.id = 'pt-zoom-' + item.id;
+      sliderZoom.className = 'pt-range';
+      sliderZoom.min = '100';
+      sliderZoom.max = String(Math.round(MAX_CROP_ZOOM * 100));
+      var valZoom = document.createElement('span');
+      valZoom.className = 'pt-crop-val';
+      rowZoom.appendChild(lblZoom);
+      rowZoom.appendChild(sliderZoom);
+      rowZoom.appendChild(valZoom);
+      cropBox.appendChild(rowZoom);
 
-        if (cropInfo.needsV) {
-          var rowY = document.createElement('div');
-          rowY.className = 'pt-crop-row';
-          var lblY = document.createElement('label');
-          lblY.className = 'pt-crop-axis';
-          lblY.htmlFor = 'pt-pany-' + item.id;
-          lblY.textContent = 'Crop Y';
-          sliderY = document.createElement('input');
-          sliderY.type = 'range';
-          sliderY.id = 'pt-pany-' + item.id;
-          sliderY.className = 'pt-range';
-          sliderY.min = '0';
-          sliderY.max = '100';
-          sliderY.value = String(Math.round(item.panY * 100));
-          sliderY.setAttribute('aria-label', 'Vertical crop position');
-          sliderY.addEventListener('input', function () {
-            item.panY = Number(sliderY.value) / 100;
-            renderPaintingToCanvas(item, canvas);
-          });
-          rowY.appendChild(lblY);
-          rowY.appendChild(sliderY);
-          cropBox.appendChild(rowY);
-        }
+      /* Horizontal Pan X row */
+      var rowX = document.createElement('div');
+      rowX.className = 'pt-crop-row';
+      var lblX = document.createElement('label');
+      lblX.className = 'pt-crop-axis';
+      lblX.htmlFor = 'pt-panx-' + item.id;
+      lblX.textContent = 'Crop X';
+      var sliderX = document.createElement('input');
+      sliderX.type = 'range';
+      sliderX.id = 'pt-panx-' + item.id;
+      sliderX.className = 'pt-range';
+      sliderX.min = '0';
+      sliderX.max = '100';
+      var valX = document.createElement('span');
+      valX.className = 'pt-crop-val';
+      rowX.appendChild(lblX);
+      rowX.appendChild(sliderX);
+      rowX.appendChild(valX);
+      cropBox.appendChild(rowX);
 
-        var cropActions = document.createElement('div');
-        cropActions.style.display = 'flex';
-        cropActions.style.justifyContent = 'flex-end';
-        var resetBtn = document.createElement('button');
-        resetBtn.type = 'button';
-        resetBtn.className = 'pt-btn pt-btn-xs';
-        resetBtn.textContent = 'Center crop';
-        resetBtn.addEventListener('click', function () {
-          item.panX = 0.5;
-          item.panY = 0.5;
-          renderStudio();
-        });
-        cropActions.appendChild(resetBtn);
-        cropBox.appendChild(cropActions);
-        card.appendChild(cropBox);
-      }
+      /* Vertical Pan Y row */
+      var rowY = document.createElement('div');
+      rowY.className = 'pt-crop-row';
+      var lblY = document.createElement('label');
+      lblY.className = 'pt-crop-axis';
+      lblY.htmlFor = 'pt-pany-' + item.id;
+      lblY.textContent = 'Crop Y';
+      var sliderY = document.createElement('input');
+      sliderY.type = 'range';
+      sliderY.id = 'pt-pany-' + item.id;
+      sliderY.className = 'pt-range';
+      sliderY.min = '0';
+      sliderY.max = '100';
+      var valY = document.createElement('span');
+      valY.className = 'pt-crop-val';
+      rowY.appendChild(lblY);
+      rowY.appendChild(sliderY);
+      rowY.appendChild(valY);
+      cropBox.appendChild(rowY);
 
-      attachCanvasDrag(canvas, item, sliderX, sliderY);
+      var cropFooter = document.createElement('div');
+      cropFooter.className = 'pt-crop-footer';
+      var cropTip = document.createElement('span');
+      cropTip.className = 'pt-crop-tip';
+      cropTip.textContent = 'Scroll or pinch preview to zoom · drag to pan';
+      var resetBtn = document.createElement('button');
+      resetBtn.type = 'button';
+      resetBtn.className = 'pt-btn pt-btn-xs';
+      resetBtn.textContent = 'Reset crop';
+      resetBtn.addEventListener('click', function () {
+        item.zoom = 1.0;
+        item.panX = 0.5;
+        item.panY = 0.5;
+        syncCropControlsUI(item, canvas, sliderZoom, valZoom, sliderX, valX, sliderY, valY);
+        renderPaintingToCanvas(item, canvas);
+      });
+      cropFooter.appendChild(cropTip);
+      cropFooter.appendChild(resetBtn);
+      cropBox.appendChild(cropFooter);
+      card.appendChild(cropBox);
+
+      sliderZoom.addEventListener('input', function () {
+        item.zoom = Number(sliderZoom.value) / 100;
+        syncCropControlsUI(item, canvas, sliderZoom, valZoom, sliderX, valX, sliderY, valY);
+        renderPaintingToCanvas(item, canvas);
+      });
+      sliderX.addEventListener('input', function () {
+        item.panX = Number(sliderX.value) / 100;
+        syncCropControlsUI(item, canvas, sliderZoom, valZoom, sliderX, valX, sliderY, valY);
+        renderPaintingToCanvas(item, canvas);
+      });
+      sliderY.addEventListener('input', function () {
+        item.panY = Number(sliderY.value) / 100;
+        syncCropControlsUI(item, canvas, sliderZoom, valZoom, sliderX, valX, sliderY, valY);
+        renderPaintingToCanvas(item, canvas);
+      });
+
+      var ctrlBundle = {
+        sliderZoom: sliderZoom,
+        valZoom: valZoom,
+        sliderX: sliderX,
+        valX: valX,
+        sliderY: sliderY,
+        valY: valY
+      };
+      syncCropControlsUI(item, canvas, sliderZoom, valZoom, sliderX, valX, sliderY, valY);
+      attachCanvasInteractions(stage, canvas, item, ctrlBundle);
 
       /* --- Title + Author Inputs --- */
       var metaGrid = document.createElement('div');
@@ -728,7 +880,6 @@
 
       titleInput.addEventListener('input', function () {
         item.title = titleInput.value;
-        /* Update only slug previews instead of rebuilding focus-bearing DOM */
         var updatedSlugs = predictSlugsForStaged();
         var cards = els.studioGrid.querySelectorAll('.pt-card');
         updatedSlugs.forEach(function (m, cIdx) {
@@ -1130,7 +1281,7 @@
         var committed = Array.isArray(result.paintings) ? result.paintings : [];
         var listHtml = committed.map(function (p) {
           return '<li><strong>' + escapeHtml(p.title) + '</strong> by ' + escapeHtml(p.author) +
-            ' (' + p.width + '&times;' + p.height + ') &mdash; <code>cdsmp:' + escapeHtml(p.slug) + '</code></li>';
+            ' (' + p.width + '&times;' + p.height + ')</li>';
         }).join('');
 
         var releaseNote = result.workflowUrl
@@ -1157,6 +1308,252 @@
         state.busy = false;
         els.publishBtn.disabled = false;
         if (btnSpan) btnSpan.textContent = origLabel;
+      }
+    });
+  }
+
+  /* --- Full-Viewport Lightbox Preview (Scale-Accurate & Zoomable) --- */
+  function updateLightboxLayout() {
+    if (!state.lightbox.open || !els.lightboxImg || !els.lightboxStage) return;
+    var item = state.gallery.filtered[state.lightbox.index];
+    if (!item) return;
+
+    var stageRect = els.lightboxStage.getBoundingClientRect();
+    var availW = Math.max(180, (stageRect.width || window.innerWidth) - 16);
+    var availH = Math.max(180, (stageRect.height || window.innerHeight - 64) - 16);
+
+    var baseW, baseH;
+    if (state.lightbox.mode === 'fill') {
+      var fillPxPerBlock = Math.min(availW / item.width, availH / item.height);
+      baseW = item.width * fillPxPerBlock;
+      baseH = item.height * fillPxPerBlock;
+    } else {
+      /* Scale relative to the largest possible 4x4 grid so 4x4 paintings span the viewport cleanly */
+      var scalePxPerBlock = Math.min(availW / MAX_BLOCKS, availH / MAX_BLOCKS);
+      baseW = item.width * scalePxPerBlock;
+      baseH = item.height * scalePxPerBlock;
+    }
+
+    var finalW = Math.round(baseW * state.lightbox.zoom);
+    var finalH = Math.round(baseH * state.lightbox.zoom);
+
+    els.lightboxImg.style.width = finalW + 'px';
+    els.lightboxImg.style.height = finalH + 'px';
+    els.lightboxImg.style.transform = 'translate3d(' + state.lightbox.panX + 'px, ' + state.lightbox.panY + 'px, 0)';
+    els.lightboxImg.classList.toggle('is-draggable', state.lightbox.zoom > 1.01);
+
+    if (els.lightboxZoomReset) {
+      els.lightboxZoomReset.textContent = state.lightbox.mode === 'scale' && Math.abs(state.lightbox.zoom - 1) < 0.01
+        ? 'To Scale'
+        : Math.round(state.lightbox.zoom * 100) + '%';
+    }
+    if (els.lightboxFit) {
+      els.lightboxFit.textContent = state.lightbox.mode === 'fill' ? 'To Scale' : 'Fill';
+    }
+    if (els.lightboxPrev) {
+      els.lightboxPrev.disabled = state.gallery.filtered.length <= 1;
+    }
+    if (els.lightboxNext) {
+      els.lightboxNext.disabled = state.gallery.filtered.length <= 1;
+    }
+  }
+
+  function showLightboxAt(index) {
+    if (!state.gallery.filtered.length) return;
+    var len = state.gallery.filtered.length;
+    var normalized = ((index % len) + len) % len;
+    var item = state.gallery.filtered[normalized];
+    state.lightbox.index = normalized;
+    state.lightbox.zoom = 1;
+    state.lightbox.panX = 0;
+    state.lightbox.panY = 0;
+
+    els.lightboxImg.src = item.textureUrl;
+    els.lightboxImg.alt = item.title + ' (' + item.width + '×' + item.height + ' blocks)';
+    els.lightboxTitle.textContent = item.title;
+    els.lightboxMeta.textContent = 'by ' + item.author + ' · ' + item.width + '×' + item.height + ' blocks';
+    updateLightboxLayout();
+  }
+
+  function openLightbox(index, triggerEl) {
+    if (!els.lightbox) return;
+    state.lightbox.open = true;
+    state.lightbox.mode = 'scale';
+    state.lightbox.lastTrigger = triggerEl || document.activeElement;
+
+    els.lightbox.hidden = false;
+    els.lightbox.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('has-modal-open');
+    document.body.classList.add('has-modal-open');
+    if (window.__cdA11y) {
+      window.__cdA11y.setBackgroundInert(els.lightbox, true);
+    }
+
+    showLightboxAt(index);
+    if (els.lightboxClose) {
+      setTimeout(function () { els.lightboxClose.focus(); }, 20);
+    }
+  }
+
+  function closeLightbox() {
+    if (!els.lightbox || !state.lightbox.open) return;
+    state.lightbox.open = false;
+    els.lightbox.hidden = true;
+    els.lightbox.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('has-modal-open');
+    document.body.classList.remove('has-modal-open');
+    if (window.__cdA11y) {
+      window.__cdA11y.setBackgroundInert(els.lightbox, false);
+    }
+    var trig = state.lightbox.lastTrigger;
+    state.lightbox.lastTrigger = null;
+    if (trig && trig.offsetParent !== null) {
+      trig.focus();
+    }
+  }
+
+  if (els.lightbox) {
+    window.addEventListener('resize', function () {
+      if (state.lightbox.open) updateLightboxLayout();
+    });
+
+    if (els.lightboxClose) els.lightboxClose.addEventListener('click', closeLightbox);
+    if (els.lightboxPrev) els.lightboxPrev.addEventListener('click', function () { showLightboxAt(state.lightbox.index - 1); });
+    if (els.lightboxNext) els.lightboxNext.addEventListener('click', function () { showLightboxAt(state.lightbox.index + 1); });
+    if (els.lightboxZoomIn) {
+      els.lightboxZoomIn.addEventListener('click', function () {
+        state.lightbox.zoom = clamp(state.lightbox.zoom * 1.35, 0.5, 6);
+        updateLightboxLayout();
+      });
+    }
+    if (els.lightboxZoomOut) {
+      els.lightboxZoomOut.addEventListener('click', function () {
+        state.lightbox.zoom = clamp(state.lightbox.zoom / 1.35, 0.5, 6);
+        if (state.lightbox.zoom <= 1) {
+          state.lightbox.panX = 0;
+          state.lightbox.panY = 0;
+        }
+        updateLightboxLayout();
+      });
+    }
+    if (els.lightboxZoomReset) {
+      els.lightboxZoomReset.addEventListener('click', function () {
+        state.lightbox.mode = 'scale';
+        state.lightbox.zoom = 1;
+        state.lightbox.panX = 0;
+        state.lightbox.panY = 0;
+        updateLightboxLayout();
+      });
+    }
+    if (els.lightboxFit) {
+      els.lightboxFit.addEventListener('click', function () {
+        state.lightbox.mode = state.lightbox.mode === 'fill' ? 'scale' : 'fill';
+        state.lightbox.zoom = 1;
+        state.lightbox.panX = 0;
+        state.lightbox.panY = 0;
+        updateLightboxLayout();
+      });
+    }
+
+    /* Wheel zoom, 2-finger pinch zoom, and drag-to-pan in lightbox */
+    (function setupLightboxGestures() {
+      var pointers = new Map();
+      var dragging = false;
+      var sx = 0;
+      var sy = 0;
+      var spx = 0;
+      var spy = 0;
+      var pinchDist = 0;
+      var pinchZoom = 1;
+
+      function dist(a, b) {
+        return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+      }
+
+      els.lightboxStage.addEventListener('click', function (e) {
+        if (e.target === els.lightboxStage && !dragging) {
+          closeLightbox();
+        }
+      });
+
+      els.lightboxStage.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        var nextZoom = clamp(state.lightbox.zoom * Math.exp(-e.deltaY * 0.0022), 0.5, 6);
+        state.lightbox.zoom = nextZoom;
+        if (nextZoom <= 1) {
+          state.lightbox.panX = 0;
+          state.lightbox.panY = 0;
+        }
+        updateLightboxLayout();
+      }, { passive: false });
+
+      els.lightboxImg.addEventListener('pointerdown', function (e) {
+        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (els.lightboxImg.setPointerCapture) {
+          try { els.lightboxImg.setPointerCapture(e.pointerId); } catch (err) {}
+        }
+        if (pointers.size === 2) {
+          var pts = Array.from(pointers.values());
+          pinchDist = Math.max(1, dist(pts[0], pts[1]));
+          pinchZoom = state.lightbox.zoom;
+          dragging = false;
+          return;
+        }
+        if (pointers.size === 1 && state.lightbox.zoom > 1.01) {
+          dragging = true;
+          sx = e.clientX;
+          sy = e.clientY;
+          spx = state.lightbox.panX;
+          spy = state.lightbox.panY;
+          els.lightboxImg.classList.add('is-dragging');
+        }
+      });
+
+      els.lightboxImg.addEventListener('pointermove', function (e) {
+        if (!pointers.has(e.pointerId)) return;
+        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (pointers.size === 2 && pinchDist > 0) {
+          var pts = Array.from(pointers.values());
+          state.lightbox.zoom = clamp(pinchZoom * (dist(pts[0], pts[1]) / pinchDist), 0.5, 6);
+          updateLightboxLayout();
+          return;
+        }
+        if (dragging) {
+          state.lightbox.panX = spx + (e.clientX - sx);
+          state.lightbox.panY = spy + (e.clientY - sy);
+          updateLightboxLayout();
+        }
+      });
+
+      function endLbPointer(e) {
+        pointers.delete(e.pointerId);
+        if (els.lightboxImg.releasePointerCapture) {
+          try { els.lightboxImg.releasePointerCapture(e.pointerId); } catch (err) {}
+        }
+        if (pointers.size < 2) pinchDist = 0;
+        if (pointers.size === 0) {
+          dragging = false;
+          els.lightboxImg.classList.remove('is-dragging');
+        }
+      }
+
+      els.lightboxImg.addEventListener('pointerup', endLbPointer);
+      els.lightboxImg.addEventListener('pointercancel', endLbPointer);
+    })();
+
+    document.addEventListener('keydown', function (e) {
+      if (!state.lightbox.open) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        showLightboxAt(state.lightbox.index - 1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        showLightboxAt(state.lightbox.index + 1);
+      } else if (e.key === 'Tab' && window.__cdA11y) {
+        window.__cdA11y.trapTab(e, els.lightbox);
       }
     });
   }
@@ -1306,7 +1703,7 @@
       throw new Error((bad && bad.error) || 'Failed to save changes (' + res.status + ')');
     }
     state.gallery.editingSlug = null;
-    showBanner(els.galleryBanner, 'success', 'Updated <code>cdsmp:' + escapeHtml(slug) + '</code> and triggered pack rebuild.');
+    showBanner(els.galleryBanner, 'success', 'Updated painting and triggered pack rebuild.');
     await loadGallery(true);
   }
 
@@ -1327,7 +1724,7 @@
       throw new Error((bad && bad.error) || 'Failed to delete painting (' + res.status + ')');
     }
     state.gallery.confirmDeleteSlug = null;
-    showBanner(els.galleryBanner, 'success', 'Deleted <code>cdsmp:' + escapeHtml(slug) + '</code> and triggered pack rebuild.');
+    showBanner(els.galleryBanner, 'success', 'Deleted painting and triggered pack rebuild.');
     await loadGallery(true);
   }
 
@@ -1345,43 +1742,51 @@
       if (!query) return true;
       return (
         (it.title || '').toLowerCase().indexOf(query) !== -1 ||
-        (it.author || '').toLowerCase().indexOf(query) !== -1 ||
-        (it.slug || '').toLowerCase().indexOf(query) !== -1
+        (it.author || '').toLowerCase().indexOf(query) !== -1
       );
     });
+    state.gallery.filtered = filtered;
 
     if (!filtered.length) {
       els.galleryGrid.innerHTML = '<div class="pt-empty-state">No paintings match the current filter.</div>';
       return;
     }
 
-    filtered.forEach(function (item) {
+    filtered.forEach(function (item, fIdx) {
       var card = document.createElement('article');
       card.className = 'pt-gallery-card';
 
-      var thumbStage = document.createElement('div');
-      thumbStage.className = 'pt-gallery-thumb-stage';
+      var thumbBtn = document.createElement('button');
+      thumbBtn.type = 'button';
+      thumbBtn.className = 'pt-gallery-thumb-btn';
+      thumbBtn.setAttribute('aria-label', 'Preview ' + item.title + ' (' + item.width + '×' + item.height + ' blocks)');
+      thumbBtn.title = 'Click to preview';
+
       var img = document.createElement('img');
       img.className = 'pt-gallery-thumb';
       img.loading = 'lazy';
       img.decoding = 'async';
       img.src = item.textureUrl;
       img.alt = item.title + ' (' + item.width + '×' + item.height + ' painting)';
-      thumbStage.appendChild(img);
-      card.appendChild(thumbStage);
+      /* Proportional block sizing relative to 4x4 reduces whitespace for large paintings */
+      img.style.width = ((item.width / MAX_BLOCKS) * 100) + '%';
+      img.style.height = 'auto';
+      img.style.aspectRatio = item.width + ' / ' + item.height;
+      thumbBtn.appendChild(img);
+      thumbBtn.addEventListener('click', function () {
+        openLightbox(fIdx, thumbBtn);
+      });
+      card.appendChild(thumbBtn);
 
-      var info = document.createElement('div');
-      info.innerHTML =
-        '<h2 class="pt-gallery-title">' + escapeHtml(item.title) + '</h2>' +
-        '<p class="pt-gallery-meta">by ' + escapeHtml(item.author) + '</p>';
-      card.appendChild(info);
-
-      var badges = document.createElement('div');
-      badges.className = 'pt-gallery-badges';
-      badges.innerHTML =
-        '<span class="pt-gallery-size-badge">' + item.width + '&times;' + item.height + '</span>' +
-        '<span class="pt-gallery-id">cdsmp:' + escapeHtml(item.slug) + '</span>';
-      card.appendChild(badges);
+      var infoRow = document.createElement('div');
+      infoRow.className = 'pt-gallery-info-row';
+      infoRow.innerHTML =
+        '<div>' +
+          '<h2 class="pt-gallery-title">' + escapeHtml(item.title) + '</h2>' +
+          '<p class="pt-gallery-meta">by ' + escapeHtml(item.author) + '</p>' +
+        '</div>' +
+        '<span class="pt-gallery-size-badge">' + item.width + '&times;' + item.height + '</span>';
+      card.appendChild(infoRow);
 
       /* Inline Edit Panel (only if Worker marked canEdit = true) */
       if (item.canEdit && state.gallery.editingSlug === item.slug) {
@@ -1458,38 +1863,10 @@
         card.appendChild(delBox);
       }
 
-      /* Card Action Buttons */
-      var actions = document.createElement('div');
-      actions.className = 'pt-gallery-actions';
-
-      var copyIdBtn = document.createElement('button');
-      copyIdBtn.type = 'button';
-      copyIdBtn.className = 'pt-btn pt-btn-xs';
-      copyIdBtn.textContent = 'Copy ID';
-      copyIdBtn.addEventListener('click', function () {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText('cdsmp:' + item.slug);
-          copyIdBtn.textContent = 'Copied!';
-          setTimeout(function () { copyIdBtn.textContent = 'Copy ID'; }, 1400);
-        }
-      });
-      actions.appendChild(copyIdBtn);
-
-      var copyGiveBtn = document.createElement('button');
-      copyGiveBtn.type = 'button';
-      copyGiveBtn.className = 'pt-btn pt-btn-xs';
-      copyGiveBtn.textContent = 'Copy /give';
-      copyGiveBtn.addEventListener('click', function () {
-        var cmd = '/give @s minecraft:painting[minecraft:painting/variant="cdsmp:' + item.slug + '"]';
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(cmd);
-          copyGiveBtn.textContent = 'Copied!';
-          setTimeout(function () { copyGiveBtn.textContent = 'Copy /give'; }, 1400);
-        }
-      });
-      actions.appendChild(copyGiveBtn);
-
       if (item.canEdit) {
+        var actions = document.createElement('div');
+        actions.className = 'pt-gallery-actions';
+
         var editBtn = document.createElement('button');
         editBtn.type = 'button';
         editBtn.className = 'pt-btn pt-btn-xs';
@@ -1511,9 +1888,10 @@
           renderGallery();
         });
         actions.appendChild(delBtn);
+
+        card.appendChild(actions);
       }
 
-      card.appendChild(actions);
       els.galleryGrid.appendChild(card);
     });
   }

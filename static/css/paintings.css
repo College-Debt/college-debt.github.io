@@ -4,6 +4,11 @@
    4 font presets, @media (hover: hover), and WCAG keyboard/focus hygiene.
    ========================================================================== */
 
+.pt-main [hidden],
+.pt-lightbox[hidden] {
+  display: none !important;
+}
+
 .pt-main {
   min-height: calc(100vh - 83px);
   padding: 2rem var(--wp--preset--spacing--40, 2rem) 4rem;
@@ -113,7 +118,6 @@
   font-weight: 500;
   color: var(--wp--preset--color--contrast-2, #636363);
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 @media (hover: hover) {
@@ -148,11 +152,7 @@
   color: var(--brand-accent-contrast, #ffffff);
 }
 
-.pt-panel[hidden] {
-  display: none !important;
-}
-
-/* --- Shared Buttons (Matched to wiki-pager-card / error-404-btn) --- */
+/* --- Shared Buttons (Matched to wiki-pager-card / error-404-btn, no motion) --- */
 .pt-btn {
   display: inline-flex;
   align-items: center;
@@ -171,7 +171,6 @@
   text-decoration: none;
   cursor: pointer;
   box-sizing: border-box;
-  transition: box-shadow 0.15s ease, border-color 0.15s ease, color 0.15s ease, background 0.15s ease, transform 0.1s ease;
 }
 
 .pt-btn-sm {
@@ -197,10 +196,6 @@
     border-color: var(--brand-accent, #0a4651);
     color: var(--brand-accent, #0a4651);
   }
-}
-
-.pt-btn:not([disabled]):active {
-  transform: translateY(1px);
 }
 
 .pt-btn-primary {
@@ -265,7 +260,6 @@
   font-size: 0.9rem;
   color: var(--wp--preset--color--contrast, #111111);
   box-sizing: border-box;
-  transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .pt-input-compact,
@@ -283,7 +277,8 @@
 .pt-frame-swatch:focus-visible,
 .pt-grid-cell:focus-visible,
 .pt-range:focus-visible,
-.pt-card-remove:focus-visible {
+.pt-card-remove:focus-visible,
+.pt-gallery-thumb-btn:focus-visible {
   outline: 2px solid var(--brand-accent, #0a4651) !important;
   outline-offset: 2px;
 }
@@ -301,7 +296,6 @@
   border: 2px dashed var(--wp--preset--color--accent, #cfcabe);
   border-radius: 10px;
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease;
   margin-bottom: 1.25rem;
 }
 
@@ -405,14 +399,14 @@
   min-width: 0;
 }
 
-/* --- Preview Stage (Checkerboard + Pixelated Canvas) --- */
+/* --- Preview Stage (Checkerboard + Full-Sized Pixelated Canvas) --- */
 .pt-preview-stage {
   position: relative;
-  height: 240px;
+  height: 248px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem 1rem 2rem;
+  padding: 0.85rem 0.85rem 2.15rem;
   border-radius: 7px;
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
   background-color: #e5e3df;
@@ -425,20 +419,22 @@
   background-position: 0 0, 0 8px, 8px -8px, -8px 0;
   overflow: hidden;
   box-sizing: border-box;
+  touch-action: none;
 }
 
 .pt-preview-canvas {
   display: block;
   max-width: 100%;
   max-height: 100%;
+  object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  touch-action: none;
 }
 
 .pt-preview-canvas.is-pannable {
   cursor: grab;
-  touch-action: none;
 }
 
 .pt-preview-canvas.is-dragging {
@@ -451,6 +447,7 @@
   right: 0.5rem;
   width: 30px;
   height: 30px;
+  padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -459,8 +456,6 @@
   border-radius: 6px;
   color: var(--wp--preset--color--contrast, #111111);
   cursor: pointer;
-  font-size: 1rem;
-  line-height: 1;
 }
 
 @media (hover: hover) {
@@ -498,7 +493,7 @@
   background: rgba(180, 83, 9, 0.9);
 }
 
-/* --- Crop Pan Box --- */
+/* --- 2D Crop & Zoom Box --- */
 .pt-crop-box {
   display: flex;
   flex-direction: column;
@@ -519,13 +514,40 @@
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--wp--preset--color--contrast-2, #636363);
-  min-width: 3.7rem;
+  min-width: 3.9rem;
+}
+
+.pt-crop-val {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--wp--preset--color--contrast, #111111);
+  min-width: 2.75rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .pt-range {
   flex: 1;
   accent-color: var(--brand-accent, #0a4651);
   cursor: pointer;
+}
+
+.pt-range:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pt-crop-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pt-crop-tip {
+  font-size: 0.74rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
 }
 
 /* --- Card Fields --- */
@@ -605,7 +627,6 @@
   border-radius: 2px;
   background: var(--wp--preset--color--base-2, #ffffff);
   cursor: pointer;
-  transition: background 0.1s ease, border-color 0.1s ease;
 }
 
 .pt-grid-cell.is-selected {
@@ -655,12 +676,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.1s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 @media (hover: hover) {
   .pt-frame-swatch:hover {
-    transform: translateY(-1px);
     border-color: var(--brand-accent, #0a4651);
   }
 }
@@ -837,40 +856,57 @@
 
 .pt-gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
   gap: 1.15rem;
 }
 
 .pt-gallery-card {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem;
+  gap: 0.7rem;
+  padding: 0.9rem;
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
   border-radius: 8px;
   box-sizing: border-box;
 }
 
-.pt-gallery-thumb-stage {
-  height: 170px;
+/* Thumbnail stage keeps paintings proportionally scaled to a 4x4 max footprint */
+.pt-gallery-thumb-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  padding: 0.35rem;
   border-radius: 6px;
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
   background: var(--wp--preset--color--base, #f0efed);
+  cursor: zoom-in;
   overflow: hidden;
+  box-sizing: border-box;
+}
+
+@media (hover: hover) {
+  .pt-gallery-thumb-btn:hover {
+    border-color: var(--brand-accent, #0a4651);
+  }
 }
 
 .pt-gallery-thumb {
+  display: block;
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+.pt-gallery-info-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .pt-gallery-title {
@@ -887,27 +923,14 @@
   color: var(--wp--preset--color--contrast-2, #636363);
 }
 
-.pt-gallery-badges {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-
 .pt-gallery-size-badge {
+  flex-shrink: 0;
   font-size: 0.74rem;
   font-weight: 600;
-  padding: 0.15rem 0.45rem;
+  padding: 0.18rem 0.48rem;
   border-radius: 5px;
   background: var(--brand-accent-muted, rgba(10, 70, 81, 0.12));
   color: var(--brand-accent, #0a4651);
-}
-
-.pt-gallery-id {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.74rem;
-  color: var(--wp--preset--color--contrast-2, #636363);
-  word-break: break-all;
 }
 
 .pt-gallery-actions {
@@ -915,7 +938,7 @@
   flex-wrap: wrap;
   gap: 0.45rem;
   margin-top: auto;
-  padding-top: 0.4rem;
+  padding-top: 0.45rem;
   border-top: 1px solid var(--wp--preset--color--accent, #cfcabe);
 }
 
@@ -950,6 +973,100 @@
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
   border-radius: 8px;
   color: var(--wp--preset--color--contrast-2, #636363);
+}
+
+/* --- Gallery Full-Viewport Lightbox --- */
+.pt-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  display: flex;
+  flex-direction: column;
+  background: rgba(12, 13, 16, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.pt-lightbox-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.pt-lightbox-img {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: none;
+}
+
+.pt-lightbox-img.is-draggable {
+  cursor: grab;
+}
+
+.pt-lightbox-img.is-dragging {
+  cursor: grabbing;
+}
+
+.pt-lightbox-hud {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.55rem 0.9rem;
+  background: rgba(18, 20, 24, 0.92);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  color: #f0f1f3;
+}
+
+.pt-lightbox-info {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.pt-lightbox-info strong {
+  font-size: 0.98rem;
+  color: #ffffff;
+}
+
+.pt-lightbox-info span {
+  font-size: 0.84rem;
+  color: #b8bec8;
+}
+
+.pt-lightbox-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.pt-lightbox .pt-btn {
+  background: #1c1e22;
+  border-color: #374151;
+  color: #f0f1f3;
+}
+
+@media (hover: hover) {
+  .pt-lightbox .pt-btn:not([disabled]):hover {
+    border-color: var(--brand-accent, #28b4c8);
+    color: var(--brand-accent, #28b4c8);
+  }
 }
 
 /* ==========================================================================
@@ -1012,7 +1129,9 @@ html[data-font="mojangles"] .pt-main select,
 html[data-font="mojangles"] .pt-main button,
 html[data-font="mojangles"] .pt-main label,
 html[data-font="mojangles"] .pt-main p,
-html[data-font="mojangles"] .pt-main span:not(.pt-chip) {
+html[data-font="mojangles"] .pt-main span:not(.pt-chip),
+html[data-font="mojangles"] .pt-lightbox,
+html[data-font="mojangles"] .pt-lightbox button {
   font-family: 'Minecraft', monospace !important;
   -webkit-font-smoothing: none !important;
   -moz-osx-font-smoothing: unset !important;
@@ -1020,8 +1139,7 @@ html[data-font="mojangles"] .pt-main span:not(.pt-chip) {
   text-rendering: geometricPrecision !important;
 }
 
-html[data-font="mojangles"] .pt-main code,
-html[data-font="mojangles"] .pt-gallery-id {
+html[data-font="mojangles"] .pt-main code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
 }
 
@@ -1047,15 +1165,5 @@ html[data-font="mojangles"] .pt-gallery-id {
 
   .pt-publish-buttons {
     justify-content: flex-end;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pt-btn,
-  .pt-tab-btn,
-  .pt-dropzone,
-  .pt-frame-swatch,
-  .pt-grid-cell {
-    transition: none !important;
   }
 }

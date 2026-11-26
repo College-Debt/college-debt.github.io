@@ -148,4 +148,30 @@
     </div>
   </div>
 </main>
+
+<div class="pt-lightbox" id="pt-gallery-lightbox" role="dialog" aria-modal="true" aria-label="Painting full preview" aria-hidden="true" hidden>
+  <div class="pt-lightbox-stage" id="pt-lightbox-stage">
+    <img class="pt-lightbox-img" id="pt-lightbox-img" alt="">
+  </div>
+  <div class="pt-lightbox-hud">
+    <div class="pt-lightbox-info">
+      <strong id="pt-lightbox-title"></strong>
+      <span id="pt-lightbox-meta"></span>
+    </div>
+    <div class="pt-lightbox-controls">
+      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-prev" aria-label="Previous painting">Prev</button>
+      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-zoom-out" aria-label="Zoom out">&minus;</button>
+      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-zoom-reset" aria-label="Reset to scale">Scale</button>
+      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-fit" aria-label="Fill viewport">Fill</button>
+      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-next" aria-label="Next painting">Next</button>
+      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-close" aria-label="Close preview">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
 {{ end }}
