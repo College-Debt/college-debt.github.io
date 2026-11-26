@@ -1,0 +1,151 @@
+{{ define "main" }}
+<main id="main-content" tabindex="-1" class="pt-main">
+  <div class="pt-container">
+    <header class="pt-page-header">
+      <div class="pt-header-top">
+        <div>
+          <p class="pt-eyebrow">College Debt SMP</p>
+          <h1 class="pt-page-title has-minecraft-font-family" data-pagefind-meta="title">{{ .Title }}</h1>
+        </div>
+        <div class="pt-sso-pill" id="pt-sso-pill" aria-live="polite">
+          <span class="pt-sso-dot" aria-hidden="true"></span>
+          <span id="pt-sso-text">Checking session&hellip;</span>
+        </div>
+      </div>
+      <p class="pt-page-desc" data-pagefind-body>{{ .Description }}</p>
+    </header>
+
+    <div class="pt-app" data-pagefind-ignore>
+      <div class="pt-tablist" role="tablist" aria-label="Custom Paintings Workspace">
+        <button
+          type="button"
+          class="pt-tab-btn is-active"
+          id="pt-tab-studio"
+          role="tab"
+          aria-selected="true"
+          aria-controls="pt-panel-studio"
+          tabindex="0">
+          Create &amp; Publish
+          <span class="pt-tab-badge" id="pt-staged-count" hidden>0</span>
+        </button>
+        <button
+          type="button"
+          class="pt-tab-btn"
+          id="pt-tab-gallery"
+          role="tab"
+          aria-selected="false"
+          aria-controls="pt-panel-gallery"
+          tabindex="-1">
+          Server Gallery
+          <span class="pt-tab-badge" id="pt-gallery-count" hidden>0</span>
+        </button>
+      </div>
+
+      {{/* Live status / screen reader announcer */}}
+      <div class="sr-only" id="pt-sr-status" aria-live="polite" aria-atomic="true"></div>
+
+      {{/* PANEL 1: CREATE & PUBLISH STUDIO */}}
+      <section
+        id="pt-panel-studio"
+        class="pt-panel"
+        role="tabpanel"
+        aria-labelledby="pt-tab-studio">
+
+        <div class="pt-dropzone" id="pt-dropzone" tabindex="0" role="button" aria-label="Upload painting images. Press Enter or Space to browse files, or drag and drop images here.">
+          <input
+            type="file"
+            id="pt-file-input"
+            class="pt-file-input"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            multiple
+            tabindex="-1"
+            aria-hidden="true">
+          <div class="pt-dropzone-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </div>
+          <p class="pt-dropzone-title">Drop painting images here or <span>browse files</span></p>
+          <p class="pt-dropzone-hint">PNG, JPG, WebP, or GIF &middot; Up to 10 paintings per batch &middot; Custom sizes 1&times;1 to 4&times;4 blocks (up to 8&times; detail)</p>
+        </div>
+
+        <div class="pt-batch-bar" id="pt-batch-bar" hidden>
+          <div class="pt-batch-group">
+            <label for="pt-batch-author" class="pt-field-label">Batch Author</label>
+            <div class="pt-batch-inline">
+              <input type="text" id="pt-batch-author" class="pt-input pt-input-compact" value="College Debt SMP" maxlength="64" placeholder="College Debt SMP">
+              <button type="button" class="pt-btn pt-btn-sm" id="pt-use-sso-author" hidden title="Fill from your SSO display name">Use my name</button>
+              <button type="button" class="pt-btn pt-btn-sm" id="pt-apply-author-all">Apply to all</button>
+            </div>
+          </div>
+
+          <div class="pt-batch-group">
+            <label for="pt-batch-frame" class="pt-field-label">Batch Frame</label>
+            <div class="pt-batch-inline">
+              <select id="pt-batch-frame" class="pt-select pt-select-compact">
+                <option value="dark-oak">Dark Oak (Classic)</option>
+                <option value="warm-amber">Warm Amber</option>
+                <option value="crimson">Crimson</option>
+                <option value="deep-walnut">Deep Walnut</option>
+                <option value="charcoal">Charcoal</option>
+                <option value="slate-teal">Slate Teal</option>
+                <option value="frameless">Frameless</option>
+              </select>
+              <button type="button" class="pt-btn pt-btn-sm" id="pt-apply-frame-all">Apply to all</button>
+            </div>
+          </div>
+
+          <div class="pt-batch-actions">
+            <button type="button" class="pt-btn pt-btn-sm pt-btn-danger-outline" id="pt-clear-all">Clear all</button>
+          </div>
+        </div>
+
+        <div class="pt-studio-grid" id="pt-studio-grid"></div>
+
+        <div class="pt-publish-card" id="pt-publish-card" hidden>
+          <div class="pt-publish-meta">
+            <div class="pt-publish-summary" id="pt-publish-summary">Ready to publish.</div>
+            <p class="pt-publish-note">Published paintings are added directly to <code>College-Debt/resource-pack</code> as additive <code>cdsmp:*</code> Stonecutter variants and packaged automatically via <code>release.yml</code>.</p>
+          </div>
+          <div class="pt-publish-buttons">
+            <button type="button" class="pt-btn" id="pt-download-all-png">Download PNGs</button>
+            <button type="button" class="pt-btn pt-btn-primary" id="pt-publish-btn">
+              <span>Publish to Resource Pack</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="pt-banner" id="pt-studio-banner" role="status" aria-live="polite" hidden></div>
+      </section>
+
+      {{/* PANEL 2: SERVER GALLERY */}}
+      <section
+        id="pt-panel-gallery"
+        class="pt-panel"
+        role="tabpanel"
+        aria-labelledby="pt-tab-gallery"
+        hidden>
+
+        <div class="pt-gallery-toolbar">
+          <div class="pt-gallery-search-wrap">
+            <label for="pt-gallery-search" class="sr-only">Search server paintings</label>
+            <input type="search" id="pt-gallery-search" class="pt-input" placeholder="Search by title, author, or ID...">
+          </div>
+          <div class="pt-gallery-filter-wrap">
+            <label for="pt-gallery-size-filter" class="sr-only">Filter by block size</label>
+            <select id="pt-gallery-size-filter" class="pt-select">
+              <option value="all">All sizes</option>
+            </select>
+          </div>
+          <button type="button" class="pt-btn" id="pt-gallery-refresh">Refresh</button>
+        </div>
+
+        <div class="pt-banner" id="pt-gallery-banner" role="status" aria-live="polite" hidden></div>
+        <div class="pt-gallery-grid" id="pt-gallery-grid"></div>
+      </section>
+    </div>
+  </div>
+</main>
+{{ end }}

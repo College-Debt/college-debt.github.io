@@ -32,6 +32,9 @@
 	<link rel="stylesheet" href="/css/all.min.css">
 	<link rel="stylesheet" href="/css/wiki.css">
 	{{ end }}
+	{{ if eq .Type "paintings" }}
+	<link rel="stylesheet" href="/css/paintings.css">
+	{{ end }}
 	<link rel="stylesheet" href="/css/theme-dark.css">
 	<link rel="stylesheet" href="/css/theme-personalize.css">
 	<link rel="icon" href="/assets/images/cropped-Oak_Sign_JE3-32x32.webp" sizes="32x32">
@@ -54,6 +57,9 @@
 	<script src="/js/search.js"></script>
 	{{ if or (eq .Section "wiki") (eq .Type "wiki") (in .RelPermalink "/wiki/") }}
 	<script src="/js/wiki.js"></script>
+	{{ end }}
+	{{ if eq .Type "paintings" }}
+	<script src="/js/paintings.js"></script>
 	{{ end }}
 </body>
 
