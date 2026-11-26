@@ -1674,3 +1674,173 @@ main#main-content:focus,
   }
 }
 
+/* ==========================================================================
+   Universal Sitewide Image Preview Lightbox
+   ========================================================================== */
+.home-hero-image img,
+.wp-block-post-featured-image img,
+.entry-content img,
+.wiki-cover-banner,
+.wiki-article-body img {
+  cursor: zoom-in;
+}
+
+.site-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overscroll-behavior: contain;
+}
+
+.site-lightbox.is-open {
+  display: flex;
+}
+
+.site-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(240, 239, 237, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.site-lightbox-close {
+  position: fixed;
+  top: 1rem;
+  right: 1.25rem;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--wp--preset--color--contrast, #111111);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .site-lightbox-close:hover {
+    color: var(--brand-accent, #0a4651);
+  }
+}
+
+.site-lightbox-close:focus-visible {
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.site-lightbox-stage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 12px 72px;
+  box-sizing: border-box;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.site-lightbox-img {
+  display: block;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: none;
+}
+
+.site-lightbox-img.is-pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.site-lightbox-img.is-draggable {
+  cursor: grab;
+}
+
+.site-lightbox-img.is-dragging {
+  cursor: grabbing;
+}
+
+.site-lightbox-bar {
+  position: fixed;
+  bottom: 1.15rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  background: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+}
+
+.site-lightbox-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.site-lightbox-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--wp--preset--color--accent, #cfcabe);
+}
+
+.site-lightbox-icon-btn,
+.site-lightbox-pct {
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  color: var(--wp--preset--color--contrast, #111111);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.site-lightbox-icon-btn {
+  width: 32px;
+}
+
+.site-lightbox-pct {
+  min-width: 3.1rem;
+  padding: 0 0.25rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.site-lightbox-icon-btn[disabled] {
+  opacity: 0.3;
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .site-lightbox-icon-btn:not([disabled]):hover,
+  .site-lightbox-pct:hover {
+    color: var(--brand-accent, #0a4651);
+  }
+}
+
+.site-lightbox-icon-btn:focus-visible,
+.site-lightbox-pct:focus-visible {
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+

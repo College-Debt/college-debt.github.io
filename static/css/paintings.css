@@ -4,8 +4,7 @@
    4 font presets, @media (hover: hover), and WCAG keyboard/focus hygiene.
    ========================================================================== */
 
-.pt-main [hidden],
-.pt-lightbox[hidden] {
+.pt-main [hidden] {
   display: none !important;
 }
 
@@ -252,9 +251,8 @@
 .pt-select {
   width: 100%;
   min-height: 38px;
-  padding: 0.45rem 0.7rem;
-  background: var(--wp--preset--color--base, #f0efed);
-  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  background-color: var(--wp--preset--color--base, #f0efed);
+  border: 1.5px solid var(--wp--preset--color--accent, #cfcabe);
   border-radius: 7px;
   font-family: inherit;
   font-size: 0.9rem;
@@ -262,15 +260,37 @@
   box-sizing: border-box;
 }
 
-.pt-input-compact,
-.pt-select-compact {
+.pt-input {
+  padding: 0.45rem 0.75rem;
+}
+
+/* Enlarged chevron spaced 0.75rem from right edge (matching left option margin) */
+.pt-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0.45rem 2.35rem 0.45rem 0.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 16px;
+  cursor: pointer;
+}
+
+.pt-input-compact {
   min-height: 34px;
-  padding: 0.3rem 0.6rem;
+  padding: 0.3rem 0.65rem;
   font-size: 0.84rem;
 }
 
+/* Text inputs & selects highlight border directly with zero outer outline */
+.pt-input:focus,
 .pt-input:focus-visible,
-.pt-select:focus-visible,
+.pt-select:focus,
+.pt-select:focus-visible {
+  outline: none !important;
+  border-color: var(--brand-accent, #0a4651) !important;
+}
+
 .pt-btn:focus-visible,
 .pt-tab-btn:focus-visible,
 .pt-dropzone:focus-visible,
@@ -340,38 +360,6 @@
   margin: 0;
   font-size: 0.84rem;
   color: var(--wp--preset--color--contrast-2, #636363);
-}
-
-/* --- Batch Controls Bar --- */
-.pt-batch-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.9rem 1.1rem;
-  background: var(--wp--preset--color--base-2, #ffffff);
-  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 8px;
-  margin-bottom: 1.25rem;
-}
-
-.pt-batch-group {
-  flex: 1 1 240px;
-  min-width: 0;
-}
-
-.pt-batch-inline {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  flex-wrap: wrap;
-}
-
-.pt-batch-inline .pt-input,
-.pt-batch-inline .pt-select {
-  flex: 1 1 150px;
-  width: auto;
 }
 
 /* --- Studio Card Grid --- */
@@ -483,7 +471,7 @@
   padding: 0.18rem 0.5rem;
   border-radius: 5px;
   font-size: 0.74rem;
-  font-weight: 600;
+  font-weight: 400;
   background: rgba(17, 17, 17, 0.78);
   color: #ffffff;
   backdrop-filter: blur(4px);
@@ -519,7 +507,7 @@
 
 .pt-crop-val {
   font-size: 0.76rem;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--wp--preset--color--contrast, #111111);
   min-width: 2.75rem;
   text-align: right;
@@ -587,44 +575,52 @@
   font-weight: 600;
 }
 
-/* --- Size Controls + Interactive 4x4 Picker --- */
+/* --- Uniform 3-Column Size Row (Stacked W/H | Matching Grid | Detail Scale) --- */
 .pt-size-box {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(112px, 1fr) auto minmax(145px, 1.15fr);
+  align-items: stretch;
+  gap: 0.8rem;
 }
 
-.pt-size-selects {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  flex: 1 1 150px;
+.pt-size-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.55rem;
+  min-width: 0;
 }
 
 .pt-grid-picker-wrap {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .pt-grid-picker {
+  flex: 1 1 auto;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  min-height: 112px;
   display: grid;
-  grid-template-columns: repeat(4, 16px);
-  grid-template-rows: repeat(4, 16px);
-  gap: 3px;
-  padding: 5px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 4px;
+  padding: 6px;
   background: var(--wp--preset--color--base, #f0efed);
-  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border: 1.5px solid var(--wp--preset--color--accent, #cfcabe);
   border-radius: 7px;
+  box-sizing: border-box;
 }
 
 .pt-grid-cell {
-  width: 16px;
-  height: 16px;
+  width: 100%;
+  height: 100%;
+  min-width: 20px;
+  min-height: 20px;
   padding: 0;
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 2px;
+  border-radius: 3px;
   background: var(--wp--preset--color--base-2, #ffffff);
   cursor: pointer;
 }
@@ -637,6 +633,23 @@
 .pt-grid-cell.is-hovered {
   background: var(--brand-accent-muted, rgba(10, 70, 81, 0.25));
   border-color: var(--brand-accent, #0a4651);
+}
+
+.pt-scale-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+@media (max-width: 520px) {
+  .pt-size-box {
+    grid-template-columns: 1fr auto;
+  }
+
+  .pt-scale-col {
+    grid-column: 1 / -1;
+  }
 }
 
 /* --- Frame Swatch Selector --- */
@@ -784,14 +797,10 @@
 
 .pt-publish-note {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   color: var(--wp--preset--color--contrast-2, #636363);
   line-height: 1.45;
-}
-
-.pt-publish-note code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.8rem;
+  max-width: 60ch;
 }
 
 .pt-publish-buttons {
@@ -851,7 +860,7 @@
 }
 
 .pt-gallery-filter-wrap {
-  flex: 0 0 150px;
+  flex: 0 0 165px;
 }
 
 .pt-gallery-grid {
@@ -975,104 +984,14 @@
   color: var(--wp--preset--color--contrast-2, #636363);
 }
 
-/* --- Gallery Full-Viewport Lightbox --- */
-.pt-lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 9500;
-  display: flex;
-  flex-direction: column;
-  background: rgba(12, 13, 16, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.pt-lightbox-stage {
-  flex: 1 1 auto;
-  min-height: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  box-sizing: border-box;
-  overflow: hidden;
-  touch-action: none;
-}
-
-.pt-lightbox-img {
-  display: block;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
-  user-select: none;
-  -webkit-user-drag: none;
-  touch-action: none;
-}
-
-.pt-lightbox-img.is-draggable {
-  cursor: grab;
-}
-
-.pt-lightbox-img.is-dragging {
-  cursor: grabbing;
-}
-
-.pt-lightbox-hud {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  padding: 0.55rem 0.9rem;
-  background: rgba(18, 20, 24, 0.92);
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
-  color: #f0f1f3;
-}
-
-.pt-lightbox-info {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  min-width: 0;
-}
-
-.pt-lightbox-info strong {
-  font-size: 0.98rem;
-  color: #ffffff;
-}
-
-.pt-lightbox-info span {
-  font-size: 0.84rem;
-  color: #b8bec8;
-}
-
-.pt-lightbox-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  flex-wrap: wrap;
-}
-
-.pt-lightbox .pt-btn {
-  background: #1c1e22;
-  border-color: #374151;
-  color: #f0f1f3;
-}
-
-@media (hover: hover) {
-  .pt-lightbox .pt-btn:not([disabled]):hover {
-    border-color: var(--brand-accent, #28b4c8);
-    color: var(--brand-accent, #28b4c8);
-  }
-}
-
 /* ==========================================================================
    Dark Theme Refinements
    ========================================================================== */
 @media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pt-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d1d5db' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  }
+
   :root:not([data-theme="light"]) .pt-preview-stage {
     background-color: #16181d;
     background-image:
@@ -1089,6 +1008,10 @@
   :root:not([data-theme="light"]) .pt-slug-collision {
     color: #fbbf24;
   }
+}
+
+:root[data-theme="dark"] .pt-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d1d5db' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
 }
 
 :root[data-theme="dark"] .pt-preview-stage {
@@ -1129,9 +1052,7 @@ html[data-font="mojangles"] .pt-main select,
 html[data-font="mojangles"] .pt-main button,
 html[data-font="mojangles"] .pt-main label,
 html[data-font="mojangles"] .pt-main p,
-html[data-font="mojangles"] .pt-main span:not(.pt-chip),
-html[data-font="mojangles"] .pt-lightbox,
-html[data-font="mojangles"] .pt-lightbox button {
+html[data-font="mojangles"] .pt-main span:not(.pt-chip) {
   font-family: 'Minecraft', monospace !important;
   -webkit-font-smoothing: none !important;
   -moz-osx-font-smoothing: unset !important;

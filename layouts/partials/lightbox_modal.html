@@ -1,0 +1,42 @@
+<div class="site-lightbox" id="site-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image Preview">
+  <div class="site-lightbox-backdrop" id="site-lightbox-backdrop" aria-hidden="true"></div>
+  <button type="button" class="site-lightbox-close" id="site-lightbox-close" aria-label="Close image preview">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+  <div class="site-lightbox-stage" id="site-lightbox-stage">
+    <img class="site-lightbox-img" id="site-lightbox-img" alt="">
+  </div>
+  <div class="site-lightbox-bar" id="site-lightbox-bar" role="toolbar" aria-label="Image preview controls">
+    <div class="site-lightbox-group">
+      <button type="button" class="site-lightbox-icon-btn" id="site-lightbox-prev" aria-label="Previous image">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button type="button" class="site-lightbox-icon-btn" id="site-lightbox-next" aria-label="Next image">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+    <span class="site-lightbox-divider" aria-hidden="true"></span>
+    <div class="site-lightbox-group">
+      <button type="button" class="site-lightbox-icon-btn" id="site-lightbox-zoom-out" aria-label="Zoom out">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+      <button type="button" class="site-lightbox-pct" id="site-lightbox-zoom-reset" aria-label="Reset zoom">100%</button>
+      <button type="button" class="site-lightbox-icon-btn" id="site-lightbox-zoom-in" aria-label="Zoom in">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="sr-only" id="site-lightbox-status" aria-live="polite" aria-atomic="true"></div>
+</div>

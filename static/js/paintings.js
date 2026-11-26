@@ -75,15 +75,6 @@
       editingSlug: null,
       confirmDeleteSlug: null
     },
-    lightbox: {
-      open: false,
-      index: -1,
-      mode: 'scale', /* 'scale' (to 4x4 block scale) | 'fill' (fill viewport) */
-      zoom: 1,
-      panX: 0,
-      panY: 0,
-      lastTrigger: null
-    },
     busy: false
   };
 
@@ -100,13 +91,6 @@
     galleryCount: document.getElementById('pt-gallery-count'),
     dropzone: document.getElementById('pt-dropzone'),
     fileInput: document.getElementById('pt-file-input'),
-    batchBar: document.getElementById('pt-batch-bar'),
-    batchAuthor: document.getElementById('pt-batch-author'),
-    useSsoAuthor: document.getElementById('pt-use-sso-author'),
-    applyAuthorAll: document.getElementById('pt-apply-author-all'),
-    batchFrame: document.getElementById('pt-batch-frame'),
-    applyFrameAll: document.getElementById('pt-apply-frame-all'),
-    clearAll: document.getElementById('pt-clear-all'),
     studioGrid: document.getElementById('pt-studio-grid'),
     publishCard: document.getElementById('pt-publish-card'),
     publishSummary: document.getElementById('pt-publish-summary'),
@@ -117,27 +101,10 @@
     gallerySizeFilter: document.getElementById('pt-gallery-size-filter'),
     galleryRefresh: document.getElementById('pt-gallery-refresh'),
     galleryBanner: document.getElementById('pt-gallery-banner'),
-    galleryGrid: document.getElementById('pt-gallery-grid'),
-    lightbox: document.getElementById('pt-gallery-lightbox'),
-    lightboxStage: document.getElementById('pt-lightbox-stage'),
-    lightboxImg: document.getElementById('pt-lightbox-img'),
-    lightboxTitle: document.getElementById('pt-lightbox-title'),
-    lightboxMeta: document.getElementById('pt-lightbox-meta'),
-    lightboxPrev: document.getElementById('pt-lightbox-prev'),
-    lightboxNext: document.getElementById('pt-lightbox-next'),
-    lightboxZoomOut: document.getElementById('pt-lightbox-zoom-out'),
-    lightboxZoomReset: document.getElementById('pt-lightbox-zoom-reset'),
-    lightboxZoomIn: document.getElementById('pt-lightbox-zoom-in'),
-    lightboxFit: document.getElementById('pt-lightbox-fit'),
-    lightboxClose: document.getElementById('pt-lightbox-close')
+    galleryGrid: document.getElementById('pt-gallery-grid')
   };
 
   if (!els.dropzone || !els.studioGrid) return;
-
-  /* Keep lightbox at document.body level so window.__cdA11y.setBackgroundInert works cleanly */
-  if (els.lightbox && document.body && els.lightbox.parentElement !== document.body) {
-    document.body.appendChild(els.lightbox);
-  }
 
   /* --- Utilities --- */
   function announce(msg) {
@@ -410,17 +377,12 @@
       var display = state.identity.name || state.identity.email;
       els.ssoText.innerHTML = 'Signed in as <strong>' + escapeHtml(display) + '</strong>' +
         (state.identity.isAdmin ? ' (Admin)' : '');
-      if (els.useSsoAuthor && display) {
-        els.useSsoAuthor.hidden = false;
-      }
     } else if (isLocalHost()) {
       els.ssoPill.classList.add('is-preview');
       els.ssoText.textContent = 'Local Preview Mode (SSO inactive)';
-      if (els.useSsoAuthor) els.useSsoAuthor.hidden = true;
     } else {
       els.ssoPill.classList.add('is-preview');
       els.ssoText.textContent = 'Session unverified';
-      if (els.useSsoAuthor) els.useSsoAuthor.hidden = true;
     }
   }
 
@@ -466,8 +428,8 @@
 
     var remaining = MAX_BATCH - state.staged.length;
     if (remaining <= 0) {
-      showBanner(els.studioBanner, 'warning', 'Batch limit reached (' + MAX_BATCH + ' paintings). Publish or clear items before adding more.');
-      announce('Batch limit of ' + MAX_BATCH + ' paintings reached.');
+      showBanner(els.studioBanner, 'warning', 'Upload limit reached (' + MAX_BATCH + ' paintings). Publish or remove an item before adding more.');
+      announce('Upload limit of ' + MAX_BATCH + ' paintings reached.');
       return;
     }
 
@@ -490,8 +452,9 @@
       }
 
       var size = pickInitialBlockSize(img.naturalWidth || img.width, img.naturalHeight || img.height);
-      var authorDefault = (els.batchAuthor && els.batchAuthor.value.trim()) || DEFAULT_AUTHOR;
-      var frameDefault = (els.batchFrame && els.batchFrame.value) || 'dark-oak';
+      var authorDefault = (state.identity.authenticated && state.identity.name)
+        ? state.identity.name
+        : DEFAULT_AUTHOR;
 
       state.staged.push({
         id: state.nextId++,
@@ -502,7 +465,7 @@
         blocksW: size.w,
         blocksH: size.h,
         scale: 4,
-        frame: frameDefault,
+        frame: 'dark-oak',
         panX: 0.5,
         panY: 0.5,
         zoom: 1.0,
@@ -513,10 +476,10 @@
 
     var warnings = [];
     if (files.length > remaining) {
-      warnings.push('Only added ' + remaining + ' of ' + files.length + ' files (max ' + MAX_BATCH + ' per batch).');
+      warnings.push('Only added ' + remaining + ' of ' + files.length + ' files (max ' + MAX_BATCH + ' per upload).');
     }
     if (skippedNames.length) {
-      warnings.push('Skipped unreadable or non-image file(s): ' + skippedNames.map(escapeHtml).join(', ') + '.');
+      warnings.push('Skipped unreadable or unsupported file(s): ' + skippedNames.map(escapeHtml).join(', ') + '.');
     }
     if (warnings.length) {
       showBanner(els.studioBanner, 'warning', warnings.join(' '));
@@ -524,7 +487,7 @@
 
     renderStudio();
     if (addedCount > 0) {
-      announce('Added ' + addedCount + ' painting' + (addedCount === 1 ? '' : 's') + ' to studio.');
+      announce('Added ' + addedCount + ' painting' + (addedCount === 1 ? '' : 's') + '.');
     }
   }
 
@@ -542,17 +505,11 @@
 
   function updatePublishSummary() {
     var count = state.staged.length;
-    els.batchBar.hidden = count === 0;
     els.publishCard.hidden = count === 0;
     updateHeaderCounts();
 
     if (!count) return;
-
-    var totalPxAreas = state.staged.reduce(function (sum, item) {
-      return sum + (item.blocksW * 16 * item.scale) * (item.blocksH * 16 * item.scale);
-    }, 0);
-    els.publishSummary.textContent = count + ' painting' + (count === 1 ? '' : 's') +
-      ' ready (' + totalPxAreas.toLocaleString() + ' total output pixels)';
+    els.publishSummary.textContent = count + ' painting' + (count === 1 ? '' : 's') + ' ready to publish';
   }
 
   function syncCropControlsUI(item, canvas, sliderZoom, valZoom, sliderX, valX, sliderY, valY) {
@@ -748,7 +705,6 @@
       var cropBox = document.createElement('div');
       cropBox.className = 'pt-crop-box';
 
-      /* Zoom row */
       var rowZoom = document.createElement('div');
       rowZoom.className = 'pt-crop-row';
       var lblZoom = document.createElement('label');
@@ -768,7 +724,6 @@
       rowZoom.appendChild(valZoom);
       cropBox.appendChild(rowZoom);
 
-      /* Horizontal Pan X row */
       var rowX = document.createElement('div');
       rowX.className = 'pt-crop-row';
       var lblX = document.createElement('label');
@@ -788,7 +743,6 @@
       rowX.appendChild(valX);
       cropBox.appendChild(rowX);
 
-      /* Vertical Pan Y row */
       var rowY = document.createElement('div');
       rowY.className = 'pt-crop-row';
       var lblY = document.createElement('label');
@@ -917,12 +871,12 @@
       metaGrid.appendChild(authorWrap);
       card.appendChild(metaGrid);
 
-      /* --- Full 1..4 x 1..4 Dimensions + Scale --- */
+      /* --- Uniform 3-Column Size Row: Stacked W/H | Matching 4x4 Grid | Detail Scale --- */
       var sizeBox = document.createElement('div');
       sizeBox.className = 'pt-size-box';
 
-      var sizeSelects = document.createElement('div');
-      sizeSelects.className = 'pt-size-selects';
+      var sizeStack = document.createElement('div');
+      sizeStack.className = 'pt-size-stack';
 
       var wWrap = document.createElement('div');
       var wLbl = document.createElement('label');
@@ -968,11 +922,11 @@
       hWrap.appendChild(hLbl);
       hWrap.appendChild(hSel);
 
-      sizeSelects.appendChild(wWrap);
-      sizeSelects.appendChild(hWrap);
-      sizeBox.appendChild(sizeSelects);
+      sizeStack.appendChild(wWrap);
+      sizeStack.appendChild(hWrap);
+      sizeBox.appendChild(sizeStack);
 
-      /* Interactive 4x4 grid picker */
+      /* Interactive 4x4 grid picker matching stack height */
       var gridWrap = document.createElement('div');
       gridWrap.className = 'pt-grid-picker-wrap';
       var gridLbl = document.createElement('span');
@@ -1017,9 +971,9 @@
       gridWrap.appendChild(gridPicker);
       sizeBox.appendChild(gridWrap);
 
-      /* Detail resolution scale selector (capped at 8x) */
+      /* Detail resolution scale selector on the right */
       var scaleWrap = document.createElement('div');
-      scaleWrap.style.flex = '1 1 160px';
+      scaleWrap.className = 'pt-scale-col';
       var scaleLbl = document.createElement('label');
       scaleLbl.className = 'pt-field-label';
       scaleLbl.htmlFor = 'pt-scale-' + item.id;
@@ -1132,7 +1086,7 @@
     setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
   }
 
-  /* --- Batch Controls & Dropzone Events --- */
+  /* --- Dropzone Events --- */
   els.dropzone.addEventListener('click', function () {
     els.fileInput.click();
   });
@@ -1164,42 +1118,6 @@
     els.fileInput.value = '';
   });
 
-  if (els.useSsoAuthor) {
-    els.useSsoAuthor.addEventListener('click', function () {
-      var name = state.identity.name || state.identity.email.split('@')[0];
-      if (name && els.batchAuthor) {
-        els.batchAuthor.value = name;
-      }
-    });
-  }
-
-  if (els.applyAuthorAll) {
-    els.applyAuthorAll.addEventListener('click', function () {
-      var val = (els.batchAuthor && els.batchAuthor.value.trim()) || DEFAULT_AUTHOR;
-      state.staged.forEach(function (item) { item.author = val; });
-      renderStudio();
-      announce('Applied author ' + val + ' to all paintings.');
-    });
-  }
-
-  if (els.applyFrameAll) {
-    els.applyFrameAll.addEventListener('click', function () {
-      var val = (els.batchFrame && els.batchFrame.value) || 'dark-oak';
-      state.staged.forEach(function (item) { item.frame = val; });
-      renderStudio();
-      announce('Applied frame style to all paintings.');
-    });
-  }
-
-  if (els.clearAll) {
-    els.clearAll.addEventListener('click', function () {
-      state.staged = [];
-      hideBanner(els.studioBanner);
-      renderStudio();
-      announce('Cleared all staged paintings.');
-    });
-  }
-
   if (els.downloadAllBtn) {
     els.downloadAllBtn.addEventListener('click', async function () {
       if (!state.staged.length) return;
@@ -1220,11 +1138,11 @@
       state.busy = true;
       els.publishBtn.disabled = true;
       var btnSpan = els.publishBtn.querySelector('span');
-      var origLabel = btnSpan ? btnSpan.textContent : 'Publish to Resource Pack';
+      var origLabel = btnSpan ? btnSpan.textContent : 'Publish Paintings';
 
       try {
-        if (btnSpan) btnSpan.textContent = 'Rendering PNGs\u2026';
-        showBanner(els.studioBanner, '', 'Rendering ' + state.staged.length + ' PNG file(s)\u2026');
+        if (btnSpan) btnSpan.textContent = 'Preparing\u2026';
+        showBanner(els.studioBanner, '', 'Preparing ' + state.staged.length + ' painting(s)\u2026');
 
         var payloadItems = [];
         var totalBytes = 0;
@@ -1233,7 +1151,7 @@
           var cvs = renderPaintingToCanvas(item);
           var blob = await canvasToPngBlob(cvs);
           if (blob.size > 2 * 1024 * 1024) {
-            throw new Error('"' + item.title + '" PNG exceeds 2 MB (' + formatBytes(blob.size) + '). Lower its detail scale.');
+            throw new Error('"' + item.title + '" image file is too large (' + formatBytes(blob.size) + '). Try lowering its detail scale.');
           }
           totalBytes += blob.size;
           var b64 = await blobToBase64(blob);
@@ -1249,11 +1167,11 @@
         }
 
         if (totalBytes > 8 * 1024 * 1024) {
-          throw new Error('Total batch size (' + formatBytes(totalBytes) + ') exceeds 8 MB. Split into two batches.');
+          throw new Error('Total upload size (' + formatBytes(totalBytes) + ') exceeds 8 MB. Try publishing in two smaller groups.');
         }
 
         if (btnSpan) btnSpan.textContent = 'Publishing\u2026';
-        showBanner(els.studioBanner, '', 'Committing paintings to <code>College-Debt/resource-pack</code> (' + formatBytes(totalBytes) + ')\u2026');
+        showBanner(els.studioBanner, '', 'Saving your paintings to the server pack\u2026');
 
         var res = await fetch(WORKER_BASE, {
           method: 'POST',
@@ -1267,10 +1185,10 @@
 
         var ct = (res.headers.get('content-type') || '').toLowerCase();
         if (res.status === 401 || res.status === 403 || (res.redirected && ct.indexOf('text/html') !== -1)) {
-          throw new Error('Your Cloudflare Access SSO session expired. Please refresh this page to sign back in — your staged paintings stay ready if you download PNGs first.');
+          throw new Error('Your login session expired. Please refresh this page to sign back in.');
         }
         if (res.status === 404 || ct.indexOf('application/json') === -1) {
-          throw new Error('The Cloudflare Worker endpoint (/api/paintings) is not live yet. You can still use "Download PNGs" to save your rendered textures locally.');
+          throw new Error('Publishing is not active yet. You can still use "Download PNGs" to save your images.');
         }
 
         var result = await res.json();
@@ -1284,18 +1202,14 @@
             ' (' + p.width + '&times;' + p.height + ')</li>';
         }).join('');
 
-        var releaseNote = result.workflowUrl
-          ? ' <a href="' + escapeHtml(result.workflowUrl) + '" target="_blank" rel="noopener">View pack build run</a>.'
-          : ' The server resource pack release workflow has been triggered.';
-
         showBanner(
           els.studioBanner,
           'success',
-          '<strong>Published ' + committed.length + ' painting' + (committed.length === 1 ? '' : 's') + '!</strong>' +
-          releaseNote +
+          '<strong>Published ' + committed.length + ' painting' + (committed.length === 1 ? '' : 's') + '!</strong> ' +
+          'The server pack is updating, and you can edit or remove them anytime in the Server Gallery.' +
           (listHtml ? '<ul class="pt-banner-list">' + listHtml + '</ul>' : '')
         );
-        announce('Published ' + committed.length + ' paintings to the server resource pack.');
+        announce('Published ' + committed.length + ' paintings.');
 
         state.staged = [];
         renderStudio();
@@ -1312,252 +1226,6 @@
     });
   }
 
-  /* --- Full-Viewport Lightbox Preview (Scale-Accurate & Zoomable) --- */
-  function updateLightboxLayout() {
-    if (!state.lightbox.open || !els.lightboxImg || !els.lightboxStage) return;
-    var item = state.gallery.filtered[state.lightbox.index];
-    if (!item) return;
-
-    var stageRect = els.lightboxStage.getBoundingClientRect();
-    var availW = Math.max(180, (stageRect.width || window.innerWidth) - 16);
-    var availH = Math.max(180, (stageRect.height || window.innerHeight - 64) - 16);
-
-    var baseW, baseH;
-    if (state.lightbox.mode === 'fill') {
-      var fillPxPerBlock = Math.min(availW / item.width, availH / item.height);
-      baseW = item.width * fillPxPerBlock;
-      baseH = item.height * fillPxPerBlock;
-    } else {
-      /* Scale relative to the largest possible 4x4 grid so 4x4 paintings span the viewport cleanly */
-      var scalePxPerBlock = Math.min(availW / MAX_BLOCKS, availH / MAX_BLOCKS);
-      baseW = item.width * scalePxPerBlock;
-      baseH = item.height * scalePxPerBlock;
-    }
-
-    var finalW = Math.round(baseW * state.lightbox.zoom);
-    var finalH = Math.round(baseH * state.lightbox.zoom);
-
-    els.lightboxImg.style.width = finalW + 'px';
-    els.lightboxImg.style.height = finalH + 'px';
-    els.lightboxImg.style.transform = 'translate3d(' + state.lightbox.panX + 'px, ' + state.lightbox.panY + 'px, 0)';
-    els.lightboxImg.classList.toggle('is-draggable', state.lightbox.zoom > 1.01);
-
-    if (els.lightboxZoomReset) {
-      els.lightboxZoomReset.textContent = state.lightbox.mode === 'scale' && Math.abs(state.lightbox.zoom - 1) < 0.01
-        ? 'To Scale'
-        : Math.round(state.lightbox.zoom * 100) + '%';
-    }
-    if (els.lightboxFit) {
-      els.lightboxFit.textContent = state.lightbox.mode === 'fill' ? 'To Scale' : 'Fill';
-    }
-    if (els.lightboxPrev) {
-      els.lightboxPrev.disabled = state.gallery.filtered.length <= 1;
-    }
-    if (els.lightboxNext) {
-      els.lightboxNext.disabled = state.gallery.filtered.length <= 1;
-    }
-  }
-
-  function showLightboxAt(index) {
-    if (!state.gallery.filtered.length) return;
-    var len = state.gallery.filtered.length;
-    var normalized = ((index % len) + len) % len;
-    var item = state.gallery.filtered[normalized];
-    state.lightbox.index = normalized;
-    state.lightbox.zoom = 1;
-    state.lightbox.panX = 0;
-    state.lightbox.panY = 0;
-
-    els.lightboxImg.src = item.textureUrl;
-    els.lightboxImg.alt = item.title + ' (' + item.width + '×' + item.height + ' blocks)';
-    els.lightboxTitle.textContent = item.title;
-    els.lightboxMeta.textContent = 'by ' + item.author + ' · ' + item.width + '×' + item.height + ' blocks';
-    updateLightboxLayout();
-  }
-
-  function openLightbox(index, triggerEl) {
-    if (!els.lightbox) return;
-    state.lightbox.open = true;
-    state.lightbox.mode = 'scale';
-    state.lightbox.lastTrigger = triggerEl || document.activeElement;
-
-    els.lightbox.hidden = false;
-    els.lightbox.setAttribute('aria-hidden', 'false');
-    document.documentElement.classList.add('has-modal-open');
-    document.body.classList.add('has-modal-open');
-    if (window.__cdA11y) {
-      window.__cdA11y.setBackgroundInert(els.lightbox, true);
-    }
-
-    showLightboxAt(index);
-    if (els.lightboxClose) {
-      setTimeout(function () { els.lightboxClose.focus(); }, 20);
-    }
-  }
-
-  function closeLightbox() {
-    if (!els.lightbox || !state.lightbox.open) return;
-    state.lightbox.open = false;
-    els.lightbox.hidden = true;
-    els.lightbox.setAttribute('aria-hidden', 'true');
-    document.documentElement.classList.remove('has-modal-open');
-    document.body.classList.remove('has-modal-open');
-    if (window.__cdA11y) {
-      window.__cdA11y.setBackgroundInert(els.lightbox, false);
-    }
-    var trig = state.lightbox.lastTrigger;
-    state.lightbox.lastTrigger = null;
-    if (trig && trig.offsetParent !== null) {
-      trig.focus();
-    }
-  }
-
-  if (els.lightbox) {
-    window.addEventListener('resize', function () {
-      if (state.lightbox.open) updateLightboxLayout();
-    });
-
-    if (els.lightboxClose) els.lightboxClose.addEventListener('click', closeLightbox);
-    if (els.lightboxPrev) els.lightboxPrev.addEventListener('click', function () { showLightboxAt(state.lightbox.index - 1); });
-    if (els.lightboxNext) els.lightboxNext.addEventListener('click', function () { showLightboxAt(state.lightbox.index + 1); });
-    if (els.lightboxZoomIn) {
-      els.lightboxZoomIn.addEventListener('click', function () {
-        state.lightbox.zoom = clamp(state.lightbox.zoom * 1.35, 0.5, 6);
-        updateLightboxLayout();
-      });
-    }
-    if (els.lightboxZoomOut) {
-      els.lightboxZoomOut.addEventListener('click', function () {
-        state.lightbox.zoom = clamp(state.lightbox.zoom / 1.35, 0.5, 6);
-        if (state.lightbox.zoom <= 1) {
-          state.lightbox.panX = 0;
-          state.lightbox.panY = 0;
-        }
-        updateLightboxLayout();
-      });
-    }
-    if (els.lightboxZoomReset) {
-      els.lightboxZoomReset.addEventListener('click', function () {
-        state.lightbox.mode = 'scale';
-        state.lightbox.zoom = 1;
-        state.lightbox.panX = 0;
-        state.lightbox.panY = 0;
-        updateLightboxLayout();
-      });
-    }
-    if (els.lightboxFit) {
-      els.lightboxFit.addEventListener('click', function () {
-        state.lightbox.mode = state.lightbox.mode === 'fill' ? 'scale' : 'fill';
-        state.lightbox.zoom = 1;
-        state.lightbox.panX = 0;
-        state.lightbox.panY = 0;
-        updateLightboxLayout();
-      });
-    }
-
-    /* Wheel zoom, 2-finger pinch zoom, and drag-to-pan in lightbox */
-    (function setupLightboxGestures() {
-      var pointers = new Map();
-      var dragging = false;
-      var sx = 0;
-      var sy = 0;
-      var spx = 0;
-      var spy = 0;
-      var pinchDist = 0;
-      var pinchZoom = 1;
-
-      function dist(a, b) {
-        return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
-      }
-
-      els.lightboxStage.addEventListener('click', function (e) {
-        if (e.target === els.lightboxStage && !dragging) {
-          closeLightbox();
-        }
-      });
-
-      els.lightboxStage.addEventListener('wheel', function (e) {
-        e.preventDefault();
-        var nextZoom = clamp(state.lightbox.zoom * Math.exp(-e.deltaY * 0.0022), 0.5, 6);
-        state.lightbox.zoom = nextZoom;
-        if (nextZoom <= 1) {
-          state.lightbox.panX = 0;
-          state.lightbox.panY = 0;
-        }
-        updateLightboxLayout();
-      }, { passive: false });
-
-      els.lightboxImg.addEventListener('pointerdown', function (e) {
-        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        if (els.lightboxImg.setPointerCapture) {
-          try { els.lightboxImg.setPointerCapture(e.pointerId); } catch (err) {}
-        }
-        if (pointers.size === 2) {
-          var pts = Array.from(pointers.values());
-          pinchDist = Math.max(1, dist(pts[0], pts[1]));
-          pinchZoom = state.lightbox.zoom;
-          dragging = false;
-          return;
-        }
-        if (pointers.size === 1 && state.lightbox.zoom > 1.01) {
-          dragging = true;
-          sx = e.clientX;
-          sy = e.clientY;
-          spx = state.lightbox.panX;
-          spy = state.lightbox.panY;
-          els.lightboxImg.classList.add('is-dragging');
-        }
-      });
-
-      els.lightboxImg.addEventListener('pointermove', function (e) {
-        if (!pointers.has(e.pointerId)) return;
-        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        if (pointers.size === 2 && pinchDist > 0) {
-          var pts = Array.from(pointers.values());
-          state.lightbox.zoom = clamp(pinchZoom * (dist(pts[0], pts[1]) / pinchDist), 0.5, 6);
-          updateLightboxLayout();
-          return;
-        }
-        if (dragging) {
-          state.lightbox.panX = spx + (e.clientX - sx);
-          state.lightbox.panY = spy + (e.clientY - sy);
-          updateLightboxLayout();
-        }
-      });
-
-      function endLbPointer(e) {
-        pointers.delete(e.pointerId);
-        if (els.lightboxImg.releasePointerCapture) {
-          try { els.lightboxImg.releasePointerCapture(e.pointerId); } catch (err) {}
-        }
-        if (pointers.size < 2) pinchDist = 0;
-        if (pointers.size === 0) {
-          dragging = false;
-          els.lightboxImg.classList.remove('is-dragging');
-        }
-      }
-
-      els.lightboxImg.addEventListener('pointerup', endLbPointer);
-      els.lightboxImg.addEventListener('pointercancel', endLbPointer);
-    })();
-
-    document.addEventListener('keydown', function (e) {
-      if (!state.lightbox.open) return;
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        closeLightbox();
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        showLightboxAt(state.lightbox.index - 1);
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        showLightboxAt(state.lightbox.index + 1);
-      } else if (e.key === 'Tab' && window.__cdA11y) {
-        window.__cdA11y.trapTab(e, els.lightbox);
-      }
-    });
-  }
-
   /* --- Server Gallery (Worker First, Read-Only GitHub Fallback) --- */
   function componentText(val, fallback) {
     if (typeof val === 'string') return val;
@@ -1568,7 +1236,7 @@
   async function fetchGalleryFromGitHubFallback() {
     var listRes = await fetch(GITHUB_CONTENTS_URL, { headers: { Accept: 'application/vnd.github+json' } });
     if (!listRes.ok) {
-      throw new Error('Could not reach GitHub gallery (' + listRes.status + ')');
+      throw new Error('Could not load paintings (' + listRes.status + ')');
     }
     var entries = await listRes.json();
     var jsonFiles = (Array.isArray(entries) ? entries : []).filter(function (f) {
@@ -1643,7 +1311,7 @@
         showBanner(
           els.galleryBanner,
           '',
-          'Showing live read-only paintings from <code>College-Debt/resource-pack</code>. Editing and deleting unlock once the <code>/api/paintings</code> Cloudflare Worker is connected.'
+          'Showing current server paintings in read-only mode.'
         );
       }
 
@@ -1703,7 +1371,7 @@
       throw new Error((bad && bad.error) || 'Failed to save changes (' + res.status + ')');
     }
     state.gallery.editingSlug = null;
-    showBanner(els.galleryBanner, 'success', 'Updated painting and triggered pack rebuild.');
+    showBanner(els.galleryBanner, 'success', 'Saved changes. The server pack will update shortly.');
     await loadGallery(true);
   }
 
@@ -1724,7 +1392,7 @@
       throw new Error((bad && bad.error) || 'Failed to delete painting (' + res.status + ')');
     }
     state.gallery.confirmDeleteSlug = null;
-    showBanner(els.galleryBanner, 'success', 'Deleted painting and triggered pack rebuild.');
+    showBanner(els.galleryBanner, 'success', 'Painting removed. The server pack will update shortly.');
     await loadGallery(true);
   }
 
@@ -1768,13 +1436,23 @@
       img.decoding = 'async';
       img.src = item.textureUrl;
       img.alt = item.title + ' (' + item.width + '×' + item.height + ' painting)';
-      /* Proportional block sizing relative to 4x4 reduces whitespace for large paintings */
       img.style.width = ((item.width / MAX_BLOCKS) * 100) + '%';
       img.style.height = 'auto';
       img.style.aspectRatio = item.width + ' / ' + item.height;
       thumbBtn.appendChild(img);
       thumbBtn.addEventListener('click', function () {
-        openLightbox(fIdx, thumbBtn);
+        if (window.__cdLightbox) {
+          var lbItems = state.gallery.filtered.map(function (it) {
+            return {
+              src: it.textureUrl,
+              alt: it.title + ' by ' + it.author + ' (' + it.width + '×' + it.height + ')',
+              widthBlocks: it.width,
+              heightBlocks: it.height,
+              pixelated: true
+            };
+          });
+          window.__cdLightbox.openGallery(lbItems, fIdx, thumbBtn);
+        }
       });
       card.appendChild(thumbBtn);
 

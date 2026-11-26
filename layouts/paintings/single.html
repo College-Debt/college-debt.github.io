@@ -68,51 +68,20 @@
             </svg>
           </div>
           <p class="pt-dropzone-title">Drop painting images here or <span>browse files</span></p>
-          <p class="pt-dropzone-hint">PNG, JPG, WebP, or GIF &middot; Up to 10 paintings per batch &middot; Custom sizes 1&times;1 to 4&times;4 blocks (up to 8&times; detail)</p>
-        </div>
-
-        <div class="pt-batch-bar" id="pt-batch-bar" hidden>
-          <div class="pt-batch-group">
-            <label for="pt-batch-author" class="pt-field-label">Batch Author</label>
-            <div class="pt-batch-inline">
-              <input type="text" id="pt-batch-author" class="pt-input pt-input-compact" value="College Debt SMP" maxlength="64" placeholder="College Debt SMP">
-              <button type="button" class="pt-btn pt-btn-sm" id="pt-use-sso-author" hidden title="Fill from your SSO display name">Use my name</button>
-              <button type="button" class="pt-btn pt-btn-sm" id="pt-apply-author-all">Apply to all</button>
-            </div>
-          </div>
-
-          <div class="pt-batch-group">
-            <label for="pt-batch-frame" class="pt-field-label">Batch Frame</label>
-            <div class="pt-batch-inline">
-              <select id="pt-batch-frame" class="pt-select pt-select-compact">
-                <option value="dark-oak">Dark Oak (Classic)</option>
-                <option value="warm-amber">Warm Amber</option>
-                <option value="crimson">Crimson</option>
-                <option value="deep-walnut">Deep Walnut</option>
-                <option value="charcoal">Charcoal</option>
-                <option value="slate-teal">Slate Teal</option>
-                <option value="frameless">Frameless</option>
-              </select>
-              <button type="button" class="pt-btn pt-btn-sm" id="pt-apply-frame-all">Apply to all</button>
-            </div>
-          </div>
-
-          <div class="pt-batch-actions">
-            <button type="button" class="pt-btn pt-btn-sm pt-btn-danger-outline" id="pt-clear-all">Clear all</button>
-          </div>
+          <p class="pt-dropzone-hint">PNG, JPG, WebP, or GIF &middot; Up to 10 paintings per upload &middot; Sizes 1&times;1 to 4&times;4 blocks</p>
         </div>
 
         <div class="pt-studio-grid" id="pt-studio-grid"></div>
 
         <div class="pt-publish-card" id="pt-publish-card" hidden>
           <div class="pt-publish-meta">
-            <div class="pt-publish-summary" id="pt-publish-summary">Ready to publish.</div>
-            <p class="pt-publish-note">Published paintings are added directly to <code>College-Debt/resource-pack</code> as additive <code>cdsmp:*</code> Stonecutter variants and packaged automatically via <code>release.yml</code>.</p>
+            <div class="pt-publish-summary" id="pt-publish-summary">Ready to publish</div>
+            <p class="pt-publish-note">Your paintings will be added to the server pack and appear in-game after the pack updates. You can edit titles, authors, or remove paintings later in the Server Gallery.</p>
           </div>
           <div class="pt-publish-buttons">
             <button type="button" class="pt-btn" id="pt-download-all-png">Download PNGs</button>
             <button type="button" class="pt-btn pt-btn-primary" id="pt-publish-btn">
-              <span>Publish to Resource Pack</span>
+              <span>Publish Paintings</span>
             </button>
           </div>
         </div>
@@ -131,7 +100,7 @@
         <div class="pt-gallery-toolbar">
           <div class="pt-gallery-search-wrap">
             <label for="pt-gallery-search" class="sr-only">Search server paintings</label>
-            <input type="search" id="pt-gallery-search" class="pt-input" placeholder="Search by title, author, or ID...">
+            <input type="search" id="pt-gallery-search" class="pt-input" placeholder="Search by title or author...">
           </div>
           <div class="pt-gallery-filter-wrap">
             <label for="pt-gallery-size-filter" class="sr-only">Filter by block size</label>
@@ -148,30 +117,4 @@
     </div>
   </div>
 </main>
-
-<div class="pt-lightbox" id="pt-gallery-lightbox" role="dialog" aria-modal="true" aria-label="Painting full preview" aria-hidden="true" hidden>
-  <div class="pt-lightbox-stage" id="pt-lightbox-stage">
-    <img class="pt-lightbox-img" id="pt-lightbox-img" alt="">
-  </div>
-  <div class="pt-lightbox-hud">
-    <div class="pt-lightbox-info">
-      <strong id="pt-lightbox-title"></strong>
-      <span id="pt-lightbox-meta"></span>
-    </div>
-    <div class="pt-lightbox-controls">
-      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-prev" aria-label="Previous painting">Prev</button>
-      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-zoom-out" aria-label="Zoom out">&minus;</button>
-      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-zoom-reset" aria-label="Reset to scale">Scale</button>
-      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-zoom-in" aria-label="Zoom in">+</button>
-      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-fit" aria-label="Fill viewport">Fill</button>
-      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-next" aria-label="Next painting">Next</button>
-      <button type="button" class="pt-btn pt-btn-xs" id="pt-lightbox-close" aria-label="Close preview">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-    </div>
-  </div>
-</div>
 {{ end }}
