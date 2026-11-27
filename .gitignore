@@ -2,3 +2,7 @@
 /resources/
 .hugo_build.lock
 .DS_Store
+workers/*/node_modules/
+workers/*/.wrangler/
+workers/*/.dev.vars
+workers/*/dist/

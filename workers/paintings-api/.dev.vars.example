@@ -1,0 +1,5 @@
+# Copy this file to .dev.vars (gitignored) for local `npm run dev` testing.
+# For production deployment, upload secrets with `npx wrangler secret put <NAME>`.
+
+GITHUB_TOKEN=
+ADMIN_EMAILS=quang@quangmn.com

@@ -1,0 +1,33 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cdsmp-paintings-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "collegedebt.app/api/paintings*",
+      "zone_id": "9ab076285b2a595d61a337c3521943db"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.1
+    }
+  },
+  "vars": {
+    "GITHUB_OWNER": "College-Debt",
+    "GITHUB_REPO": "resource-pack",
+    "GITHUB_BRANCH": "main",
+    "CF_ACCESS_TEAM_DOMAIN": "collegedebt.cloudflareaccess.com",
+    "POLICY_AUD": "2051652d444da71fea7faab6b6ae9f73738d9bc1440e196c103b9743633c4ee1",
+    "RELEASE_WORKFLOW_FILE": "release.yml"
+  }
+}
