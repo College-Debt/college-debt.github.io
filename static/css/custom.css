@@ -1844,3 +1844,24 @@ main#main-content:focus,
   border-radius: 6px;
 }
 
+.home-hero-image img:focus-visible,
+.wp-block-post-featured-image img:focus-visible,
+.entry-content img:focus-visible,
+.wiki-cover-banner:focus-visible,
+.wiki-article-body img:focus-visible {
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+   Universal Textbox Focus Accent (Border Only, Zero Outer Outline)
+   ========================================================================== */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):focus,
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):focus-visible,
+textarea:focus,
+textarea:focus-visible {
+  outline: none !important;
+  border-color: var(--brand-accent, #0a4651) !important;
+}
+

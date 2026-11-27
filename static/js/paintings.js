@@ -60,11 +60,12 @@
     nextId: 1,
     staged: [],
     identity: {
+      checked: false,
       authenticated: false,
       email: '',
       name: '',
       isAdmin: false,
-      source: 'none'
+      anomalyReason: ''
     },
     gallery: {
       loaded: false,
@@ -80,8 +81,7 @@
 
   /* --- DOM Handles --- */
   var els = {
-    ssoPill: document.getElementById('pt-sso-pill'),
-    ssoText: document.getElementById('pt-sso-text'),
+    sessionCallout: document.getElementById('pt-session-callout'),
     srStatus: document.getElementById('pt-sr-status'),
     tabStudio: document.getElementById('pt-tab-studio'),
     tabGallery: document.getElementById('pt-tab-gallery'),
@@ -124,6 +124,14 @@
     if (!bannerEl) return;
     bannerEl.hidden = true;
     bannerEl.innerHTML = '';
+  }
+
+  function restoreFocusById(id) {
+    if (!id) return;
+    var el = document.getElementById(id);
+    if (el && typeof el.focus === 'function') {
+      el.focus();
+    }
   }
 
   function escapeHtml(str) {
@@ -367,23 +375,27 @@
     });
   });
 
-  /* --- SSO Identity Detection --- */
-  function updateSsoPill() {
-    if (!els.ssoPill || !els.ssoText) return;
-    els.ssoPill.classList.remove('is-authenticated', 'is-preview');
-
-    if (state.identity.authenticated) {
-      els.ssoPill.classList.add('is-authenticated');
-      var display = state.identity.name || state.identity.email;
-      els.ssoText.innerHTML = 'Signed in as <strong>' + escapeHtml(display) + '</strong>' +
-        (state.identity.isAdmin ? ' (Admin)' : '');
-    } else if (isLocalHost()) {
-      els.ssoPill.classList.add('is-preview');
-      els.ssoText.textContent = 'Local Preview Mode (SSO inactive)';
-    } else {
-      els.ssoPill.classList.add('is-preview');
-      els.ssoText.textContent = 'Session unverified';
+  /* --- Conditional Session Callout (Hidden When Operating Normally) --- */
+  function updateSessionCallout() {
+    if (!els.sessionCallout) return;
+    if (!state.identity.checked && !state.identity.anomalyReason) {
+      els.sessionCallout.hidden = true;
+      return;
     }
+
+    if (state.identity.authenticated && !state.identity.anomalyReason) {
+      els.sessionCallout.hidden = true;
+      els.sessionCallout.innerHTML = '';
+      return;
+    }
+
+    var msg = state.identity.anomalyReason ||
+      (isLocalHost()
+        ? 'Local preview mode: Login protection is inactive here, so publishing is unavailable.'
+        : 'Your login session could not be verified. Please refresh the page to sign back in before publishing or editing paintings.');
+
+    els.sessionCallout.innerHTML = '<span class="sr-only">Warning: </span>' + escapeHtml(msg);
+    els.sessionCallout.hidden = false;
   }
 
   async function detectSsoIdentity() {
@@ -399,11 +411,19 @@
           state.identity.authenticated = true;
           state.identity.email = data.email || '';
           state.identity.name = data.name || (data.email ? data.email.split('@')[0] : '');
-          state.identity.source = 'cf-get-identity';
+          state.identity.anomalyReason = '';
         }
+      } else if (res.status === 401 || res.status === 403) {
+        state.identity.anomalyReason = 'Your login session expired. Please refresh the page to sign back in.';
       }
-    } catch (err) {}
-    updateSsoPill();
+    } catch (err) {
+      if (!isLocalHost()) {
+        state.identity.anomalyReason = 'Unable to verify your login session right now. Please refresh the page or check your connection.';
+      }
+    } finally {
+      state.identity.checked = true;
+      updateSessionCallout();
+    }
   }
 
   /* --- Sequential Image Import --- */
@@ -529,7 +549,6 @@
     canvas.classList.toggle('is-pannable', win.canPanX || win.canPanY);
   }
 
-  /* Supports 1-finger/mouse pan, mousewheel zoom, and 2-finger pinch zoom */
   function attachCanvasInteractions(stage, canvas, item, controls) {
     var activePointers = new Map();
     var dragging = false;
@@ -637,7 +656,65 @@
     }, { passive: false });
   }
 
-  function renderStudio() {
+  function createDimensionStepper(idPrefix, labelText, value, onChange) {
+    var wrap = document.createElement('div');
+    var lblId = idPrefix + '-lbl';
+    var valId = idPrefix + '-val';
+    var lbl = document.createElement('span');
+    lbl.className = 'pt-field-label';
+    lbl.id = lblId;
+    lbl.textContent = labelText;
+
+    var box = document.createElement('div');
+    box.className = 'pt-stepper';
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-labelledby', lblId);
+
+    var decId = idPrefix + '-dec';
+    var incId = idPrefix + '-inc';
+
+    var decBtn = document.createElement('button');
+    decBtn.type = 'button';
+    decBtn.id = decId;
+    decBtn.className = 'pt-stepper-btn';
+    decBtn.textContent = '\u2212';
+    decBtn.setAttribute('aria-label', 'Decrease ' + labelText.toLowerCase());
+    decBtn.disabled = value <= 1;
+    decBtn.addEventListener('click', function () {
+      if (value > 1) {
+        var nextVal = value - 1;
+        onChange(nextVal, nextVal <= 1 ? incId : decId);
+      }
+    });
+
+    var valEl = document.createElement('span');
+    valEl.id = valId;
+    valEl.className = 'pt-stepper-val';
+    valEl.textContent = String(value);
+
+    var incBtn = document.createElement('button');
+    incBtn.type = 'button';
+    incBtn.id = incId;
+    incBtn.className = 'pt-stepper-btn';
+    incBtn.textContent = '+';
+    incBtn.setAttribute('aria-label', 'Increase ' + labelText.toLowerCase());
+    incBtn.disabled = value >= MAX_BLOCKS;
+    incBtn.addEventListener('click', function () {
+      if (value < MAX_BLOCKS) {
+        var nextVal = value + 1;
+        onChange(nextVal, nextVal >= MAX_BLOCKS ? decId : incId);
+      }
+    });
+
+    box.appendChild(decBtn);
+    box.appendChild(valEl);
+    box.appendChild(incBtn);
+    wrap.appendChild(lbl);
+    wrap.appendChild(box);
+    return wrap;
+  }
+
+  function renderStudio(focusTargetId) {
     els.studioGrid.innerHTML = '';
     var slugMeta = predictSlugsForStaged();
 
@@ -871,62 +948,31 @@
       metaGrid.appendChild(authorWrap);
       card.appendChild(metaGrid);
 
-      /* --- Uniform 3-Column Size Row: Stacked W/H | Matching 4x4 Grid | Detail Scale --- */
-      var sizeBox = document.createElement('div');
-      sizeBox.className = 'pt-size-box';
+      /* --- Left Half: Size Block (Stacked W/H Steppers + Square 4x4 Grid) | Right Half: Detail Scale --- */
+      var sizeRow = document.createElement('div');
+      sizeRow.className = 'pt-size-row';
+
+      var sizeBlock = document.createElement('div');
+      sizeBlock.className = 'pt-size-block';
 
       var sizeStack = document.createElement('div');
       sizeStack.className = 'pt-size-stack';
 
-      var wWrap = document.createElement('div');
-      var wLbl = document.createElement('label');
-      wLbl.className = 'pt-field-label';
-      wLbl.htmlFor = 'pt-w-' + item.id;
-      wLbl.textContent = 'Width (blocks)';
-      var wSel = document.createElement('select');
-      wSel.id = 'pt-w-' + item.id;
-      wSel.className = 'pt-select';
-      for (var bw = 1; bw <= MAX_BLOCKS; bw++) {
-        var optW = document.createElement('option');
-        optW.value = String(bw);
-        optW.textContent = bw + (bw === 1 ? ' block' : ' blocks');
-        optW.selected = item.blocksW === bw;
-        wSel.appendChild(optW);
-      }
-      wSel.addEventListener('change', function () {
-        item.blocksW = Number(wSel.value);
-        renderStudio();
-      });
-      wWrap.appendChild(wLbl);
-      wWrap.appendChild(wSel);
+      sizeStack.appendChild(createDimensionStepper('pt-w-' + item.id, 'Width', item.blocksW, function (nextW, btnId) {
+        item.blocksW = nextW;
+        announce('Width set to ' + nextW + ' blocks');
+        renderStudio(btnId);
+      }));
 
-      var hWrap = document.createElement('div');
-      var hLbl = document.createElement('label');
-      hLbl.className = 'pt-field-label';
-      hLbl.htmlFor = 'pt-h-' + item.id;
-      hLbl.textContent = 'Height (blocks)';
-      var hSel = document.createElement('select');
-      hSel.id = 'pt-h-' + item.id;
-      hSel.className = 'pt-select';
-      for (var bh = 1; bh <= MAX_BLOCKS; bh++) {
-        var optH = document.createElement('option');
-        optH.value = String(bh);
-        optH.textContent = bh + (bh === 1 ? ' block' : ' blocks');
-        optH.selected = item.blocksH === bh;
-        hSel.appendChild(optH);
-      }
-      hSel.addEventListener('change', function () {
-        item.blocksH = Number(hSel.value);
-        renderStudio();
-      });
-      hWrap.appendChild(hLbl);
-      hWrap.appendChild(hSel);
+      sizeStack.appendChild(createDimensionStepper('pt-h-' + item.id, 'Height', item.blocksH, function (nextH, btnId) {
+        item.blocksH = nextH;
+        announce('Height set to ' + nextH + ' blocks');
+        renderStudio(btnId);
+      }));
 
-      sizeStack.appendChild(wWrap);
-      sizeStack.appendChild(hWrap);
-      sizeBox.appendChild(sizeStack);
+      sizeBlock.appendChild(sizeStack);
 
-      /* Interactive 4x4 grid picker matching stack height */
+      /* Strict square 4x4 grid matching stepper stack height inside left half */
       var gridWrap = document.createElement('div');
       gridWrap.className = 'pt-grid-picker-wrap';
       var gridLbl = document.createElement('span');
@@ -941,8 +987,10 @@
       for (var gy = 1; gy <= MAX_BLOCKS; gy++) {
         for (var gx = 1; gx <= MAX_BLOCKS; gx++) {
           (function (cw, ch) {
+            var cellId = 'pt-cell-' + item.id + '-' + cw + 'x' + ch;
             var cell = document.createElement('button');
             cell.type = 'button';
+            cell.id = cellId;
             cell.className = 'pt-grid-cell' + (cw <= item.blocksW && ch <= item.blocksH ? ' is-selected' : '');
             cell.setAttribute('aria-label', cw + ' by ' + ch + ' blocks');
             cell.title = cw + '×' + ch + ' blocks';
@@ -954,7 +1002,8 @@
             cell.addEventListener('click', function () {
               item.blocksW = cw;
               item.blocksH = ch;
-              renderStudio();
+              announce('Size set to ' + cw + ' by ' + ch + ' blocks');
+              renderStudio(cellId);
             });
             gridPicker.appendChild(cell);
             cellEls.push({ el: cell, w: cw, h: ch });
@@ -969,9 +1018,10 @@
 
       gridWrap.appendChild(gridLbl);
       gridWrap.appendChild(gridPicker);
-      sizeBox.appendChild(gridWrap);
+      sizeBlock.appendChild(gridWrap);
+      sizeRow.appendChild(sizeBlock);
 
-      /* Detail resolution scale selector on the right */
+      /* Right half: Detail resolution scale dropdown */
       var scaleWrap = document.createElement('div');
       scaleWrap.className = 'pt-scale-col';
       var scaleLbl = document.createElement('label');
@@ -990,13 +1040,13 @@
       });
       scaleSel.addEventListener('change', function () {
         item.scale = Number(scaleSel.value);
-        renderStudio();
+        renderStudio(scaleSel.id);
       });
       scaleWrap.appendChild(scaleLbl);
       scaleWrap.appendChild(scaleSel);
-      sizeBox.appendChild(scaleWrap);
+      sizeRow.appendChild(scaleWrap);
 
-      card.appendChild(sizeBox);
+      card.appendChild(sizeRow);
 
       /* --- Frame Preset Selector (Frameless + 6 Vanilla Frame Families) --- */
       var frameWrap = document.createElement('div');
@@ -1018,8 +1068,10 @@
       swatches.setAttribute('aria-labelledby', frameLbl.id);
 
       FRAME_PRESETS.forEach(function (preset) {
+        var swId = 'pt-frame-' + item.id + '-' + preset.id;
         var swBtn = document.createElement('button');
         swBtn.type = 'button';
+        swBtn.id = swId;
         swBtn.className = 'pt-frame-swatch' + (item.frame === preset.id ? ' is-selected' : '');
         swBtn.dataset.frame = preset.id;
         swBtn.setAttribute('role', 'radio');
@@ -1029,7 +1081,7 @@
         swBtn.innerHTML = '<span class="pt-frame-swatch-preview" aria-hidden="true"></span>';
         swBtn.addEventListener('click', function () {
           item.frame = preset.id;
-          renderStudio();
+          renderStudio(swId);
         });
         swatches.appendChild(swBtn);
       });
@@ -1044,6 +1096,7 @@
 
       var pixelLabel = document.createElement('label');
       pixelLabel.className = 'pt-check-label';
+      pixelLabel.title = 'Turns off smoothing so small pixel art keeps crisp pixel edges instead of blurring when scaled up.';
       var pixelCb = document.createElement('input');
       pixelCb.type = 'checkbox';
       pixelCb.checked = item.pixelArt;
@@ -1073,6 +1126,7 @@
     });
 
     updatePublishSummary();
+    restoreFocusById(focusTargetId);
   }
 
   function triggerBlobDownload(blob, filename) {
@@ -1185,6 +1239,9 @@
 
         var ct = (res.headers.get('content-type') || '').toLowerCase();
         if (res.status === 401 || res.status === 403 || (res.redirected && ct.indexOf('text/html') !== -1)) {
+          state.identity.authenticated = false;
+          state.identity.anomalyReason = 'Your login session expired. Please refresh this page to sign back in.';
+          updateSessionCallout();
           throw new Error('Your login session expired. Please refresh this page to sign back in.');
         }
         if (res.status === 404 || ct.indexOf('application/json') === -1) {
@@ -1287,11 +1344,15 @@
         if (res.ok && ct.indexOf('application/json') !== -1) {
           var data = await res.json();
           if (data && data.viewer) {
+            state.identity.checked = true;
             state.identity.authenticated = Boolean(data.viewer.email || data.viewer.name);
             state.identity.email = data.viewer.email || state.identity.email;
             state.identity.name = data.viewer.name || state.identity.name;
             state.identity.isAdmin = Boolean(data.viewer.isAdmin);
-            updateSsoPill();
+            if (state.identity.authenticated) {
+              state.identity.anomalyReason = '';
+            }
+            updateSessionCallout();
           }
           items = Array.isArray(data.paintings) ? data.paintings : [];
         } else {
@@ -1396,7 +1457,7 @@
     await loadGallery(true);
   }
 
-  function renderGallery() {
+  function renderGallery(focusTargetId) {
     updateHeaderCounts();
     els.galleryGrid.innerHTML = '';
 
@@ -1470,11 +1531,40 @@
       if (item.canEdit && state.gallery.editingSlug === item.slug) {
         var editForm = document.createElement('form');
         editForm.className = 'pt-inline-edit';
-        editForm.innerHTML =
-          '<div><label class="pt-field-label" for="pt-edit-title-' + escapeHtml(item.slug) + '">Title</label>' +
-          '<input class="pt-input pt-input-compact" id="pt-edit-title-' + escapeHtml(item.slug) + '" value="' + escapeHtml(item.title) + '" maxlength="64" required></div>' +
-          '<div><label class="pt-field-label" for="pt-edit-author-' + escapeHtml(item.slug) + '">Author</label>' +
-          '<input class="pt-input pt-input-compact" id="pt-edit-author-' + escapeHtml(item.slug) + '" value="' + escapeHtml(item.author) + '" maxlength="64" required></div>';
+
+        var tGroup = document.createElement('div');
+        var tLbl = document.createElement('label');
+        tLbl.className = 'pt-field-label';
+        tLbl.htmlFor = 'pt-edit-title-' + item.slug;
+        tLbl.textContent = 'Title';
+        var tIn = document.createElement('input');
+        tIn.type = 'text';
+        tIn.className = 'pt-input pt-input-compact';
+        tIn.id = 'pt-edit-title-' + item.slug;
+        tIn.value = item.title;
+        tIn.maxLength = 64;
+        tIn.required = true;
+        tGroup.appendChild(tLbl);
+        tGroup.appendChild(tIn);
+
+        var aGroup = document.createElement('div');
+        var aLbl = document.createElement('label');
+        aLbl.className = 'pt-field-label';
+        aLbl.htmlFor = 'pt-edit-author-' + item.slug;
+        aLbl.textContent = 'Author';
+        var aIn = document.createElement('input');
+        aIn.type = 'text';
+        aIn.className = 'pt-input pt-input-compact';
+        aIn.id = 'pt-edit-author-' + item.slug;
+        aIn.value = item.author;
+        aIn.maxLength = 64;
+        aIn.required = true;
+        aGroup.appendChild(aLbl);
+        aGroup.appendChild(aIn);
+
+        editForm.appendChild(tGroup);
+        editForm.appendChild(aGroup);
+
         var editBtns = document.createElement('div');
         editBtns.className = 'pt-inline-btn-row';
         var saveBtn = document.createElement('button');
@@ -1487,7 +1577,7 @@
         cancelBtn.textContent = 'Cancel';
         cancelBtn.addEventListener('click', function () {
           state.gallery.editingSlug = null;
-          renderGallery();
+          renderGallery('pt-edit-btn-' + item.slug);
         });
         editBtns.appendChild(saveBtn);
         editBtns.appendChild(cancelBtn);
@@ -1496,9 +1586,7 @@
           e.preventDefault();
           saveBtn.disabled = true;
           try {
-            var newTitle = editForm.querySelector('#pt-edit-title-' + item.slug).value.trim();
-            var newAuthor = editForm.querySelector('#pt-edit-author-' + item.slug).value.trim();
-            await savePaintingEdit(item.slug, newTitle, newAuthor);
+            await savePaintingEdit(item.slug, tIn.value.trim(), aIn.value.trim());
           } catch (err) {
             saveBtn.disabled = false;
             showBanner(els.galleryBanner, 'error', escapeHtml(err.message));
@@ -1516,6 +1604,7 @@
         delBtns.className = 'pt-inline-btn-row';
         var confirmBtn = document.createElement('button');
         confirmBtn.type = 'button';
+        confirmBtn.id = 'pt-confirm-del-' + item.slug;
         confirmBtn.className = 'pt-btn pt-btn-danger pt-btn-xs';
         confirmBtn.textContent = 'Confirm delete';
         confirmBtn.addEventListener('click', async function () {
@@ -1533,7 +1622,7 @@
         cancelDel.textContent = 'Cancel';
         cancelDel.addEventListener('click', function () {
           state.gallery.confirmDeleteSlug = null;
-          renderGallery();
+          renderGallery('pt-del-btn-' + item.slug);
         });
         delBtns.appendChild(confirmBtn);
         delBtns.appendChild(cancelDel);
@@ -1547,23 +1636,25 @@
 
         var editBtn = document.createElement('button');
         editBtn.type = 'button';
+        editBtn.id = 'pt-edit-btn-' + item.slug;
         editBtn.className = 'pt-btn pt-btn-xs';
         editBtn.textContent = 'Edit';
         editBtn.addEventListener('click', function () {
           state.gallery.confirmDeleteSlug = null;
           state.gallery.editingSlug = item.slug;
-          renderGallery();
+          renderGallery('pt-edit-title-' + item.slug);
         });
         actions.appendChild(editBtn);
 
         var delBtn = document.createElement('button');
         delBtn.type = 'button';
+        delBtn.id = 'pt-del-btn-' + item.slug;
         delBtn.className = 'pt-btn pt-btn-xs pt-btn-danger-outline';
         delBtn.textContent = 'Delete';
         delBtn.addEventListener('click', function () {
           state.gallery.editingSlug = null;
           state.gallery.confirmDeleteSlug = item.slug;
-          renderGallery();
+          renderGallery('pt-confirm-del-' + item.slug);
         });
         actions.appendChild(delBtn);
 
@@ -1572,13 +1663,15 @@
 
       els.galleryGrid.appendChild(card);
     });
+
+    restoreFocusById(focusTargetId);
   }
 
   if (els.gallerySearch) {
-    els.gallerySearch.addEventListener('input', renderGallery);
+    els.gallerySearch.addEventListener('input', function () { renderGallery(); });
   }
   if (els.gallerySizeFilter) {
-    els.gallerySizeFilter.addEventListener('change', renderGallery);
+    els.gallerySizeFilter.addEventListener('change', function () { renderGallery(); });
   }
   if (els.galleryRefresh) {
     els.galleryRefresh.addEventListener('click', function () {

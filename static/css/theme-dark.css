@@ -277,6 +277,16 @@
     border: 1px solid var(--wp--preset--color--accent) !important;
   }
 
+  :root:not([data-theme="light"]) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):focus,
+  :root:not([data-theme="light"]) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):focus-visible,
+  :root:not([data-theme="light"]) textarea:focus,
+  :root:not([data-theme="light"]) textarea:focus-visible,
+  :root:not([data-theme="light"]) select:focus,
+  :root:not([data-theme="light"]) select:focus-visible {
+    outline: none !important;
+    border-color: var(--brand-accent) !important;
+  }
+
   :root:not([data-theme="light"]) .wp-block-search__button {
     background-color: var(--brand-teal) !important;
     color: #111111 !important;
@@ -1141,6 +1151,16 @@
   background-color: var(--wp--preset--color--base-2) !important;
   color: var(--wp--preset--color--contrast) !important;
   border: 1px solid var(--wp--preset--color--accent) !important;
+}
+
+:root[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):focus,
+:root[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):focus-visible,
+:root[data-theme="dark"] textarea:focus,
+:root[data-theme="dark"] textarea:focus-visible,
+:root[data-theme="dark"] select:focus,
+:root[data-theme="dark"] select:focus-visible {
+  outline: none !important;
+  border-color: var(--brand-accent) !important;
 }
 
 :root[data-theme="dark"] .wp-block-search__button {
