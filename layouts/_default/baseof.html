@@ -15,6 +15,11 @@
 				root.setAttribute('data-theme', (t === 'light' || t === 'dark' || t === 'auto') ? t : 'auto');
 				root.setAttribute('data-accent', /^(red|orange|yellow|lime|green|cyan|light-blue|blue|purple|pink|gray|jeb)$/.test(a) ? a : 'cyan');
 				root.setAttribute('data-font', /^(default|sans|serif|mojangles)$/.test(f) ? f : 'default');
+				try {
+					if (sessionStorage.getItem('collegedebt_auth_hint') === '1') {
+						root.setAttribute('data-account', 'signed-in');
+					}
+				} catch (err) {}
 			} catch (e) {}
 		})();
 	</script>
@@ -52,9 +57,11 @@
 	</div>
 	{{ partial "search_modal.html" . }}
 	{{ partial "personalize_modal.html" . }}
+	{{ partial "account_modal.html" . }}
 	{{ partial "lightbox_modal.html" . }}
 	<script src="/js/nav.js"></script>
 	<script src="/js/personalize.js"></script>
+	<script src="/js/account.js"></script>
 	<script src="/js/search.js"></script>
 	<script src="/js/lightbox.js"></script>
 	{{ if or (eq .Section "wiki") (eq .Type "wiki") (in .RelPermalink "/wiki/") }}

@@ -89,6 +89,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 b.setAttribute('aria-expanded', 'false');
             });
         }
+        var accountModal = document.getElementById('site-account-modal');
+        if (accountModal && accountModal.classList.contains('is-open')) {
+            accountModal.classList.remove('is-open');
+            accountModal.setAttribute('aria-hidden', 'true');
+            document.querySelectorAll('.site-account-btn').forEach(function (b) {
+                b.setAttribute('aria-expanded', 'false');
+            });
+        }
         if (mobileModal) {
             lastTrigger = triggerEl || openBtn || document.activeElement;
             mobileModal.classList.add('is-open');

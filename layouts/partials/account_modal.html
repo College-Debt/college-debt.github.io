@@ -1,0 +1,56 @@
+<div class="site-account-modal" id="site-account-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Account">
+  <div class="site-account-backdrop"></div>
+  <div class="site-account-dialog" id="site-account-dialog">
+    <div class="site-account-state" id="site-account-signed-out">
+      <div class="site-account-head">
+        <span class="site-account-avatar" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7.5" cy="15.5" r="5.5"></circle>
+            <path d="m21 2-9.6 9.6"></path>
+            <path d="m15.5 7.5 3 3L22 7l-3-3"></path>
+          </svg>
+        </span>
+        <div class="site-account-head-text">
+          <div class="site-account-title">Account</div>
+        </div>
+      </div>
+      <p class="site-account-desc">For members only, sign in with your College Debt Microsoft account to access restricted pages.</p>
+      <a class="site-account-btn-action site-account-btn-primary" id="site-account-signin-link" href="/api/paintings/login?next=%2F">Sign in with Microsoft</a>
+    </div>
+
+    <div class="site-account-state" id="site-account-signed-in" hidden>
+      <div class="site-account-head">
+        <span class="site-account-avatar is-signed-in" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M20 21a8 8 0 0 0-16 0"></path>
+          </svg>
+        </span>
+        <div class="site-account-head-text">
+          <div class="site-account-name-row">
+            <span class="site-account-name" id="site-account-name">Signed-in Member</span>
+            <span class="site-account-admin-badge" id="site-account-admin-badge" hidden>Admin</span>
+          </div>
+          <div class="site-account-email" id="site-account-email"></div>
+        </div>
+      </div>
+
+      <div class="site-account-divider"></div>
+
+      <div class="site-account-links">
+        <a class="site-account-link-item" href="/paintings/">
+          <span>Paintings Studio</span>
+          <span class="site-account-link-arrow" aria-hidden="true">&rsaquo;</span>
+        </a>
+        <a class="site-account-link-item" href="https://myaccount.microsoft.com/" target="_blank" rel="noopener noreferrer">
+          <span>Manage Account</span>
+          <span class="site-account-link-arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </div>
+
+      <div class="site-account-divider"></div>
+
+      <a class="site-account-btn-action site-account-signout-btn" id="site-account-signout-link" href="/cdn-cgi/access/logout">Sign out</a>
+    </div>
+  </div>
+</div>

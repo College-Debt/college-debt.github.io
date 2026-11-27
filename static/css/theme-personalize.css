@@ -567,7 +567,9 @@ html[data-font="mojangles"] .site-search-modal *:not(i):not([class*="fa-"]),
 html[data-font="mojangles"] .site-personalize-dialog,
 html[data-font="mojangles"] .site-personalize-label,
 html[data-font="mojangles"] .site-theme-option-text,
-html[data-font="mojangles"] .site-font-option-text {
+html[data-font="mojangles"] .site-font-option-text,
+html[data-font="mojangles"] .site-account-dialog,
+html[data-font="mojangles"] .site-account-dialog * {
   font-family: 'Minecraft', monospace !important;
   -webkit-font-smoothing: none !important;
   -moz-osx-font-smoothing: unset !important;
@@ -676,7 +678,7 @@ html[data-font] .fa-brands {
 
 @media (max-width: 600px) {
   .site-personalize-btn:not(.site-personalize-btn-mobile-nav) {
-    order: -2 !important;
+    order: -3 !important;
     width: 24px !important;
     height: 24px !important;
     padding: 0 !important;

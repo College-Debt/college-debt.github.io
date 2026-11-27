@@ -18,6 +18,24 @@ function jsonResponse(body: unknown, status = 200): Response {
   });
 }
 
+function sanitizeNextPath(raw: string | null): string {
+  if (!raw) return "/";
+  const trimmed = raw.trim();
+  if (!trimmed.startsWith("/") || trimmed.startsWith("//") || trimmed.includes("\\")) {
+    return "/";
+  }
+  if (/[\x00-\x1f\x7f]/.test(trimmed)) {
+    return "/";
+  }
+  try {
+    const resolved = new URL(trimmed, "https://collegedebt.app");
+    if (resolved.origin !== "https://collegedebt.app") return "/";
+    return `${resolved.pathname}${resolved.search}${resolved.hash}`;
+  } catch {
+    return "/";
+  }
+}
+
 async function readJsonBody<T>(request: Request): Promise<T> {
   const contentType = (request.headers.get("Content-Type") || "").toLowerCase();
   if (!contentType.includes("application/json")) {
@@ -57,6 +75,24 @@ export default {
           path: pathname,
         }),
       );
+
+      if (pathname === "/api/paintings/session" && request.method === "GET") {
+        const viewer = await authenticateRequest(request, env);
+        return jsonResponse({ authenticated: true, viewer }, 200);
+      }
+
+      if (pathname === "/api/paintings/login" && request.method === "GET") {
+        await authenticateRequest(request, env);
+        const safeNext = sanitizeNextPath(url.searchParams.get("next"));
+        const target = new URL(safeNext, url.origin).toString();
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: target,
+            "Cache-Control": "no-store",
+          },
+        });
+      }
 
       if (pathname === "/api/paintings" && request.method === "GET") {
         const viewer = await authenticateRequest(request, env);

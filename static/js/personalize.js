@@ -120,6 +120,14 @@
       document.body.classList.remove('has-search-open');
       document.documentElement.classList.remove('has-search-open');
     }
+    var accountModal = document.getElementById('site-account-modal');
+    if (accountModal && accountModal.classList.contains('is-open')) {
+      accountModal.classList.remove('is-open');
+      accountModal.setAttribute('aria-hidden', 'true');
+      document.querySelectorAll('.site-account-btn').forEach(function (b) {
+        b.setAttribute('aria-expanded', 'false');
+      });
+    }
     document.body.classList.remove('has-wiki-sidebar-open', 'has-wiki-toc-open', 'has-modal-open');
     document.documentElement.classList.remove('has-modal-open');
 

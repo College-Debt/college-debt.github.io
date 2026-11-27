@@ -752,7 +752,7 @@ button:active {
   }
 
   .site-search-btn:not(.site-search-btn-mobile-nav) {
-    order: -1 !important;
+    order: -2 !important;
     width: 24px !important;
     height: 24px !important;
     padding: 0 !important;
@@ -1863,5 +1863,280 @@ textarea:focus,
 textarea:focus-visible {
   outline: none !important;
   border-color: var(--brand-accent, #0a4651) !important;
+}
+
+/* ==========================================================================
+   Header Account Button & Management Popover
+   ========================================================================== */
+.site-account-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: var(--wp--preset--color--contrast, #111111);
+  cursor: pointer;
+  line-height: 1;
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+html:not([data-account="signed-in"]) .site-account-icon-profile {
+  display: none;
+}
+
+html[data-account="signed-in"] .site-account-icon-key {
+  display: none;
+}
+
+html[data-account="signed-in"] .site-account-icon-profile {
+  display: block;
+}
+
+.site-account-btn:focus-visible,
+.site-account-btn-mobile-nav:focus-visible {
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 3px !important;
+  border-radius: 4px !important;
+}
+
+.site-account-btn:focus-visible,
+.site-account-btn[aria-expanded="true"] {
+  color: var(--brand-accent, #0a4651) !important;
+  background: transparent !important;
+  text-decoration: none !important;
+}
+
+@media (hover: hover) {
+  .site-account-btn:hover,
+  .site-account-btn-mobile-nav:hover {
+    color: var(--brand-accent, #0a4651) !important;
+    background: transparent !important;
+    text-decoration: none !important;
+  }
+}
+
+.site-account-btn-mobile-nav {
+  width: 24px !important;
+  height: 24px !important;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+@media (max-width: 600px) {
+  .site-account-btn:not(.site-account-btn-mobile-nav) {
+    order: -1 !important;
+  }
+
+  .site-account-btn-mobile-nav {
+    order: 0 !important;
+  }
+}
+
+.site-account-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  display: none;
+  pointer-events: none;
+}
+
+.site-account-modal.is-open {
+  display: block;
+  pointer-events: auto;
+}
+
+.site-account-backdrop {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 1;
+}
+
+.site-account-dialog {
+  position: fixed;
+  top: 72px;
+  right: 20px;
+  z-index: 2;
+  width: min(320px, calc(100vw - 1.5rem));
+  background: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+  padding: 14px;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+@media (max-width: 600px) {
+  .site-account-dialog {
+    top: calc(var(--site-header-height, 56px) + 10px) !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(320px, calc(100vw - 1.5rem)) !important;
+  }
+}
+
+.site-account-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.site-account-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  background: var(--wp--preset--color--base, #f0efed);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  color: var(--wp--preset--color--contrast, #111111);
+}
+
+.site-account-avatar.is-signed-in {
+  background: var(--brand-accent-muted, rgba(10, 70, 81, 0.12));
+  border-color: transparent;
+  color: var(--brand-accent, #0a4651);
+}
+
+.site-account-head-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.site-account-title,
+.site-account-name {
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--wp--preset--color--contrast, #111111);
+  overflow-wrap: anywhere;
+}
+
+.site-account-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.site-account-admin-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.22rem 0.45rem;
+  border-radius: 5px;
+  background: var(--brand-accent-muted, rgba(10, 70, 81, 0.12));
+  color: var(--brand-accent, #0a4651);
+}
+
+.site-account-email {
+  margin-top: 0.16rem;
+  font-size: 0.78rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  overflow-wrap: anywhere;
+}
+
+.site-account-desc {
+  margin: 0.65rem 0 0.8rem;
+  font-size: 0.84rem;
+  line-height: 1.48;
+  color: var(--wp--preset--color--contrast-2, #636363);
+}
+
+.site-account-divider {
+  height: 1px;
+  background: var(--wp--preset--color--accent, #cfcabe);
+  opacity: 0.65;
+  margin: 12px 0;
+}
+
+.site-account-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.site-account-link-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.48rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--wp--preset--color--contrast, #111111);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+@media (hover: hover) {
+  .site-account-link-item:hover {
+    background: var(--brand-accent-muted, rgba(10, 70, 81, 0.1));
+    color: var(--brand-accent, #0a4651);
+  }
+}
+
+.site-account-link-arrow {
+  font-size: 0.95rem;
+  color: var(--wp--preset--color--contrast-2, #636363);
+}
+
+.site-account-btn-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.56rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+  transition: none !important;
+}
+
+.site-account-btn-primary {
+  background: var(--brand-accent, #0a4651);
+  color: var(--brand-accent-contrast, #ffffff);
+  border: 1px solid var(--brand-accent, #0a4651);
+}
+
+@media (hover: hover) {
+  .site-account-btn-primary:hover {
+    background: var(--brand-accent-hover, #0b6878);
+    border-color: var(--brand-accent-hover, #0b6878);
+  }
+}
+
+.site-account-signout-btn {
+  background: var(--wp--preset--color--base-2, #ffffff);
+  color: var(--wp--preset--color--contrast, #111111);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+}
+
+@media (hover: hover) {
+  .site-account-signout-btn:hover {
+    border-color: var(--brand-accent, #0a4651);
+    color: var(--brand-accent, #0a4651);
+  }
+}
+
+.site-account-link-item:focus-visible,
+.site-account-btn-action:focus-visible {
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 2px;
 }
 

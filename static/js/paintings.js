@@ -430,16 +430,53 @@
     var msg = state.identity.anomalyReason ||
       (isLocalHost()
         ? 'Local preview mode: Login protection is inactive here, so publishing is unavailable.'
-        : 'Your login session could not be verified. Please refresh the page to sign back in before publishing or editing paintings.');
+        : 'Your login session could not be verified. Please sign in again before publishing or editing paintings.');
 
-    els.sessionCallout.innerHTML = '<span class="sr-only">Warning: </span>' + escapeHtml(msg);
+    if (isLocalHost()) {
+      els.sessionCallout.innerHTML = '<span class="sr-only">Warning: </span>' + escapeHtml(msg);
+    } else {
+      var loginUrl = '/api/paintings/login?next=' + encodeURIComponent(window.location.pathname || '/paintings/');
+      els.sessionCallout.innerHTML =
+        '<span class="sr-only">Warning: </span>' +
+        escapeHtml(msg) +
+        ' <a href="' + escapeHtml(loginUrl) + '">Sign in with Microsoft</a>';
+    }
     els.sessionCallout.hidden = false;
+  }
+
+  function broadcastAuthChange() {
+    try {
+      if (typeof window.CustomEvent === 'function' && typeof window.dispatchEvent === 'function') {
+        window.dispatchEvent(
+          new window.CustomEvent('collegedebt:authchange', {
+            detail: {
+              authenticated: state.identity.authenticated,
+              email: state.identity.email,
+              name: state.identity.name,
+              isAdmin: state.identity.isAdmin
+            }
+          })
+        );
+      }
+    } catch (e) {}
+  }
+
+  function markSessionExpired(reason) {
+    state.identity.checked = true;
+    state.identity.authenticated = false;
+    state.identity.email = '';
+    state.identity.name = '';
+    state.identity.isAdmin = false;
+    state.identity.anomalyReason = reason || 'Your login session expired. Please sign back in.';
+    updateSessionCallout();
+    broadcastAuthChange();
   }
 
   async function detectSsoIdentity() {
     try {
       var res = await fetch(IDENTITY_URL, {
         credentials: 'same-origin',
+        redirect: 'manual',
         headers: { Accept: 'application/json' }
       });
       var ct = (res.headers.get('content-type') || '').toLowerCase();
@@ -450,9 +487,10 @@
           state.identity.email = data.email || '';
           state.identity.name = data.name || (data.email ? data.email.split('@')[0] : '');
           state.identity.anomalyReason = '';
+          broadcastAuthChange();
         }
-      } else if (res.status === 401 || res.status === 403) {
-        state.identity.anomalyReason = 'Your login session expired. Please refresh the page to sign back in.';
+      } else if (res.type === 'opaqueredirect' || res.status === 401 || res.status === 403) {
+        state.identity.anomalyReason = 'Your login session expired. Please sign back in.';
       }
     } catch (err) {
       if (!isLocalHost()) {
@@ -1296,6 +1334,7 @@
         var res = await fetch(WORKER_BASE, {
           method: 'POST',
           credentials: 'same-origin',
+          redirect: 'manual',
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json'
@@ -1304,11 +1343,9 @@
         });
 
         var ct = (res.headers.get('content-type') || '').toLowerCase();
-        if (res.status === 401 || res.status === 403 || (res.redirected && ct.indexOf('text/html') !== -1)) {
-          state.identity.authenticated = false;
-          state.identity.anomalyReason = 'Your login session expired. Please refresh this page to sign back in.';
-          updateSessionCallout();
-          throw new Error('Your login session expired. Please refresh this page to sign back in.');
+        if (res.type === 'opaqueredirect' || res.status === 401 || res.status === 403 || (res.redirected && ct.indexOf('text/html') !== -1)) {
+          markSessionExpired('Your login session expired. Please sign back in.');
+          throw new Error('Your login session expired. Please sign back in.');
         }
         if (res.status === 404 || ct.indexOf('application/json') === -1) {
           throw new Error('Publishing is not active yet. You can still download your PNG using the download button on each painting.');
@@ -1404,10 +1441,15 @@
       try {
         var res = await fetch(WORKER_BASE, {
           credentials: 'same-origin',
+          redirect: 'manual',
           headers: { Accept: 'application/json' }
         });
         var ct = (res.headers.get('content-type') || '').toLowerCase();
-        if (res.ok && ct.indexOf('application/json') !== -1) {
+        if (res.type === 'opaqueredirect' || res.status === 401) {
+          markSessionExpired('Your login session expired. Please sign back in.');
+          usedFallback = true;
+          items = await fetchGalleryFromGitHubFallback();
+        } else if (res.ok && ct.indexOf('application/json') !== -1) {
           var data = await res.json();
           if (data && data.viewer) {
             state.identity.checked = true;
@@ -1419,6 +1461,7 @@
               state.identity.anomalyReason = '';
             }
             updateSessionCallout();
+            broadcastAuthChange();
           }
           items = Array.isArray(data.paintings) ? data.paintings : [];
         } else {
@@ -1482,6 +1525,7 @@
     var res = await fetch(WORKER_BASE + '/' + encodeURIComponent(slug), {
       method: 'PATCH',
       credentials: 'same-origin',
+      redirect: 'manual',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
@@ -1489,7 +1533,11 @@
       body: JSON.stringify({ title: title, author: author })
     });
     var ct = (res.headers.get('content-type') || '').toLowerCase();
-    if (res.status === 401 || res.status === 403) {
+    if (res.type === 'opaqueredirect' || res.status === 401) {
+      markSessionExpired('Your login session expired. Please sign back in.');
+      throw new Error('Your login session expired. Please sign back in.');
+    }
+    if (res.status === 403) {
       var errBody = ct.indexOf('application/json') !== -1 ? await res.json() : null;
       throw new Error((errBody && errBody.error) || 'You do not have permission to edit this painting.');
     }
@@ -1507,10 +1555,15 @@
     var res = await fetch(WORKER_BASE + '/' + encodeURIComponent(slug), {
       method: 'DELETE',
       credentials: 'same-origin',
+      redirect: 'manual',
       headers: { Accept: 'application/json' }
     });
     var ct = (res.headers.get('content-type') || '').toLowerCase();
-    if (res.status === 401 || res.status === 403) {
+    if (res.type === 'opaqueredirect' || res.status === 401) {
+      markSessionExpired('Your login session expired. Please sign back in.');
+      throw new Error('Your login session expired. Please sign back in.');
+    }
+    if (res.status === 403) {
       var errBody = ct.indexOf('application/json') !== -1 ? await res.json() : null;
       throw new Error((errBody && errBody.error) || 'You do not have permission to delete this painting.');
     }

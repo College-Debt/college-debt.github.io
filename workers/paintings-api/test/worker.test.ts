@@ -376,4 +376,71 @@ describe("Paintings Worker HTTP endpoints", () => {
       ]),
     );
   });
+
+  it("handles GET /api/paintings/session and GET /api/paintings/login safely", async () => {
+    const adminJwt = await signJwt({ email: "quang@quangmn.com", name: "Quang" });
+    const memberJwt = await signJwt({ email: "member@collegedebt.app", name: "Member" });
+
+    vi.spyOn(globalThis, "fetch").mockImplementation(async (input) => {
+      const url = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
+      if (url === `https://${TEST_TEAM}/cdn-cgi/access/certs`) {
+        return Response.json({ keys: [publicJwk] });
+      }
+      throw new Error(`Unexpected fetch URL: ${url}`);
+    });
+
+    const ctx1 = createExecutionContext();
+    const resAdmin = await worker.fetch(
+      new Request("https://collegedebt.app/api/paintings/session", {
+        headers: { "Cf-Access-Jwt-Assertion": adminJwt },
+      }),
+      makeTestEnv(),
+      ctx1,
+    );
+    await waitOnExecutionContext(ctx1);
+    expect(resAdmin.status).toBe(200);
+    expect(await resAdmin.json()).toEqual({
+      authenticated: true,
+      viewer: { email: "quang@quangmn.com", name: "Quang", isAdmin: true },
+    });
+
+    const ctx2 = createExecutionContext();
+    const resMember = await worker.fetch(
+      new Request("https://collegedebt.app/api/paintings/session", {
+        headers: { "Cf-Access-Jwt-Assertion": memberJwt },
+      }),
+      makeTestEnv(),
+      ctx2,
+    );
+    await waitOnExecutionContext(ctx2);
+    expect(resMember.status).toBe(200);
+    expect(await resMember.json()).toEqual({
+      authenticated: true,
+      viewer: { email: "member@collegedebt.app", name: "Member", isAdmin: false },
+    });
+
+    const ctx3 = createExecutionContext();
+    const resLoginSafe = await worker.fetch(
+      new Request("https://collegedebt.app/api/paintings/login?next=%2Fwiki%2Fcollege-debt-smp%2F%3Fx%3D1", {
+        headers: { "Cf-Access-Jwt-Assertion": memberJwt },
+      }),
+      makeTestEnv(),
+      ctx3,
+    );
+    await waitOnExecutionContext(ctx3);
+    expect(resLoginSafe.status).toBe(302);
+    expect(resLoginSafe.headers.get("Location")).toBe("https://collegedebt.app/wiki/college-debt-smp/?x=1");
+
+    const ctx4 = createExecutionContext();
+    const resLoginEvil = await worker.fetch(
+      new Request("https://collegedebt.app/api/paintings/login?next=%2F%2Fevil.example%2Fphish", {
+        headers: { "Cf-Access-Jwt-Assertion": memberJwt },
+      }),
+      makeTestEnv(),
+      ctx4,
+    );
+    await waitOnExecutionContext(ctx4);
+    expect(resLoginEvil.status).toBe(302);
+    expect(resLoginEvil.headers.get("Location")).toBe("https://collegedebt.app/");
+  });
 });
