@@ -12,7 +12,7 @@
   var GITHUB_CONTENTS_URL = 'https://api.github.com/repos/College-Debt/resource-pack/contents/data-pack/data/cdsmp/painting_variant?ref=main';
   var GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/College-Debt/resource-pack/main';
 
-  /* Frame presets sampled from vanilla 1.21.4 painting border rings */
+  /* Frame presets: vanilla Classic Dark Oak + Charcoal + all 13 Minecraft 26.3 wood sets + Frameless */
   var FRAME_PRESETS = [
     {
       id: 'dark-oak',
@@ -20,29 +20,69 @@
       colors: ['#3e190c', '#43200e', '#4b2212', '#4c2b0e', '#4e3010']
     },
     {
-      id: 'warm-amber',
-      label: 'Warm Amber',
-      colors: ['#87291b', '#954421', '#a55d23', '#a9601e', '#b0802f']
+      id: 'oak',
+      label: 'Oak',
+      colors: ['#67502c', '#967441', '#af8f55', '#b8945f', '#c29d62']
+    },
+    {
+      id: 'spruce',
+      label: 'Spruce',
+      colors: ['#553a1f', '#614b2e', '#7a5a34', '#82613a', '#886539']
+    },
+    {
+      id: 'birch',
+      label: 'Birch',
+      colors: ['#9e8b61', '#ae9f76', '#c8b77a', '#d7c185', '#d7cb8d']
+    },
+    {
+      id: 'jungle',
+      label: 'Jungle',
+      colors: ['#68462f', '#976a44', '#aa7954', '#b88764', '#bf8e6b']
+    },
+    {
+      id: 'acacia',
+      label: 'Acacia',
+      colors: ['#884728', '#99502b', '#ad5d32', '#ba6337', '#c26d3f']
+    },
+    {
+      id: 'mangrove',
+      label: 'Mangrove',
+      colors: ['#5d1c1e', '#6f2a2d', '#773934', '#7f4234', '#8b4d3a']
+    },
+    {
+      id: 'cherry',
+      label: 'Cherry',
+      colors: ['#cd8580', '#e1a8a1', '#e7bab4', '#e7c2bb', '#e7cac5']
+    },
+    {
+      id: 'bamboo',
+      label: 'Bamboo',
+      colors: ['#907e3a', '#bba84c', '#c8b14d', '#d9c25e', '#e3cc6a']
+    },
+    {
+      id: 'pale-oak',
+      label: 'Pale Oak',
+      colors: ['#c0b2b2', '#d2c6c7', '#e7e3e1', '#faefee', '#fffbf8']
+    },
+    {
+      id: 'poplar',
+      label: 'Poplar',
+      colors: ['#766665', '#877974', '#9c9086', '#a79b8c', '#aaa191']
     },
     {
       id: 'crimson',
       label: 'Crimson',
-      colors: ['#521e1c', '#63292f', '#783b39', '#844048', '#8b4942']
+      colors: ['#3f1e2d', '#4b2737', '#6a344b', '#7e3a56', '#863e5a']
     },
     {
-      id: 'deep-walnut',
-      label: 'Deep Walnut',
-      colors: ['#260f0f', '#281510', '#2f1616', '#34181c', '#371d1a']
+      id: 'warped',
+      label: 'Warped',
+      colors: ['#113835', '#1f5752', '#287067', '#398382', '#3a8e8c']
     },
     {
       id: 'charcoal',
       label: 'Charcoal',
       colors: ['#0f0a09', '#100c0a', '#120e0b', '#130e0c', '#15110d']
-    },
-    {
-      id: 'slate-teal',
-      label: 'Slate Teal',
-      colors: ['#193232', '#244141', '#2a4848', '#335353', '#3f6161']
     },
     {
       id: 'frameless',
@@ -94,7 +134,6 @@
     studioGrid: document.getElementById('pt-studio-grid'),
     publishCard: document.getElementById('pt-publish-card'),
     publishSummary: document.getElementById('pt-publish-summary'),
-    downloadAllBtn: document.getElementById('pt-download-all-png'),
     publishBtn: document.getElementById('pt-publish-btn'),
     studioBanner: document.getElementById('pt-studio-banner'),
     gallerySearch: document.getElementById('pt-gallery-search'),
@@ -249,7 +288,6 @@
     };
   }
 
-  /* Keep preview visual size constant across 1x/2x/4x/8x scales */
   function applyPreviewDisplaySize(canvas, item) {
     var maxW = 288;
     var maxH = 190;
@@ -549,6 +587,26 @@
     canvas.classList.toggle('is-pannable', win.canPanX || win.canPanY);
   }
 
+  function updatePreviewChips(item, sizeChip, detailChip) {
+    var pxW = item.blocksW * BASE_PX_PER_BLOCK * item.scale;
+    var pxH = item.blocksH * BASE_PX_PER_BLOCK * item.scale;
+    var srcW = item.img.naturalWidth || item.img.width;
+    var srcH = item.img.naturalHeight || item.img.height;
+
+    if (sizeChip) {
+      sizeChip.textContent = item.blocksW + '×' + item.blocksH + ' blocks · ' + pxW + '×' + pxH + ' px';
+    }
+    if (detailChip) {
+      if (srcW < pxW || srcH < pxH) {
+        detailChip.className = 'pt-chip pt-chip-warn';
+        detailChip.textContent = 'Source ' + srcW + '×' + srcH + ' (upscaled)';
+      } else {
+        detailChip.className = 'pt-chip';
+        detailChip.textContent = item.scale + '× detail';
+      }
+    }
+  }
+
   function attachCanvasInteractions(stage, canvas, item, controls) {
     var activePointers = new Map();
     var dragging = false;
@@ -734,13 +792,39 @@
       applyPreviewDisplaySize(canvas, item);
       stage.appendChild(canvas);
 
+      /* Top-right stage icon actions: Download PNG + Trash Remove */
+      var stageActions = document.createElement('div');
+      stageActions.className = 'pt-stage-actions';
+
+      var dlBtn = document.createElement('button');
+      dlBtn.type = 'button';
+      dlBtn.className = 'pt-stage-icon-btn';
+      dlBtn.innerHTML =
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>' +
+        '<polyline points="7 10 12 15 17 10"></polyline>' +
+        '<line x1="12" y1="15" x2="12" y2="3"></line>' +
+        '</svg>';
+      dlBtn.setAttribute('aria-label', 'Download PNG for ' + item.title);
+      dlBtn.title = 'Download PNG';
+      dlBtn.addEventListener('click', async function () {
+        var outCvs = renderPaintingToCanvas(item);
+        var blob = await canvasToPngBlob(outCvs);
+        var currentSlugs = predictSlugsForStaged();
+        triggerBlobDownload(blob, (currentSlugs[idx].predicted || 'painting') + '.png');
+      });
+      stageActions.appendChild(dlBtn);
+
       var rmBtn = document.createElement('button');
       rmBtn.type = 'button';
-      rmBtn.className = 'pt-card-remove';
+      rmBtn.className = 'pt-stage-icon-btn pt-card-remove';
       rmBtn.innerHTML =
-        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-        '<line x1="18" y1="6" x2="6" y2="18"></line>' +
-        '<line x1="6" y1="6" x2="18" y2="18"></line>' +
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<polyline points="3 6 5 6 21 6"></polyline>' +
+        '<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>' +
+        '<path d="M10 11v6"></path>' +
+        '<path d="M14 11v6"></path>' +
+        '<path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>' +
         '</svg>';
       rmBtn.setAttribute('aria-label', 'Remove ' + item.title);
       rmBtn.title = 'Remove painting';
@@ -749,32 +833,18 @@
         renderStudio();
         announce('Removed ' + item.title + '.');
       });
-      stage.appendChild(rmBtn);
-
-      var pxW = item.blocksW * BASE_PX_PER_BLOCK * item.scale;
-      var pxH = item.blocksH * BASE_PX_PER_BLOCK * item.scale;
-      var srcW = item.img.naturalWidth || item.img.width;
-      var srcH = item.img.naturalHeight || item.img.height;
+      stageActions.appendChild(rmBtn);
+      stage.appendChild(stageActions);
 
       var chipRow = document.createElement('div');
       chipRow.className = 'pt-chip-row';
-
       var sizeChip = document.createElement('span');
       sizeChip.className = 'pt-chip';
-      sizeChip.textContent = item.blocksW + '×' + item.blocksH + ' blocks · ' + pxW + '×' + pxH + ' px';
+      var detailChip = document.createElement('span');
+      detailChip.className = 'pt-chip';
+      updatePreviewChips(item, sizeChip, detailChip);
       chipRow.appendChild(sizeChip);
-
-      if (srcW < pxW || srcH < pxH) {
-        var warnChip = document.createElement('span');
-        warnChip.className = 'pt-chip pt-chip-warn';
-        warnChip.textContent = 'Source ' + srcW + '×' + srcH + ' (upscaled)';
-        chipRow.appendChild(warnChip);
-      } else {
-        var scaleChip = document.createElement('span');
-        scaleChip.className = 'pt-chip';
-        scaleChip.textContent = item.scale + '× detail';
-        chipRow.appendChild(scaleChip);
-      }
+      chipRow.appendChild(detailChip);
       stage.appendChild(chipRow);
       card.appendChild(stage);
 
@@ -948,7 +1018,7 @@
       metaGrid.appendChild(authorWrap);
       card.appendChild(metaGrid);
 
-      /* --- Left Half: Size Block (Stacked W/H Steppers + Square 4x4 Grid) | Right Half: Detail Scale --- */
+      /* --- Symmetrical Size Row: Left (W/H Steppers + 104x104 Square Grid) | Right (Detail Scale + Canvas Scaling) --- */
       var sizeRow = document.createElement('div');
       sizeRow.className = 'pt-size-row';
 
@@ -972,7 +1042,6 @@
 
       sizeBlock.appendChild(sizeStack);
 
-      /* Strict square 4x4 grid matching stepper stack height inside left half */
       var gridWrap = document.createElement('div');
       gridWrap.className = 'pt-grid-picker-wrap';
       var gridLbl = document.createElement('span');
@@ -1021,9 +1090,11 @@
       sizeBlock.appendChild(gridWrap);
       sizeRow.appendChild(sizeBlock);
 
-      /* Right half: Detail resolution scale dropdown */
-      var scaleWrap = document.createElement('div');
-      scaleWrap.className = 'pt-scale-col';
+      /* Right half: Detail Scale + Canvas Scaling stacked cleanly to same height */
+      var scaleCol = document.createElement('div');
+      scaleCol.className = 'pt-scale-col';
+
+      var scaleGroup = document.createElement('div');
       var scaleLbl = document.createElement('label');
       scaleLbl.className = 'pt-field-label';
       scaleLbl.htmlFor = 'pt-scale-' + item.id;
@@ -1040,15 +1111,44 @@
       });
       scaleSel.addEventListener('change', function () {
         item.scale = Number(scaleSel.value);
-        renderStudio(scaleSel.id);
+        updatePreviewChips(item, sizeChip, detailChip);
+        renderPaintingToCanvas(item, canvas);
+        updatePublishSummary();
       });
-      scaleWrap.appendChild(scaleLbl);
-      scaleWrap.appendChild(scaleSel);
-      sizeRow.appendChild(scaleWrap);
+      scaleGroup.appendChild(scaleLbl);
+      scaleGroup.appendChild(scaleSel);
 
+      var modeGroup = document.createElement('div');
+      var modeLbl = document.createElement('label');
+      modeLbl.className = 'pt-field-label';
+      modeLbl.htmlFor = 'pt-scaling-' + item.id;
+      modeLbl.textContent = 'Canvas Scaling';
+      var modeSel = document.createElement('select');
+      modeSel.id = 'pt-scaling-' + item.id;
+      modeSel.className = 'pt-select';
+      var optSmooth = document.createElement('option');
+      optSmooth.value = 'smooth';
+      optSmooth.textContent = 'Smooth (Photos & Art)';
+      optSmooth.selected = !item.pixelArt;
+      var optPixel = document.createElement('option');
+      optPixel.value = 'pixel';
+      optPixel.textContent = 'Crisp (Pixel Art)';
+      optPixel.selected = item.pixelArt;
+      modeSel.appendChild(optSmooth);
+      modeSel.appendChild(optPixel);
+      modeSel.addEventListener('change', function () {
+        item.pixelArt = modeSel.value === 'pixel';
+        renderPaintingToCanvas(item, canvas);
+      });
+      modeGroup.appendChild(modeLbl);
+      modeGroup.appendChild(modeSel);
+
+      scaleCol.appendChild(scaleGroup);
+      scaleCol.appendChild(modeGroup);
+      sizeRow.appendChild(scaleCol);
       card.appendChild(sizeRow);
 
-      /* --- Frame Preset Selector (Frameless + 6 Vanilla Frame Families) --- */
+      /* --- Frame Preset Selector (All 13 MC 26.3 Woods + Classic/Charcoal + Frameless) --- */
       var frameWrap = document.createElement('div');
       var frameHeader = document.createElement('div');
       frameHeader.className = 'pt-frame-header';
@@ -1078,7 +1178,16 @@
         swBtn.setAttribute('aria-checked', item.frame === preset.id ? 'true' : 'false');
         swBtn.setAttribute('aria-label', preset.label);
         swBtn.title = preset.label;
-        swBtn.innerHTML = '<span class="pt-frame-swatch-preview" aria-hidden="true"></span>';
+
+        var swatchPreview = document.createElement('span');
+        swatchPreview.className = 'pt-frame-swatch-preview';
+        swatchPreview.setAttribute('aria-hidden', 'true');
+        if (preset.colors) {
+          swatchPreview.style.borderColor = preset.colors[2];
+          swatchPreview.style.boxShadow = 'inset 1px 1px 0 ' + preset.colors[4] + ', inset -1px -1px 0 ' + preset.colors[0];
+        }
+        swBtn.appendChild(swatchPreview);
+
         swBtn.addEventListener('click', function () {
           item.frame = preset.id;
           renderStudio(swId);
@@ -1089,37 +1198,6 @@
       frameWrap.appendChild(frameHeader);
       frameWrap.appendChild(swatches);
       card.appendChild(frameWrap);
-
-      /* --- Card Footer: Nearest-Neighbor Toggle + Download Single PNG --- */
-      var cardFooter = document.createElement('div');
-      cardFooter.className = 'pt-card-footer';
-
-      var pixelLabel = document.createElement('label');
-      pixelLabel.className = 'pt-check-label';
-      pixelLabel.title = 'Turns off smoothing so small pixel art keeps crisp pixel edges instead of blurring when scaled up.';
-      var pixelCb = document.createElement('input');
-      pixelCb.type = 'checkbox';
-      pixelCb.checked = item.pixelArt;
-      pixelCb.addEventListener('change', function () {
-        item.pixelArt = pixelCb.checked;
-        renderPaintingToCanvas(item, canvas);
-      });
-      pixelLabel.appendChild(pixelCb);
-      pixelLabel.appendChild(document.createTextNode('Sharp pixel-art scaling'));
-
-      var dlSingle = document.createElement('button');
-      dlSingle.type = 'button';
-      dlSingle.className = 'pt-btn pt-btn-xs';
-      dlSingle.textContent = 'Download PNG';
-      dlSingle.addEventListener('click', async function () {
-        var outCvs = renderPaintingToCanvas(item);
-        var blob = await canvasToPngBlob(outCvs);
-        triggerBlobDownload(blob, (meta.predicted || 'painting') + '.png');
-      });
-
-      cardFooter.appendChild(pixelLabel);
-      cardFooter.appendChild(dlSingle);
-      card.appendChild(cardFooter);
 
       els.studioGrid.appendChild(card);
       renderPaintingToCanvas(item, canvas);
@@ -1171,18 +1249,6 @@
     addFiles(els.fileInput.files);
     els.fileInput.value = '';
   });
-
-  if (els.downloadAllBtn) {
-    els.downloadAllBtn.addEventListener('click', async function () {
-      if (!state.staged.length) return;
-      var slugs = predictSlugsForStaged();
-      for (var i = 0; i < state.staged.length; i++) {
-        var cvs = renderPaintingToCanvas(state.staged[i]);
-        var blob = await canvasToPngBlob(cvs);
-        triggerBlobDownload(blob, slugs[i].predicted + '.png');
-      }
-    });
-  }
 
   /* --- Publish to Cloudflare Worker --- */
   if (els.publishBtn) {
@@ -1245,7 +1311,7 @@
           throw new Error('Your login session expired. Please refresh this page to sign back in.');
         }
         if (res.status === 404 || ct.indexOf('application/json') === -1) {
-          throw new Error('Publishing is not active yet. You can still use "Download PNGs" to save your images.');
+          throw new Error('Publishing is not active yet. You can still download your PNG using the download button on each painting.');
         }
 
         var result = await res.json();

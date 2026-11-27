@@ -281,7 +281,6 @@
   :root:not([data-theme="light"]) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):focus-visible,
   :root:not([data-theme="light"]) textarea:focus,
   :root:not([data-theme="light"]) textarea:focus-visible,
-  :root:not([data-theme="light"]) select:focus,
   :root:not([data-theme="light"]) select:focus-visible {
     outline: none !important;
     border-color: var(--brand-accent) !important;
@@ -1157,7 +1156,6 @@
 :root[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):focus-visible,
 :root[data-theme="dark"] textarea:focus,
 :root[data-theme="dark"] textarea:focus-visible,
-:root[data-theme="dark"] select:focus,
 :root[data-theme="dark"] select:focus-visible {
   outline: none !important;
   border-color: var(--brand-accent) !important;
