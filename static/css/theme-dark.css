@@ -194,7 +194,8 @@
     }
 
     :root:not([data-theme="light"]) .wp-block-post-title a:hover,
-    :root:not([data-theme="light"]) .post-entry-card:hover .post-entry-title {
+    :root:not([data-theme="light"]) .post-entry-card:hover:not(:has(.post-entry-meta-link:hover)) .post-entry-main-link,
+    :root:not([data-theme="light"]) .post-entry-meta-link:hover {
       color: var(--brand-teal) !important;
     }
 
@@ -206,7 +207,8 @@
 
   /* --- Post Teaser List --- */
   :root:not([data-theme="light"]) .wp-block-post-title a,
-  :root:not([data-theme="light"]) .post-entry-title {
+  :root:not([data-theme="light"]) .post-entry-title,
+  :root:not([data-theme="light"]) .post-entry-meta-link {
     color: var(--wp--preset--color--contrast) !important;
   }
 
@@ -1079,7 +1081,8 @@
   }
 
   :root[data-theme="dark"] .wp-block-post-title a:hover,
-  :root[data-theme="dark"] .post-entry-card:hover .post-entry-title {
+  :root[data-theme="dark"] .post-entry-card:hover:not(:has(.post-entry-meta-link:hover)) .post-entry-main-link,
+  :root[data-theme="dark"] .post-entry-meta-link:hover {
     color: var(--brand-teal) !important;
   }
 
@@ -1090,7 +1093,8 @@
 }
 
 :root[data-theme="dark"] .wp-block-post-title a,
-:root[data-theme="dark"] .post-entry-title {
+:root[data-theme="dark"] .post-entry-title,
+:root[data-theme="dark"] .post-entry-meta-link {
   color: var(--wp--preset--color--contrast) !important;
 }
 

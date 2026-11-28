@@ -535,6 +535,7 @@ footer.site-footer-group {
 }
 
 .post-entry-card {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -543,18 +544,18 @@ footer.site-footer-group {
   row-gap: 0.45rem;
   width: 100%;
   padding: 1rem 1.25rem;
-  background: var(--wp--preset--color--base-2, #ffffff);
+  background: transparent;
   border: 1px solid var(--wp--preset--color--contrast-3, #a4a4a4);
   border-radius: var(--radius-default, 8px);
-  text-decoration: none !important;
   color: inherit;
   box-sizing: border-box;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
-.post-entry-card:focus-visible {
+.post-entry-card:has(.post-entry-main-link:focus-visible) {
   outline: 2px solid var(--brand-accent, #0a4651) !important;
   outline-offset: 2px;
+  border-color: var(--brand-accent, #0a4651) !important;
 }
 
 @media (hover: hover) {
@@ -563,18 +564,42 @@ footer.site-footer-group {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   }
 
-  .post-entry-card:hover .post-entry-title {
-    color: var(--brand-accent, #0a4651);
+  .post-entry-card:hover:not(:has(.post-entry-meta-link:hover)) .post-entry-main-link {
+    color: var(--brand-accent, #0a4651) !important;
+  }
+
+  .post-entry-meta-link:hover {
+    color: var(--brand-accent, #0a4651) !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px;
   }
 }
 
 .post-entry-title {
   font-size: 1.15rem !important;
-  font-weight: 600 !important;
+  font-weight: 400 !important;
   line-height: 1.25 !important;
   margin: 0 !important;
   color: var(--wp--preset--color--contrast, #111111);
+}
+
+.post-entry-main-link {
+  color: inherit;
+  text-decoration: none !important;
   transition: color 0.15s ease;
+}
+
+.post-entry-main-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.post-entry-main-link:focus-visible {
+  outline: none !important;
+  color: var(--brand-accent, #0a4651) !important;
 }
 
 .post-entry-meta {
@@ -589,9 +614,19 @@ footer.site-footer-group {
   color: var(--wp--preset--color--contrast-2, #636363);
 }
 
-.post-entry-author,
-.post-entry-category {
+.post-entry-meta-link {
+  position: relative;
+  z-index: 2;
   color: var(--wp--preset--color--contrast, #111111);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.post-entry-meta-link:focus-visible {
+  color: var(--brand-accent, #0a4651) !important;
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 @media (max-width: 600px) {
@@ -785,12 +820,38 @@ button:active {
 }
 
 /* ==========================================================================
-   Header Search Button & Trigger
+   Header Navigation Layout, Search Button & Trigger
    ========================================================================== */
 .site-header-nav-wrapper {
   display: flex !important;
   align-items: center !important;
   gap: var(--wp--preset--spacing--20) !important;
+}
+
+.site-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--wp--preset--spacing--20);
+  flex-shrink: 0;
+}
+
+@media (min-width: 601px) {
+  .site-header-row {
+    position: relative;
+  }
+
+  .site-header-row:not(.is-nav-tight) .site-header-nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 600px) {
+  .site-header-actions {
+    order: -1;
+    gap: 0.75rem !important;
+  }
 }
 
 .site-search-btn {

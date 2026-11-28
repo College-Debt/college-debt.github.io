@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var modalLinks = document.querySelectorAll('.site-mobile-nav-links a');
     var lastTrigger = null;
 
-    // Dynamic header height synchronization
+    // Dynamic header height & centered nav fit synchronization
     function syncHeaderHeight() {
         var header = document.querySelector('.site-header-group');
         if (header) {
@@ -77,8 +77,55 @@ document.addEventListener('DOMContentLoaded', function () {
             document.documentElement.style.setProperty('--site-header-height', h + 'px');
         }
     }
-    syncHeaderHeight();
-    window.addEventListener('resize', syncHeaderHeight);
+
+    function syncHeaderNavLayout() {
+        var row = document.querySelector('.site-header-row');
+        var leftEl = row && row.querySelector('.site-header-left-group');
+        var wrapperEl = row && row.querySelector('.site-header-nav-wrapper');
+        var navEl = row && row.querySelector('.site-header-nav');
+        var linksEl = navEl && navEl.querySelector('.wp-block-navigation__container');
+        var actionsEl = wrapperEl && wrapperEl.querySelector('.site-header-actions');
+        if (!row || !leftEl || !navEl || !actionsEl) return;
+
+        if (window.innerWidth <= 600) {
+            row.classList.remove('is-nav-tight');
+            return;
+        }
+
+        var rowRect = row.getBoundingClientRect();
+        var leftRect = leftEl.getBoundingClientRect();
+        var actionsRect = actionsEl.getBoundingClientRect();
+        var navWidth = Math.ceil((linksEl || navEl).getBoundingClientRect().width);
+        if (!navWidth) return;
+
+        var minGap = 24;
+        var centerX = rowRect.left + rowRect.width / 2;
+        var centeredLeft = centerX - navWidth / 2;
+        var centeredRight = centerX + navWidth / 2;
+
+        var fitsCenter =
+            centeredLeft >= leftRect.right + minGap &&
+            centeredRight <= actionsRect.left - minGap;
+
+        row.classList.toggle('is-nav-tight', !fitsCenter);
+    }
+
+    function syncHeaderAll() {
+        syncHeaderHeight();
+        syncHeaderNavLayout();
+    }
+
+    syncHeaderAll();
+    window.addEventListener('resize', syncHeaderAll);
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(syncHeaderAll);
+    }
+    if (typeof MutationObserver !== 'undefined') {
+        new MutationObserver(syncHeaderAll).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-font']
+        });
+    }
 
     function openMobileNav(triggerEl) {
         var personalizeModal = document.getElementById('site-personalize-modal');

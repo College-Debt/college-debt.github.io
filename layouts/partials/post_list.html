@@ -5,17 +5,19 @@
 {{ end }}
 {{ range $pages }}
 <li class="wp-block-post post type-post status-publish format-standard hentry post-entry-item">
-  <a href="{{ .RelPermalink }}" class="post-entry-card" target="_self">
-    <h2 class="wp-block-post-title has-body-font-family post-entry-title">{{ .Title }}</h2>
+  <article class="post-entry-card">
+    <h2 class="wp-block-post-title has-body-font-family post-entry-title">
+      <a href="{{ .RelPermalink }}" class="post-entry-main-link" target="_self">{{ .Title }}</a>
+    </h2>
     <div class="post-entry-meta">
       <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
       <span aria-hidden="true">&#8211;</span>
-      <span>by <span class="post-entry-author">{{ default "CherryQuartzio" .Params.author }}</span></span>
+      <span>by <a href="/author/{{ default "cherryquartzio" .Params.author | urlize }}/" class="post-entry-meta-link wp-block-post-author-name__link" target="_self">{{ default "CherryQuartzio" .Params.author }}</a></span>
       {{ with .Params.category }}
-      <span class="taxonomy-category wp-block-post-terms">in <span class="post-entry-category">{{ . }}</span></span>
+      <span class="taxonomy-category wp-block-post-terms">in <a href="/category/{{ . | urlize }}/" class="post-entry-meta-link" rel="tag">{{ . }}</a></span>
       {{ end }}
     </div>
-  </a>
+  </article>
 </li>
 {{ end }}
 </ul>

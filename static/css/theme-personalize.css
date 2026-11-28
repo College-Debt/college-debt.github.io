@@ -388,14 +388,15 @@ html[data-theme="dark"][data-accent="jeb"] {
 .wp-block-post-date a:focus-visible,
 .wp-block-post-author-name a:focus-visible,
 .wp-block-post-terms a:focus-visible,
-.post-entry-card:focus-visible .post-entry-title,
+.post-entry-card:has(.post-entry-main-link:focus-visible) .post-entry-main-link,
+.post-entry-meta-link:focus-visible,
 .post-navigation-row a:focus-visible,
 .site-footer-wrapper a:focus-visible,
 .wp-block-navigation__responsive-container-open:focus-visible {
   color: var(--brand-accent, #0a4651) !important;
 }
 
-.post-entry-card:focus-visible {
+.post-entry-card:has(.post-entry-main-link:focus-visible) {
   border-color: var(--brand-accent, #0a4651) !important;
 }
 
@@ -415,7 +416,8 @@ html[data-theme="dark"][data-accent="jeb"] {
   .wp-block-post-date a:hover,
   .wp-block-post-author-name a:hover,
   .wp-block-post-terms a:hover,
-  .post-entry-card:hover .post-entry-title,
+  .post-entry-card:hover:not(:has(.post-entry-meta-link:hover)) .post-entry-main-link,
+  .post-entry-meta-link:hover,
   .post-navigation-row a:hover,
   .site-footer-wrapper a:hover,
   .wp-block-navigation__responsive-container-open:hover {
