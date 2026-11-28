@@ -3,16 +3,20 @@ title: "Get help"
 description: "When it's better together"
 icon: "circle-question"
 weight: 20
-wiki_group: "About"
+wiki_group: "Support"
 ---
 
-## College Debt
+## Tech support
 
 If you are experiencing any issues or questions, you may ask the people below:
 
-<table><thead><tr><th scope="col" width="222.79998779296875">People</th><th scope="col" width="483.20001220703125">Area</th></tr></thead><tbody><tr><td><a href="mailto:cherryquartzio@collegedebt.app">CherryQuartzio</a></td><td>Everything lol</td></tr><tr><td><a href="mailto:khoa.vo@collegedebt.app">Kooodooo</a></td><td>Cloud Debt account &#x26; Microsoft 365</td></tr><tr><td><a href="mailto:ryan@collegedebt.app">Zeroaf</a></td><td>College Debt lore &#x26; BBQ</td></tr></tbody></table>
+| People | Area |
+| --- | --- |
+| [CherryQuartzio](mailto:cherryquartzio@collegedebt.app) | Everything lol |
+| [Kooodooo](mailto:khoa.vo@collegedebt.app) | Microsoft Account |
+| [Zeroaf](mailto:ryan@collegedebt.app) | College Debt lore & BBQ |
 
-## In time of distress
+## IRL: In time of distress
 
 If you feel like you cannot hold yourself together, please reach out to anyone you're familiar with including those within this group (like me, or [behavioral health crisis lines](https://www.hca.wa.gov/free-or-low-cost-health-care/i-need-behavioral-health-support/mental-health-crisis-lines)). There are also various available public resources you can use to get specific help from.
 

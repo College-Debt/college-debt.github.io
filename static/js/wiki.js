@@ -419,6 +419,9 @@ document.addEventListener("DOMContentLoaded", function () {
           searchModal.setAttribute("aria-hidden", "true");
           document.documentElement.classList.remove("has-modal-open", "has-search-open");
           document.body.classList.remove("has-modal-open", "has-search-open");
+          document.querySelectorAll(".site-search-btn").forEach(function (b) {
+            b.setAttribute("aria-expanded", "false");
+          });
           if (window.__cdA11y) window.__cdA11y.setBackgroundInert(searchModal, false);
         }
 

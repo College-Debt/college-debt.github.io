@@ -412,6 +412,9 @@
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('has-search-open');
     document.documentElement.classList.add('has-search-open');
+    document.querySelectorAll('.site-search-btn').forEach(function (b) {
+      b.setAttribute('aria-expanded', 'true');
+    });
     if (window.__cdA11y) window.__cdA11y.setBackgroundInert(modal, true);
 
     if (typeof prefillQuery === 'string' && prefillQuery.length > 0) {
@@ -448,6 +451,9 @@
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('has-search-open');
     document.documentElement.classList.remove('has-search-open');
+    document.querySelectorAll('.site-search-btn').forEach(function (b) {
+      b.setAttribute('aria-expanded', 'false');
+    });
     if (window.__cdA11y) window.__cdA11y.setBackgroundInert(modal, false);
     clearKeyboardSelection();
     cachedResultItems = null;

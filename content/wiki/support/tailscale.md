@@ -4,7 +4,7 @@ description: "Our self-managed VPN"
 icon: "circle-wifi-circle-wifi"
 cover: "/assets/wiki/Screenshot 2025-08-20 at 00-18-48 Tailscale · Best VPN"
 weight: 270
-wiki_group: "Tech stuff"
+wiki_group: "Support"
 ---
 
 To assist with accessing the server in scenarios where using the public IP is undesirable, you can use Tailscale.

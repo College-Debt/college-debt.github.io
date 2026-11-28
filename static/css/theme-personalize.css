@@ -523,7 +523,9 @@ html[data-font="serif"] .site-personalize-dialog,
 html[data-font="serif"] .site-personalize-label,
 html[data-font="serif"] .site-theme-option,
 html[data-font="serif"] .site-theme-option-text,
-html[data-font="serif"] .site-font-option-text {
+html[data-font="serif"] .site-font-option-text,
+html[data-font="serif"] .site-account-dialog,
+html[data-font="serif"] .site-account-dialog * {
   font-family: 'Noto Serif', Georgia, 'Times New Roman', serif !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;

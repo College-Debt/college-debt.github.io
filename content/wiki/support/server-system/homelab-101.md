@@ -3,7 +3,7 @@ title: "Homelab 101"
 description: "A brief introduction to a homelab"
 icon: "nas"
 weight: 250
-wiki_group: "Tech stuff"
+wiki_group: "Support"
 nested: true
 ---
 

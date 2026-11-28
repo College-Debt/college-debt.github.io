@@ -119,6 +119,9 @@
       searchModal.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('has-search-open');
       document.documentElement.classList.remove('has-search-open');
+      document.querySelectorAll('.site-search-btn').forEach(function (b) {
+        b.setAttribute('aria-expanded', 'false');
+      });
     }
     var accountModal = document.getElementById('site-account-modal');
     if (accountModal && accountModal.classList.contains('is-open')) {

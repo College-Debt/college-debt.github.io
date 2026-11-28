@@ -1,5 +1,5 @@
 ---
-title: "Paintings Studio"
+title: "Custom Paintings Studio"
 type: "paintings"
 layout: "single"
 url: "/paintings/"

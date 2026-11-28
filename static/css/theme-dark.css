@@ -98,7 +98,9 @@
     color: var(--wp--preset--color--contrast) !important;
   }
 
-  :root:not([data-theme="light"]) .site-search-btn:focus-visible {
+  :root:not([data-theme="light"]) .site-search-btn:focus-visible,
+  :root:not([data-theme="light"]) .site-search-btn[aria-expanded="true"],
+  :root:not([data-theme="light"]).has-search-open .site-search-btn {
     color: var(--brand-teal) !important;
     background: transparent !important;
   }
@@ -111,6 +113,11 @@
     :root:not([data-theme="light"]) .site-search-btn {
       color: var(--wp--preset--color--contrast) !important;
       background: transparent !important;
+    }
+
+    :root:not([data-theme="light"]) .site-search-btn[aria-expanded="true"],
+    :root:not([data-theme="light"]).has-search-open .site-search-btn {
+      color: var(--brand-teal) !important;
     }
   }
 
@@ -721,7 +728,6 @@
     --pagefind-ui-tag: #23272e;
   }
 
-  :root:not([data-theme="light"]) .site-search-backdrop,
   :root:not([data-theme="light"]) .site-lightbox-backdrop {
     background: var(--backdrop-scrim, rgba(10, 11, 13, 0.8)) !important;
   }
@@ -988,7 +994,9 @@
   color: var(--wp--preset--color--contrast) !important;
 }
 
-:root[data-theme="dark"] .site-search-btn:focus-visible {
+:root[data-theme="dark"] .site-search-btn:focus-visible,
+:root[data-theme="dark"] .site-search-btn[aria-expanded="true"],
+:root[data-theme="dark"].has-search-open .site-search-btn {
   color: var(--brand-teal) !important;
   background: transparent !important;
 }
@@ -1001,6 +1009,11 @@
   :root[data-theme="dark"] .site-search-btn {
     color: var(--wp--preset--color--contrast) !important;
     background: transparent !important;
+  }
+
+  :root[data-theme="dark"] .site-search-btn[aria-expanded="true"],
+  :root[data-theme="dark"].has-search-open .site-search-btn {
+    color: var(--brand-teal) !important;
   }
 }
 
@@ -1593,7 +1606,6 @@
     --pagefind-ui-tag: #23272e;
   }
 
-  :root[data-theme="dark"] .site-search-backdrop,
   :root[data-theme="dark"] .site-lightbox-backdrop {
     background: var(--backdrop-scrim, rgba(10, 11, 13, 0.8)) !important;
   }

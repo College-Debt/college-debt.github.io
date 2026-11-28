@@ -870,7 +870,9 @@ button:active {
   box-shadow: none !important;
 }
 
-.site-search-btn:focus-visible {
+.site-search-btn:focus-visible,
+.site-search-btn[aria-expanded="true"],
+html.has-search-open .site-search-btn {
   color: var(--brand-accent, #0a4651) !important;
   background: transparent !important;
   text-decoration: none !important;
@@ -915,6 +917,11 @@ button:active {
     justify-content: center !important;
     line-height: 1 !important;
     box-shadow: none !important;
+  }
+
+  .site-search-btn:not(.site-search-btn-mobile-nav)[aria-expanded="true"],
+  html.has-search-open .site-search-btn:not(.site-search-btn-mobile-nav) {
+    color: var(--brand-accent, #0a4651) !important;
   }
 
   @media (hover: hover) {
@@ -969,9 +976,7 @@ body.has-search-open {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(240, 239, 237, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: transparent;
   transition: none !important;
 }
 
