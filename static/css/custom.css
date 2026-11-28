@@ -2055,6 +2055,10 @@ html[data-account="signed-in"] .site-account-icon-profile {
   color: var(--wp--preset--color--contrast-2, #636363);
 }
 
+.site-account-desc.is-compact {
+  margin: 0 0 0.85rem;
+}
+
 .site-account-divider {
   height: 1px;
   background: var(--wp--preset--color--accent, #cfcabe);

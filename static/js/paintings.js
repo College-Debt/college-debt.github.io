@@ -435,11 +435,11 @@
     if (isLocalHost()) {
       els.sessionCallout.innerHTML = '<span class="sr-only">Warning: </span>' + escapeHtml(msg);
     } else {
-      var loginUrl = '/api/paintings/login?next=' + encodeURIComponent(window.location.pathname || '/paintings/');
+      var loginUrl = '/api/login?next=' + encodeURIComponent(window.location.pathname || '/paintings/');
       els.sessionCallout.innerHTML =
         '<span class="sr-only">Warning: </span>' +
         escapeHtml(msg) +
-        ' <a href="' + escapeHtml(loginUrl) + '">Sign in with Microsoft</a>';
+        ' <a href="' + escapeHtml(loginUrl) + '">Sign in</a>';
     }
     els.sessionCallout.hidden = false;
   }
@@ -1455,7 +1455,9 @@
             state.identity.checked = true;
             state.identity.authenticated = Boolean(data.viewer.email || data.viewer.name);
             state.identity.email = data.viewer.email || state.identity.email;
-            state.identity.name = data.viewer.name || state.identity.name;
+            if (data.viewer.name) {
+              state.identity.name = data.viewer.name;
+            }
             state.identity.isAdmin = Boolean(data.viewer.isAdmin);
             if (state.identity.authenticated) {
               state.identity.anomalyReason = '';

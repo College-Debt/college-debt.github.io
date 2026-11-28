@@ -3,8 +3,8 @@
 
   var AUTH_HINT_KEY = 'collegedebt_auth_hint';
   var IDENTITY_URL = '/cdn-cgi/access/get-identity';
-  var SESSION_URL = '/api/paintings/session';
-  var LOGIN_BASE_URL = '/api/paintings/login';
+  var SESSION_URL = '/api/session';
+  var LOGIN_BASE_URL = '/api/login';
   var LOGOUT_URL = '/cdn-cgi/access/logout';
 
   var modal = null;
@@ -82,7 +82,7 @@
     }
 
     if (nameEl) {
-      nameEl.textContent = authState.name || (authState.email ? authState.email.split('@')[0] : 'Member');
+      nameEl.textContent = authState.name || authState.email || 'Signed-in Member';
     }
     if (emailEl) {
       emailEl.textContent = authState.email || '';
@@ -146,7 +146,9 @@
         var data = await res.json();
         if (data && data.viewer) {
           authState.email = data.viewer.email || authState.email;
-          authState.name = data.viewer.name || authState.name;
+          if (data.viewer.name) {
+            authState.name = data.viewer.name;
+          }
           authState.isAdmin = Boolean(data.viewer.isAdmin);
           authState.roleLoaded = true;
           syncUI();
@@ -321,7 +323,10 @@
       authState.authenticated = Boolean(detail.authenticated);
       if (authState.authenticated) {
         authState.email = String(detail.email || authState.email || '').trim().toLowerCase();
-        authState.name = String(detail.name || authState.name || '').trim();
+        var nextName = String(detail.name || '').trim();
+        if (nextName) {
+          authState.name = nextName;
+        }
         if (typeof detail.isAdmin === 'boolean') {
           authState.isAdmin = detail.isAdmin;
           authState.roleLoaded = true;

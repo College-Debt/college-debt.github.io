@@ -76,12 +76,12 @@ export default {
         }),
       );
 
-      if (pathname === "/api/paintings/session" && request.method === "GET") {
+      if ((pathname === "/api/session" || pathname === "/api/paintings/session") && request.method === "GET") {
         const viewer = await authenticateRequest(request, env);
         return jsonResponse({ authenticated: true, viewer }, 200);
       }
 
-      if (pathname === "/api/paintings/login" && request.method === "GET") {
+      if ((pathname === "/api/login" || pathname === "/api/paintings/login") && request.method === "GET") {
         await authenticateRequest(request, env);
         const safeNext = sanitizeNextPath(url.searchParams.get("next"));
         const target = new URL(safeNext, url.origin).toString();

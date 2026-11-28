@@ -377,8 +377,8 @@ describe("Paintings Worker HTTP endpoints", () => {
     );
   });
 
-  it("handles GET /api/paintings/session and GET /api/paintings/login safely", async () => {
-    const adminJwt = await signJwt({ email: "quang@quangmn.com", name: "Quang" });
+  it("handles GET /api/session and GET /api/login cleanly without synthesizing lowercase email prefix names", async () => {
+    const adminJwtNoName = await signJwt({ email: "quang@quangmn.com", name: undefined });
     const memberJwt = await signJwt({ email: "member@collegedebt.app", name: "Member" });
 
     vi.spyOn(globalThis, "fetch").mockImplementation(async (input) => {
@@ -391,8 +391,8 @@ describe("Paintings Worker HTTP endpoints", () => {
 
     const ctx1 = createExecutionContext();
     const resAdmin = await worker.fetch(
-      new Request("https://collegedebt.app/api/paintings/session", {
-        headers: { "Cf-Access-Jwt-Assertion": adminJwt },
+      new Request("https://collegedebt.app/api/session", {
+        headers: { "Cf-Access-Jwt-Assertion": adminJwtNoName },
       }),
       makeTestEnv(),
       ctx1,
@@ -401,7 +401,7 @@ describe("Paintings Worker HTTP endpoints", () => {
     expect(resAdmin.status).toBe(200);
     expect(await resAdmin.json()).toEqual({
       authenticated: true,
-      viewer: { email: "quang@quangmn.com", name: "Quang", isAdmin: true },
+      viewer: { email: "quang@quangmn.com", name: "", isAdmin: true },
     });
 
     const ctx2 = createExecutionContext();
@@ -421,7 +421,7 @@ describe("Paintings Worker HTTP endpoints", () => {
 
     const ctx3 = createExecutionContext();
     const resLoginSafe = await worker.fetch(
-      new Request("https://collegedebt.app/api/paintings/login?next=%2Fwiki%2Fcollege-debt-smp%2F%3Fx%3D1", {
+      new Request("https://collegedebt.app/api/login?next=%2Fwiki%2Fcollege-debt-smp%2F%3Fx%3D1", {
         headers: { "Cf-Access-Jwt-Assertion": memberJwt },
       }),
       makeTestEnv(),
@@ -433,7 +433,7 @@ describe("Paintings Worker HTTP endpoints", () => {
 
     const ctx4 = createExecutionContext();
     const resLoginEvil = await worker.fetch(
-      new Request("https://collegedebt.app/api/paintings/login?next=%2F%2Fevil.example%2Fphish", {
+      new Request("https://collegedebt.app/api/login?next=%2F%2Fevil.example%2Fphish", {
         headers: { "Cf-Access-Jwt-Assertion": memberJwt },
       }),
       makeTestEnv(),

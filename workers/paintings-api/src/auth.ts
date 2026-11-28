@@ -254,7 +254,7 @@ export async function verifyAccessJwt(token: string, env: Env): Promise<ViewerIn
     throw new HttpError(401, "Cloudflare Access token did not include a user email.");
   }
 
-  const name = (payload.name || payload.common_name || email.split("@")[0] || "").trim();
+  const name = (payload.name || payload.common_name || "").trim();
   const isAdmin = await isEmailAdmin(email, env.ADMIN_EMAILS);
 
   return { email, name, isAdmin };

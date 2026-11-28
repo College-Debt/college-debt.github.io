@@ -477,7 +477,7 @@ export async function publishPaintings(
       jsons: [],
       recipes: [],
       submitted_by: viewer.email,
-      submitted_name: viewer.name,
+      submitted_name: viewer.name || viewer.email,
       submitted_at: new Date().toISOString(),
     };
 

@@ -2,20 +2,8 @@
   <div class="site-account-backdrop"></div>
   <div class="site-account-dialog" id="site-account-dialog">
     <div class="site-account-state" id="site-account-signed-out">
-      <div class="site-account-head">
-        <span class="site-account-avatar" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="7.5" cy="15.5" r="5.5"></circle>
-            <path d="m21 2-9.6 9.6"></path>
-            <path d="m15.5 7.5 3 3L22 7l-3-3"></path>
-          </svg>
-        </span>
-        <div class="site-account-head-text">
-          <div class="site-account-title">Account</div>
-        </div>
-      </div>
-      <p class="site-account-desc">For members only, sign in with your College Debt Microsoft account to access restricted pages.</p>
-      <a class="site-account-btn-action site-account-btn-primary" id="site-account-signin-link" href="/api/paintings/login?next=%2F">Sign in with Microsoft</a>
+      <p class="site-account-desc is-compact">For members only, sign in with your College Debt Microsoft account to access restricted pages.</p>
+      <a class="site-account-btn-action site-account-btn-primary" id="site-account-signin-link" href="/api/login?next=%2F">Sign in</a>
     </div>
 
     <div class="site-account-state" id="site-account-signed-in" hidden>
@@ -40,7 +28,6 @@
       <div class="site-account-links">
         <a class="site-account-link-item" href="/paintings/">
           <span>Paintings Studio</span>
-          <span class="site-account-link-arrow" aria-hidden="true">&rsaquo;</span>
         </a>
         <a class="site-account-link-item" href="https://myaccount.microsoft.com/" target="_blank" rel="noopener noreferrer">
           <span>Manage Account</span>
