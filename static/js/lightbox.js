@@ -9,6 +9,7 @@
   var backdrop = document.getElementById('site-lightbox-backdrop');
   var stage = document.getElementById('site-lightbox-stage');
   var imgEl = document.getElementById('site-lightbox-img');
+  var barEl = document.getElementById('site-lightbox-bar');
   var closeBtn = document.getElementById('site-lightbox-close');
   var prevBtn = document.getElementById('site-lightbox-prev');
   var nextBtn = document.getElementById('site-lightbox-next');
@@ -44,9 +45,20 @@
     var item = state.items[state.index];
     if (!item) return;
 
+    if (barEl) {
+      var barRect = barEl.getBoundingClientRect();
+      if (barRect.height > 0 && window.innerHeight > 0) {
+        var bottomReserved = Math.max(84, Math.ceil(window.innerHeight - barRect.top + 20));
+        stage.style.paddingBottom = bottomReserved + 'px';
+      }
+    }
+
+    var cs = window.getComputedStyle(stage);
+    var padX = (parseFloat(cs.paddingLeft) || 20) + (parseFloat(cs.paddingRight) || 20);
+    var padY = (parseFloat(cs.paddingTop) || 20) + (parseFloat(cs.paddingBottom) || 84);
     var rect = stage.getBoundingClientRect();
-    var availW = Math.max(180, (rect.width || window.innerWidth) - 24);
-    var availH = Math.max(180, (rect.height || window.innerHeight - 96) - 24);
+    var availW = Math.max(180, (rect.width || window.innerWidth) - padX - 16);
+    var availH = Math.max(180, (rect.height || window.innerHeight) - padY - 16);
 
     var baseW, baseH;
     if (item.pixelated && item.widthBlocks && item.heightBlocks) {

@@ -38,7 +38,7 @@
 </div>
 
 {{- if or .PrevInSection .NextInSection }}
-<div class="wp-block-group has-global-padding is-layout-constrained post-pager-wrap" style="padding-bottom:var(--wp--preset--spacing--20)" data-pagefind-ignore>
+<div class="wp-block-group has-global-padding is-layout-constrained post-pager-wrap" data-pagefind-ignore>
   <nav aria-label="Posts" class="wiki-pager-container">
     {{- with .PrevInSection }}
       <a href="{{ .RelPermalink }}" class="wiki-pager-card prev" rel="prev">

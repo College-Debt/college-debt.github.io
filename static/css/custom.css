@@ -1,5 +1,10 @@
 /* Custom Layout Fixes for College Debt SMP */
 
+:root {
+  --radius-default: 8px;
+  --radius-popover: 12px;
+}
+
 html, body {
   min-height: 100vh;
   margin: 0;
@@ -383,7 +388,7 @@ figure {
 .wp-block-image img,
 figure img,
 figure iframe {
-  border-radius: 8px;
+  border-radius: var(--radius-default, 8px);
   max-width: 100%;
   height: auto;
 }
@@ -485,7 +490,7 @@ figcaption {
   box-sizing: border-box !important;
   border-style: none !important;
   border-width: 0px !important;
-  border-radius: 0px !important;
+  border-radius: var(--radius-default, 8px) !important;
   box-shadow: var(--wp--preset--shadow--sharp) !important;
 }
 
@@ -840,7 +845,7 @@ body.has-search-open {
   flex-direction: column;
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 12px;
+  border-radius: var(--radius-popover, 12px);
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
   overflow: hidden;
   overscroll-behavior: contain !important;
@@ -1004,7 +1009,7 @@ body.has-search-open {
   --pagefind-ui-border: var(--wp--preset--color--accent, #cfcabe);
   --pagefind-ui-tag: #f0efed;
   --pagefind-ui-border-width: 1px;
-  --pagefind-ui-border-radius: 8px;
+  --pagefind-ui-border-radius: var(--radius-default, 8px);
   --pagefind-ui-font: 'Inter', sans-serif;
 }
 
@@ -1463,7 +1468,7 @@ body.has-search-open {
   font-weight: 600;
   color: var(--brand-accent-contrast, #ffffff);
   background: var(--brand-accent, #0a4651);
-  border-radius: 6px;
+  border-radius: var(--radius-default, 8px);
   text-decoration: none;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
@@ -1490,7 +1495,7 @@ main#main-content:focus,
 .error-404-btn:focus-visible {
   outline: 2px solid var(--brand-accent, #0a4651) !important;
   outline-offset: 3px !important;
-  border-radius: 6px !important;
+  border-radius: var(--radius-default, 8px) !important;
 }
 
 @media (max-width: 820px) {
@@ -1592,6 +1597,13 @@ main#main-content:focus,
 /* ==========================================================================
    Sequential Previous / Next Pager Cards (Shared Across Wiki & Posts)
    ========================================================================== */
+.post-pager-wrap {
+  margin-block-start: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0;
+  padding-bottom: 1rem;
+}
+
 .wiki-pager-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1604,13 +1616,18 @@ main#main-content:focus,
   box-sizing: border-box;
 }
 
+:root .post-pager-wrap > .wiki-pager-container {
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
+}
+
 .wiki-pager-card {
   display: flex;
   flex-direction: column;
   padding: 1rem 1.25rem;
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 8px;
+  border-radius: var(--radius-default, 8px);
   text-decoration: none !important;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
   box-sizing: border-box;
@@ -1663,7 +1680,8 @@ main#main-content:focus,
 }
 
 @media (max-width: 820px) {
-  .wiki-pager-container {
+  .wiki-pager-container,
+  :root .post-pager-wrap > .wiki-pager-container {
     grid-template-columns: 1fr;
     margin-top: 2.5rem;
     padding-top: 1.5rem;
@@ -1741,7 +1759,7 @@ main#main-content:focus,
 .site-lightbox-close:focus-visible {
   outline: 2px solid var(--brand-accent, #0a4651) !important;
   outline-offset: 2px;
-  border-radius: 6px;
+  border-radius: var(--radius-default, 8px);
 }
 
 .site-lightbox-stage {
@@ -1752,7 +1770,7 @@ main#main-content:focus,
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 12px 72px;
+  padding: 20px 20px 84px;
   box-sizing: border-box;
   overflow: hidden;
   touch-action: none;
@@ -1788,10 +1806,10 @@ main#main-content:focus,
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.3rem 0.6rem;
+  padding: 0.3rem 0.5rem;
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 999px;
+  border-radius: var(--radius-popover, 12px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
 }
 
@@ -1849,7 +1867,7 @@ main#main-content:focus,
 .site-lightbox-pct:focus-visible {
   outline: 2px solid var(--brand-accent, #0a4651) !important;
   outline-offset: 2px;
-  border-radius: 6px;
+  border-radius: var(--radius-default, 8px);
 }
 
 .home-hero-image img:focus-visible,
@@ -1859,7 +1877,7 @@ main#main-content:focus,
 .wiki-article-body img:focus-visible {
   outline: 2px solid var(--brand-accent, #0a4651) !important;
   outline-offset: 3px;
-  border-radius: 8px;
+  border-radius: var(--radius-default, 8px);
 }
 
 /* ==========================================================================
@@ -1973,7 +1991,7 @@ html[data-account="signed-in"] .site-account-icon-profile {
   width: min(320px, calc(100vw - 1.5rem));
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 12px;
+  border-radius: var(--radius-popover, 12px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
   padding: 14px;
   box-sizing: border-box;

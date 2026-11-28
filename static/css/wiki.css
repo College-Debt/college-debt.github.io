@@ -122,7 +122,7 @@ body.has-wiki-toc-open {
 .wiki-sidebar-card {
   background-color: var(--wp--preset--color--base-2, #ffffff);
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-popover, 12px);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   padding: 0.65rem;
   position: sticky;
@@ -350,7 +350,7 @@ body.wiki-is-navigating .wiki-content-wrapper {
   display: none;
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 6px;
+  border-radius: var(--radius-default, 8px);
   color: var(--wp--preset--color--contrast-2, #636363);
   cursor: pointer;
   width: 34px;
@@ -1170,7 +1170,7 @@ i.fa-arrows-rotate {
     max-height: calc(100dvh - var(--site-header-height, 66px));
     background-color: var(--wp--preset--color--base-2, #ffffff);
     z-index: 1001;
-    border-radius: 14px 0 0 14px;
+    border-radius: 12px 0 0 12px;
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
     transform: translateX(100%);
     visibility: hidden;
@@ -1211,7 +1211,7 @@ i.fa-arrows-rotate {
     border: none;
     cursor: pointer;
     color: var(--wp--preset--color--contrast-2, #636363);
-    border-radius: 6px;
+    border-radius: var(--radius-default, 8px);
     padding: 0;
     transition: color 0.15s ease, background-color 0.15s ease;
   }
@@ -1252,7 +1252,7 @@ i.fa-arrows-rotate {
     max-height: calc(100dvh - var(--site-header-height, 66px));
     background-color: var(--wp--preset--color--base-2, #ffffff);
     z-index: 1001;
-    border-radius: 0 14px 14px 0;
+    border-radius: 0 12px 12px 0;
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
     transform: translateX(-100%);
     visibility: hidden;

@@ -742,7 +742,7 @@ html[data-font] .fa-brands {
   width: min(360px, calc(100vw - 1.5rem));
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
-  border-radius: 12px;
+  border-radius: var(--radius-popover, 12px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
   padding: 14px;
   box-sizing: border-box;
@@ -799,7 +799,7 @@ html[data-font] .fa-brands {
   padding: 6px 4px;
   background: transparent;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-default, 8px);
   cursor: pointer;
   color: var(--wp--preset--color--contrast-2, #636363);
   font-family: inherit;
@@ -982,7 +982,7 @@ html[data-font] .fa-brands {
   padding: 10px 4px 8px;
   background: transparent;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-default, 8px);
   cursor: pointer;
   color: var(--wp--preset--color--contrast, #111111);
   transition: background-color 0.12s ease;
