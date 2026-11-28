@@ -739,12 +739,12 @@ html[data-font] .fa-brands {
   top: 72px;
   right: 20px;
   z-index: 2;
-  width: min(360px, calc(100vw - 1.5rem));
+  width: min(360px, calc(100vw - 2 * var(--popover-inset, 14px)));
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
   border-radius: var(--radius-popover, 12px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
-  padding: 14px;
+  padding: var(--popover-inset, 14px);
   box-sizing: border-box;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -758,7 +758,7 @@ html[data-font] .fa-brands {
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%) !important;
-    width: min(360px, calc(100vw - 1.5rem)) !important;
+    width: min(360px, calc(100vw - 2 * var(--popover-inset, 14px))) !important;
   }
 }
 
@@ -780,7 +780,7 @@ html[data-font] .fa-brands {
   height: 1px;
   background: var(--wp--preset--color--accent, #cfcabe);
   opacity: 0.65;
-  margin: 14px 0;
+  margin: var(--popover-inset, 14px) 0;
 }
 
 /* --- Theme: 3 Horizontally Aligned Circles --- */

@@ -4,7 +4,7 @@
    ========================================================================== */
 
 :root {
-  --site-header-height: 67px;
+  --site-header-height: 59px;
 }
 
 @media (max-width: 600px) {

@@ -96,7 +96,7 @@
     if (!anchor) return;
     var rect = anchor.getBoundingClientRect();
     var topPx = Math.round(rect.bottom + 12);
-    var rightPx = Math.max(12, Math.round(window.innerWidth - rect.right));
+    var rightPx = Math.max(14, Math.round(window.innerWidth - rect.right));
     dialog.style.top = topPx + 'px';
     dialog.style.right = rightPx + 'px';
     dialog.style.left = 'auto';

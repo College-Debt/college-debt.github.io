@@ -3,6 +3,7 @@
 :root {
   --radius-default: 8px;
   --radius-popover: 12px;
+  --popover-inset: 14px;
 }
 
 html, body {
@@ -37,6 +38,8 @@ header.wp-block-template-part {
 .site-header-nav { gap: var(--wp--preset--spacing--20); justify-content: flex-end; display: flex; align-items: center; }
 .site-header-row { justify-content: space-between; align-items: center !important; }
 .wp-block-site-logo a { display: flex; align-items: center; }
+.wp-block-site-logo img,
+.custom-logo { width: 180px; max-width: 100%; height: auto; }
 .site-header-group > .alignfull { margin-right: calc(var(--wp--preset--spacing--50) * -1); margin-left: calc(var(--wp--preset--spacing--50) * -1); }
 
 /* Footer Layout classes (replacing dynamically generated wp-container-core-* classes) */
@@ -814,7 +817,7 @@ body.has-search-open {
   display: none;
   align-items: flex-start;
   justify-content: center;
-  padding: clamp(1rem, 7vh, 4rem) 1rem 1rem;
+  padding: clamp(1rem, 7vh, 4rem) var(--popover-inset, 14px) var(--popover-inset, 14px);
   box-sizing: border-box;
   overscroll-behavior: contain !important;
   transition: none !important;
@@ -874,7 +877,7 @@ body.has-search-open {
 
 .site-search-fallback-form {
   position: relative !important;
-  padding: 1rem !important;
+  padding: var(--popover-inset, 14px) !important;
   background: var(--wp--preset--color--base-2, #ffffff) !important;
   box-sizing: border-box !important;
   width: 100% !important;
@@ -883,9 +886,9 @@ body.has-search-open {
 .site-search-fallback-form::before {
   content: "" !important;
   position: absolute !important;
-  top: calc(1rem + 24px) !important;
+  top: calc(var(--popover-inset, 14px) + 24px) !important;
   transform: translateY(-50%) !important;
-  left: calc(1rem + 0.85rem) !important;
+  left: calc(var(--popover-inset, 14px) + 0.85rem) !important;
   width: 20px !important;
   height: 20px !important;
   background-color: var(--wp--preset--color--contrast-2, #636363) !important;
@@ -934,9 +937,9 @@ body.has-search-open {
 
 .site-search-fallback-clear {
   position: absolute !important;
-  top: calc(1rem + 24px) !important;
+  top: calc(var(--popover-inset, 14px) + 24px) !important;
   transform: translateY(-50%) !important;
-  right: calc(1rem + 0.75rem) !important;
+  right: calc(var(--popover-inset, 14px) + 0.75rem) !important;
   width: 26px !important;
   height: 26px !important;
   display: flex !important;
@@ -981,7 +984,7 @@ body.has-search-open {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  padding: 2rem 1rem;
+  padding: 2rem var(--popover-inset, 14px);
   color: var(--wp--preset--color--contrast-2, #636363);
   font-size: 0.95rem;
   border-top: 1px solid var(--wp--preset--color--accent, #cfcabe);
@@ -1057,8 +1060,8 @@ body.has-search-open {
   color: var(--wp--preset--color--contrast, #111111) !important;
   padding: 0.75rem 2.75rem 0.75rem 2.75rem !important;
   height: 48px !important;
-  margin: 1rem !important;
-  width: calc(100% - 2rem) !important;
+  margin: var(--popover-inset, 14px) !important;
+  width: calc(100% - 2 * var(--popover-inset, 14px)) !important;
   box-sizing: border-box !important;
   box-shadow: none !important;
   transition: none !important;
@@ -1078,9 +1081,9 @@ body.has-search-open {
 #site-search-container .pagefind-ui__form::before {
   content: "" !important;
   position: absolute !important;
-  top: calc(1rem + 24px) !important;
+  top: calc(var(--popover-inset, 14px) + 24px) !important;
   transform: translateY(-50%) !important;
-  left: calc(1rem + 0.85rem) !important;
+  left: calc(var(--popover-inset, 14px) + 0.85rem) !important;
   width: 20px !important;
   height: 20px !important;
   background-color: var(--wp--preset--color--contrast-2, #636363) !important;
@@ -1104,9 +1107,9 @@ body.has-search-open {
 /* Locked Clear X button position aligned to search input center */
 #site-search-container .pagefind-ui__search-clear {
   position: absolute !important;
-  top: calc(1rem + 24px) !important;
+  top: calc(var(--popover-inset, 14px) + 24px) !important;
   transform: translateY(-50%) !important;
-  right: calc(1rem + 0.75rem) !important;
+  right: calc(var(--popover-inset, 14px) + 0.75rem) !important;
   width: 26px !important;
   height: 26px !important;
   display: flex !important;
@@ -1162,7 +1165,7 @@ body.has-search-open {
   overflow-y: auto !important;
   overscroll-behavior: contain !important;
   -webkit-overflow-scrolling: touch !important;
-  padding: 0.5rem 1rem 1rem 1rem !important;
+  padding: 0.5rem var(--popover-inset, 14px) var(--popover-inset, 14px) var(--popover-inset, 14px) !important;
   box-sizing: border-box !important;
   border-top: 1px solid var(--wp--preset--color--accent, #cfcabe) !important;
   gap: 0 !important;
@@ -1393,7 +1396,7 @@ body.has-search-open {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 0.55rem 1rem;
+  padding: 0.55rem var(--popover-inset, 14px);
   background: var(--wp--preset--color--base, #f0efed);
   border-top: 1px solid var(--wp--preset--color--accent, #cfcabe);
   user-select: none;
@@ -1988,12 +1991,12 @@ html[data-account="signed-in"] .site-account-icon-profile {
   top: 72px;
   right: 20px;
   z-index: 2;
-  width: min(320px, calc(100vw - 1.5rem));
+  width: min(320px, calc(100vw - 2 * var(--popover-inset, 14px)));
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
   border-radius: var(--radius-popover, 12px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
-  padding: 14px;
+  padding: var(--popover-inset, 14px);
   box-sizing: border-box;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -2007,7 +2010,7 @@ html[data-account="signed-in"] .site-account-icon-profile {
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%) !important;
-    width: min(320px, calc(100vw - 1.5rem)) !important;
+    width: min(320px, calc(100vw - 2 * var(--popover-inset, 14px))) !important;
   }
 }
 
@@ -2089,7 +2092,7 @@ html[data-account="signed-in"] .site-account-icon-profile {
   height: 1px;
   background: var(--wp--preset--color--accent, #cfcabe);
   opacity: 0.65;
-  margin: 12px 0;
+  margin: var(--popover-inset, 14px) 0;
 }
 
 .site-account-links {
@@ -2106,7 +2109,7 @@ html[data-account="signed-in"] .site-account-icon-profile {
   min-height: 40px;
   box-sizing: border-box;
   padding: 0.45rem 0.65rem;
-  border-radius: 8px;
+  border-radius: var(--radius-default, 8px);
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.2;

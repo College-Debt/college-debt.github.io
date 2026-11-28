@@ -72,9 +72,10 @@ Declared in [`static/css/theme-personalize.css`](file:///Users/cherryquartzio/Re
 ### B. Spacing Scale, Layout Containers & Corner Radius
 - Spacing tokens: `--wp--preset--spacing--10` (`1rem`), `--20` (`min(1.5rem, 2vw)`), `--30` (`min(2.5rem, 3vw)`), `--40` (`min(4rem, 5vw)`), `--50` (`min(6.5rem, 8vw)`).
 - Editorial width classes: `.is-layout-constrained` (~`620px`), `.alignwide` (~`1280px`), `.alignfull` (`100vw`).
-- Chrome alignment container: `.site-header-row` and `.site-footer-row` share `max-width: 1440px` and `1.25rem` horizontal padding.
-- Sticky header: `.site-header-group` (`10px` vertical padding, `backdrop-filter: blur(12px)`, `.is-scrolled` bottom border), exposing `--site-header-height: 67px` desktop / `56px` mobile (`<= 600px`).
+- Chrome alignment container: `.site-header-row` and `.site-footer-row` share `max-width: 1440px` and `1.25rem` horizontal padding. Desktop site logo width is `180px` (`height: 38px` proportional to SVG viewBox); mobile `<= 600px` scales down to `155px`.
+- Sticky header: `.site-header-group` (`10px` vertical padding, `backdrop-filter: blur(12px)`, `.is-scrolled` bottom border), exposing `--site-header-height: 59px` desktop / `56px` mobile (`<= 600px`).
 - Sticky footer layout: `main`, `.wp-site-blocks > main` sets `min-height: calc(100vh - 83px)`.
+- **Default Popover Inset (`--popover-inset: 14px`)** — Shared horizontal/vertical inset and divider spacing applied across floating popovers (`.site-personalize-dialog`, `.site-account-dialog`), mobile outer clamp (`calc(100vw - 2 * var(--popover-inset))`), and Search modal (`.site-search-modal`, `.site-search-fallback-form`, `.pagefind-ui__search-input` margin, `.pagefind-ui__drawer` side/bottom padding, `.site-search-footer` horizontal padding).
 - **Corner Radius Scale** (declared on `:root` in [`static/css/custom.css`](file:///Users/cherryquartzio/Repos/college-debt.github.io/static/css/custom.css)):
   - **Default (`--radius-default: 8px`)** — Shared baseline derived from sitewide image framing (`.wp-block-image img`, `.wiki-cover-banner`, `.wiki-article-body img`) and applied uniformly to all buttons (`.pt-btn`, `.pt-tab-btn`, `.error-404-btn`, `.pagefind-ui__button`, `.home-wiki-button`, `.site-account-btn-action`, `.site-account-link-item`, `.pt-stage-icon-btn`, `.wiki-mobile-toc-toggle`, `.skip-link`, `:focus-visible` rings), form controls (`.pt-input`, `.pt-select`, `.pt-stepper`), content cards (`.wiki-pager-card`, `.pt-card`, `.pt-gallery-card`, `.wiki-hint`, `.wiki-tabs`), and compact modal option tiles.
   - **Popovers & Floating Overlays (`--radius-popover: 12px`)** — Slightly rounder container radius used for floating header popovers (`.site-personalize-dialog`, `.site-account-dialog`), overlay dialogs (`.site-search-dialog`), the floating lightbox command bar (`.site-lightbox-bar`), `.pt-tablist`, `.wiki-sidebar-card`, and off-screen wiki drawers.
@@ -114,18 +115,18 @@ All individual labeled buttons and account quick links share a **`40px`** standa
 - **Increment Steppers (`.pt-stepper`)**:
   - `38px` height, `8px` radius (`30px 1fr 30px` CSS Grid for `-`, integer `.pt-stepper-val`, `+`), paired in a 2-row stack (`8px` gap) beside the `104px × 104px` square painting grid picker (`38 + 8 + 20 + 38 = 104px` total alignment height).
 - **Search Modal Input (`.pagefind-ui__search-input`, `.site-search-fallback-input`)**:
-  - `48px` height, `1.5px solid accent` border, `8px` radius, `20×20` magnifying glass icon at `left: calc(1rem + 0.85rem)` and `26×26` clear `✕` button on the right.
+  - `48px` height, `1.5px solid accent` border, `8px` radius, `20×20` magnifying glass icon at `left: calc(14px + 0.85rem)` and `26×26` clear `✕` button `0.75rem` inside the `14px` outer inset.
 
 ### C. Floating Header Popovers & Overlays
 1. **Popover Card Pattern (`.site-personalize-dialog`, `.site-account-dialog`)**:
    - Anchored beneath the triggering header icon on desktop; fixed centered below the sticky header (`top: calc(var(--site-header-height, 56px) + 10px)`) at `<= 600px`.
-   - `14px` uniform padding, `12px` radius (`--radius-popover`), `1px solid accent`, `base-2` surface, `box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14)` (`0 18px 48px rgba(0, 0, 0, 0.55)` dark).
-   - **Personalize Popover** (`width: min(360px, calc(100vw - 1.5rem))`): 3 theme circles (`34px` dia.), `6 × 2` accent swatch grid (`32px` dia.), 4 font `Ag` tiles (`8px` radius).
-   - **Account Popover** (`width: min(320px, calc(100vw - 1.5rem))`):
+   - `14px` default padding & divider rhythm (`--popover-inset`), `12px` radius (`--radius-popover`), `1px solid accent`, `base-2` surface, `box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14)` (`0 18px 48px rgba(0, 0, 0, 0.55)` dark).
+   - **Personalize Popover** (`width: min(360px, calc(100vw - 28px))`): 3 theme circles (`34px` dia.), `6 × 2` accent swatch grid (`32px` dia.), 4 font `Ag` tiles (`8px` radius).
+   - **Account Popover** (`width: min(320px, calc(100vw - 28px))`):
      - *Signed-out*: Explanatory note (`is-compact`) + full-width `40px` primary `Sign in` CTA (no redundant header).
      - *Signed-in*: `38px` circular `.site-account-avatar` + display name + optional `.site-account-admin-badge` (hidden unless admin) + lowercase email, divider, `40px` quick links (`Paintings Studio` with `16×16` image icon; `Manage Account` with `16×16` Microsoft 4-square logo and `↗`), divider, full-width `40px` `Sign out` button.
 2. **Search Modal (`#site-search-modal`, [`layouts/partials/search_modal.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/search_modal.html))**:
-   - Centered `min(680px, 100%)` card, `12px` radius (`--radius-popover`), `max-height: 82vh`, frosted `12px` backdrop (`--backdrop-scrim`), scrollable `.pagefind-ui__drawer`, keyboard-navigation footer (`↵` / `↑↓` / `ESC`, hidden at `<= 600px`).
+   - Centered `min(680px, 100%)` card, `12px` radius (`--radius-popover`), `14px` internal margin/padding inset (`--popover-inset`), `max-height: 82vh`, frosted `12px` backdrop (`--backdrop-scrim`), scrollable `.pagefind-ui__drawer`, keyboard-navigation footer (`↵` / `↑↓` / `ESC`, hidden at `<= 600px`).
 3. **Universal Lightbox (`#site-lightbox`, [`layouts/partials/lightbox_modal.html`](file:///Users/cherryquartzio/Repos/college-debt.github.io/layouts/partials/lightbox_modal.html))**:
    - Shared frosted backdrop (`backdrop-filter: blur(12px)`) over `rgba(240, 239, 237, 0.75)` / `--backdrop-scrim`.
    - Borderless `40×40` top-right close button (`✕`) and centered bottom floating command bar (`.site-lightbox-bar`, `12px` popover radius) with left/right library arrows (`32×32`) and zoom `-` / `%` / `+` (`32px` height), zero borders on inner controls.
