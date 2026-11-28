@@ -476,6 +476,13 @@ figcaption {
 }
 
 .home-wiki-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 40px !important;
+  padding: 0.45rem 1.1rem !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
   border-style: none !important;
   border-width: 0px !important;
   border-radius: 0px !important;
@@ -1344,15 +1351,16 @@ body.has-search-open {
   justify-content: center !important;
   width: 100% !important;
   max-width: 100% !important;
-  min-height: 44px !important;
-  padding: 0.75rem 1.25rem !important;
+  min-height: 40px !important;
+  padding: 0.45rem 1rem !important;
   margin: 1.25rem 0 0.5rem 0 !important;
   background: var(--wp--preset--color--base-2, #ffffff) !important;
   border: 1px solid var(--wp--preset--color--accent, #cfcabe) !important;
   border-radius: 8px !important;
   font-family: 'Inter', sans-serif !important;
-  font-size: 0.95rem !important;
+  font-size: 0.9rem !important;
   font-weight: 400 !important;
+  line-height: 1.2 !important;
   color: var(--wp--preset--color--contrast, #111111) !important;
   cursor: pointer !important;
   text-align: center !important;
@@ -1553,13 +1561,13 @@ main#main-content:focus,
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  min-height: 44px;
-  padding: 0.65rem 1.25rem;
+  min-height: 40px;
+  padding: 0.45rem 1rem;
   background: var(--wp--preset--color--base-2, #ffffff);
   border: 1px solid var(--wp--preset--color--accent, #cfcabe);
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.2;
   color: var(--wp--preset--color--contrast, #111111);
@@ -2076,13 +2084,29 @@ html[data-account="signed-in"] .site-account-icon-profile {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.48rem 0.6rem;
+  gap: 0.5rem;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 0.45rem 0.65rem;
   border-radius: 8px;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 400;
+  line-height: 1.2;
   color: var(--wp--preset--color--contrast, #111111);
   text-decoration: none;
   border: 1px solid transparent;
+}
+
+.site-account-link-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.site-account-link-icon {
+  flex-shrink: 0;
+  display: block;
 }
 
 @media (hover: hover) {
@@ -2093,6 +2117,8 @@ html[data-account="signed-in"] .site-account-icon-profile {
 }
 
 .site-account-link-arrow {
+  flex-shrink: 0;
+  line-height: 1;
   font-size: 0.95rem;
   color: var(--wp--preset--color--contrast-2, #636363);
 }
@@ -2102,11 +2128,13 @@ html[data-account="signed-in"] .site-account-icon-profile {
   align-items: center;
   justify-content: center;
   width: 100%;
+  min-height: 40px;
   box-sizing: border-box;
-  padding: 0.56rem 0.9rem;
+  padding: 0.45rem 0.9rem;
   border-radius: 8px;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 400;
+  line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
   transition: none !important;
