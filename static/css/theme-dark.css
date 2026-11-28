@@ -894,7 +894,7 @@
     background: var(--wp--preset--color--base-2) !important;
     border-color: var(--wp--preset--color--accent) !important;
     color: var(--wp--preset--color--contrast) !important;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: none !important;
   }
 
   @media (hover: hover) {
@@ -1759,7 +1759,7 @@
     background: var(--wp--preset--color--base-2) !important;
     border-color: var(--wp--preset--color--accent) !important;
     color: var(--wp--preset--color--contrast) !important;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: none !important;
   }
 
   :root[data-theme="dark"] .error-404-btn {

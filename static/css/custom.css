@@ -1517,7 +1517,7 @@ body.has-search-open {
 
 @media (hover: hover) {
   #site-search-container .pagefind-ui__button:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: none !important;
     border-color: var(--brand-accent, #0a4651) !important;
     color: var(--brand-accent, #0a4651) !important;
   }

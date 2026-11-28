@@ -810,6 +810,247 @@
     return wrap;
   }
 
+  /* --- Site-Themed Custom Dropdown Controller --- */
+  var activeDropdownClose = null;
+  var dropdownGlobalBound = false;
+
+  function ensureDropdownGlobalListeners() {
+    if (dropdownGlobalBound) return;
+    dropdownGlobalBound = true;
+    document.addEventListener('click', function (e) {
+      if (activeDropdownClose && !(e.target && e.target.closest && e.target.closest('.pt-dropdown.is-open'))) {
+        activeDropdownClose(false);
+      }
+    });
+  }
+
+  function createCustomDropdown(opts) {
+    ensureDropdownGlobalListeners();
+
+    var root = document.createElement('div');
+    root.className = 'pt-dropdown';
+
+    var menuId = opts.id + '-menu';
+    var trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.id = opts.id;
+    trigger.className = 'pt-dropdown-trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-controls', menuId);
+    if (opts.labelId) {
+      trigger.setAttribute('aria-labelledby', opts.labelId + ' ' + opts.id);
+    }
+
+    var labelSpan = document.createElement('span');
+    labelSpan.className = 'pt-dropdown-label';
+    trigger.appendChild(labelSpan);
+
+    var chevron = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    chevron.setAttribute('class', 'pt-dropdown-chevron');
+    chevron.setAttribute('width', '16');
+    chevron.setAttribute('height', '16');
+    chevron.setAttribute('viewBox', '0 0 24 24');
+    chevron.setAttribute('fill', 'none');
+    chevron.setAttribute('stroke', 'currentColor');
+    chevron.setAttribute('stroke-width', '2.4');
+    chevron.setAttribute('stroke-linecap', 'round');
+    chevron.setAttribute('stroke-linejoin', 'round');
+    chevron.setAttribute('aria-hidden', 'true');
+    var chevPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    chevPoly.setAttribute('points', '6 9 12 15 18 9');
+    chevron.appendChild(chevPoly);
+    trigger.appendChild(chevron);
+
+    var menu = document.createElement('ul');
+    menu.id = menuId;
+    menu.className = 'pt-dropdown-menu';
+    menu.setAttribute('role', 'listbox');
+    if (opts.labelId) {
+      menu.setAttribute('aria-labelledby', opts.labelId);
+    }
+    menu.tabIndex = -1;
+    menu.hidden = true;
+
+    root.appendChild(trigger);
+    root.appendChild(menu);
+
+    var currentOptions = [];
+    var currentValue = '';
+    var activeIndex = -1;
+    var optionEls = [];
+
+    function syncTriggerLabel() {
+      var found = currentOptions.find(function (o) { return o.value === currentValue; }) || currentOptions[0];
+      labelSpan.textContent = found ? found.label : '';
+    }
+
+    function setActiveIndex(idx) {
+      if (!optionEls.length) {
+        activeIndex = -1;
+        return;
+      }
+      var nextIdx = Math.max(0, Math.min(optionEls.length - 1, idx));
+      activeIndex = nextIdx;
+      optionEls.forEach(function (li, i) {
+        li.classList.toggle('is-active', i === nextIdx);
+      });
+      var target = optionEls[nextIdx];
+      if (target && typeof target.scrollIntoView === 'function') {
+        target.scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    function closeMenu(restoreFocus) {
+      if (!root.classList.contains('is-open')) return;
+      root.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      menu.hidden = true;
+      optionEls.forEach(function (li) { li.classList.remove('is-active'); });
+      if (activeDropdownClose === closeMenu) {
+        activeDropdownClose = null;
+      }
+      if (restoreFocus) {
+        trigger.focus();
+      }
+    }
+
+    function openMenu(focusMenu) {
+      if (activeDropdownClose && activeDropdownClose !== closeMenu) {
+        activeDropdownClose(false);
+      }
+      root.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+      menu.hidden = false;
+      activeDropdownClose = closeMenu;
+      var selIdx = currentOptions.findIndex(function (o) { return o.value === currentValue; });
+      setActiveIndex(selIdx >= 0 ? selIdx : 0);
+      if (focusMenu) {
+        menu.focus({ preventScroll: true });
+      }
+    }
+
+    function selectValue(nextVal, triggerChange, restoreFocus) {
+      currentValue = String(nextVal);
+      optionEls.forEach(function (li, i) {
+        var matched = currentOptions[i] && currentOptions[i].value === currentValue;
+        li.classList.toggle('is-selected', matched);
+        li.setAttribute('aria-selected', matched ? 'true' : 'false');
+      });
+      syncTriggerLabel();
+      closeMenu(restoreFocus);
+      if (triggerChange && typeof opts.onChange === 'function') {
+        opts.onChange(currentValue);
+      }
+    }
+
+    function renderOptions(newOpts, nextVal) {
+      currentOptions = Array.isArray(newOpts) ? newOpts.map(function (o) {
+        return { value: String(o.value), label: String(o.label) };
+      }) : [];
+      if (nextVal !== undefined && nextVal !== null) {
+        currentValue = String(nextVal);
+      } else if (currentOptions.length && !currentOptions.some(function (o) { return o.value === currentValue; })) {
+        currentValue = currentOptions[0].value;
+      }
+
+      menu.innerHTML = '';
+      optionEls = [];
+      currentOptions.forEach(function (o) {
+        var li = document.createElement('li');
+        li.className = 'pt-dropdown-option' + (o.value === currentValue ? ' is-selected' : '');
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', o.value === currentValue ? 'true' : 'false');
+        li.setAttribute('data-value', o.value);
+
+        var textSpan = document.createElement('span');
+        textSpan.className = 'pt-dropdown-option-text';
+        textSpan.textContent = o.label;
+
+        var check = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        check.setAttribute('class', 'pt-dropdown-option-check');
+        check.setAttribute('width', '14');
+        check.setAttribute('height', '14');
+        check.setAttribute('viewBox', '0 0 24 24');
+        check.setAttribute('fill', 'none');
+        check.setAttribute('stroke', 'currentColor');
+        check.setAttribute('stroke-width', '2.5');
+        check.setAttribute('stroke-linecap', 'round');
+        check.setAttribute('stroke-linejoin', 'round');
+        check.setAttribute('aria-hidden', 'true');
+        var poly = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        poly.setAttribute('points', '20 6 9 17 4 12');
+        check.appendChild(poly);
+
+        li.appendChild(textSpan);
+        li.appendChild(check);
+        li.addEventListener('click', function (e) {
+          e.stopPropagation();
+          selectValue(o.value, true, false);
+        });
+        menu.appendChild(li);
+        optionEls.push(li);
+      });
+      syncTriggerLabel();
+    }
+
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (root.classList.contains('is-open')) {
+        closeMenu(false);
+      } else {
+        openMenu(false);
+      }
+    });
+
+    trigger.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        openMenu(true);
+      } else if (e.key === 'Escape' && root.classList.contains('is-open')) {
+        e.preventDefault();
+        closeMenu(true);
+      }
+    });
+
+    menu.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeMenu(true);
+      } else if (e.key === 'Tab') {
+        closeMenu(false);
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActiveIndex(activeIndex + 1);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveIndex(activeIndex - 1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        setActiveIndex(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        setActiveIndex(optionEls.length - 1);
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (activeIndex >= 0 && currentOptions[activeIndex]) {
+          selectValue(currentOptions[activeIndex].value, true, true);
+        }
+      }
+    });
+
+    renderOptions(opts.options || [], opts.value);
+
+    return {
+      el: root,
+      trigger: trigger,
+      menu: menu,
+      getValue: function () { return currentValue; },
+      setValue: function (val) { selectValue(val, false, false); },
+      setOptions: renderOptions
+    };
+  }
+
   function renderStudio(focusTargetId) {
     els.studioGrid.innerHTML = '';
     var slugMeta = predictSlugsForStaged();
@@ -1135,51 +1376,50 @@
       var scaleGroup = document.createElement('div');
       var scaleLbl = document.createElement('label');
       scaleLbl.className = 'pt-field-label';
+      scaleLbl.id = 'pt-scale-lbl-' + item.id;
       scaleLbl.htmlFor = 'pt-scale-' + item.id;
       scaleLbl.textContent = 'Detail Scale (max 8×)';
-      var scaleSel = document.createElement('select');
-      scaleSel.id = 'pt-scale-' + item.id;
-      scaleSel.className = 'pt-select';
-      ALLOWED_SCALES.forEach(function (sc) {
-        var optS = document.createElement('option');
-        optS.value = String(sc);
-        optS.textContent = sc + '× (' + (item.blocksW * BASE_PX_PER_BLOCK * sc) + '×' + (item.blocksH * BASE_PX_PER_BLOCK * sc) + ' px)';
-        optS.selected = item.scale === sc;
-        scaleSel.appendChild(optS);
-      });
-      scaleSel.addEventListener('change', function () {
-        item.scale = Number(scaleSel.value);
-        updatePreviewChips(item, sizeChip, detailChip);
-        renderPaintingToCanvas(item, canvas);
-        updatePublishSummary();
+      var scaleDrop = createCustomDropdown({
+        id: 'pt-scale-' + item.id,
+        labelId: scaleLbl.id,
+        options: ALLOWED_SCALES.map(function (sc) {
+          return {
+            value: String(sc),
+            label: sc + '× (' + (item.blocksW * BASE_PX_PER_BLOCK * sc) + '×' + (item.blocksH * BASE_PX_PER_BLOCK * sc) + ' px)'
+          };
+        }),
+        value: String(item.scale),
+        onChange: function (val) {
+          item.scale = Number(val);
+          updatePreviewChips(item, sizeChip, detailChip);
+          renderPaintingToCanvas(item, canvas);
+          updatePublishSummary();
+        }
       });
       scaleGroup.appendChild(scaleLbl);
-      scaleGroup.appendChild(scaleSel);
+      scaleGroup.appendChild(scaleDrop.el);
 
       var modeGroup = document.createElement('div');
       var modeLbl = document.createElement('label');
       modeLbl.className = 'pt-field-label';
+      modeLbl.id = 'pt-scaling-lbl-' + item.id;
       modeLbl.htmlFor = 'pt-scaling-' + item.id;
       modeLbl.textContent = 'Canvas Scaling';
-      var modeSel = document.createElement('select');
-      modeSel.id = 'pt-scaling-' + item.id;
-      modeSel.className = 'pt-select';
-      var optSmooth = document.createElement('option');
-      optSmooth.value = 'smooth';
-      optSmooth.textContent = 'Smooth (Photos & Art)';
-      optSmooth.selected = !item.pixelArt;
-      var optPixel = document.createElement('option');
-      optPixel.value = 'pixel';
-      optPixel.textContent = 'Crisp (Pixel Art)';
-      optPixel.selected = item.pixelArt;
-      modeSel.appendChild(optSmooth);
-      modeSel.appendChild(optPixel);
-      modeSel.addEventListener('change', function () {
-        item.pixelArt = modeSel.value === 'pixel';
-        renderPaintingToCanvas(item, canvas);
+      var modeDrop = createCustomDropdown({
+        id: 'pt-scaling-' + item.id,
+        labelId: modeLbl.id,
+        options: [
+          { value: 'smooth', label: 'Smooth (Photos & Art)' },
+          { value: 'pixel', label: 'Crisp (Pixel Art)' }
+        ],
+        value: item.pixelArt ? 'pixel' : 'smooth',
+        onChange: function (val) {
+          item.pixelArt = val === 'pixel';
+          renderPaintingToCanvas(item, canvas);
+        }
       });
       modeGroup.appendChild(modeLbl);
-      modeGroup.appendChild(modeSel);
+      modeGroup.appendChild(modeDrop.el);
 
       scaleCol.appendChild(scaleGroup);
       scaleCol.appendChild(modeGroup);
@@ -1498,9 +1738,27 @@
     }
   }
 
+  var galleryFilterDropdown = null;
+
+  function initGalleryFilterDropdown() {
+    if (!els.gallerySizeFilter || galleryFilterDropdown) return;
+    galleryFilterDropdown = createCustomDropdown({
+      id: 'pt-gallery-size-filter',
+      labelId: 'pt-gallery-size-filter-label',
+      options: [{ value: 'all', label: 'All sizes' }],
+      value: 'all',
+      onChange: function () { renderGallery(); }
+    });
+    if (els.gallerySizeFilter.parentNode) {
+      els.gallerySizeFilter.parentNode.replaceChild(galleryFilterDropdown.el, els.gallerySizeFilter);
+    }
+    els.gallerySizeFilter = galleryFilterDropdown.trigger;
+  }
+
   function populateGallerySizeFilter(items) {
-    if (!els.gallerySizeFilter) return;
-    var prev = els.gallerySizeFilter.value || 'all';
+    initGalleryFilterDropdown();
+    if (!galleryFilterDropdown) return;
+    var prev = galleryFilterDropdown.getValue() || 'all';
     var sizes = [];
     var seen = new Set();
     items.forEach(function (it) {
@@ -1512,14 +1770,14 @@
     });
     sizes.sort();
 
-    els.gallerySizeFilter.innerHTML = '<option value="all">All sizes</option>';
+    var opts = [{ value: 'all', label: 'All sizes' }];
     sizes.forEach(function (sz) {
-      var opt = document.createElement('option');
-      opt.value = sz;
-      opt.textContent = sz.replace('x', '\u00d7') + ' blocks';
-      els.gallerySizeFilter.appendChild(opt);
+      opts.push({
+        value: sz,
+        label: sz.replace('x', '\u00d7') + ' blocks'
+      });
     });
-    els.gallerySizeFilter.value = seen.has(prev) ? prev : 'all';
+    galleryFilterDropdown.setOptions(opts, seen.has(prev) ? prev : 'all');
   }
 
   async function savePaintingEdit(slug, title, author) {
@@ -1583,7 +1841,7 @@
     els.galleryGrid.innerHTML = '';
 
     var query = (els.gallerySearch && els.gallerySearch.value.trim().toLowerCase()) || '';
-    var sizeFilter = (els.gallerySizeFilter && els.gallerySizeFilter.value) || 'all';
+    var sizeFilter = galleryFilterDropdown ? galleryFilterDropdown.getValue() : 'all';
 
     var filtered = state.gallery.items.filter(function (it) {
       if (sizeFilter !== 'all' && (it.width + 'x' + it.height) !== sizeFilter) {
@@ -1791,9 +2049,7 @@
   if (els.gallerySearch) {
     els.gallerySearch.addEventListener('input', function () { renderGallery(); });
   }
-  if (els.gallerySizeFilter) {
-    els.gallerySizeFilter.addEventListener('change', function () { renderGallery(); });
-  }
+  initGalleryFilterDropdown();
   if (els.galleryRefresh) {
     els.galleryRefresh.addEventListener('click', function () {
       state.gallery.loaded = false;

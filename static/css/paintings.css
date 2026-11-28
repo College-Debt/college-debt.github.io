@@ -171,6 +171,32 @@
   }
 }
 
+/* Sharp Homepage-Matched CTA Button (zero radius + sharp offset block shadow) */
+.pt-btn-sharp {
+  background: var(--brand-accent, #0a4651);
+  border: none;
+  border-radius: 0px !important;
+  padding: 0.45rem 1.1rem;
+  color: var(--brand-accent-contrast, #ffffff);
+  font-weight: 400;
+  box-shadow: var(--wp--preset--shadow--sharp, 6px 6px 0px rgba(0, 0, 0, 0.2));
+}
+
+.pt-btn-sharp:focus-visible {
+  outline: 2px solid var(--brand-accent, #0a4651) !important;
+  outline-offset: 3px;
+  border-radius: 0px !important;
+}
+
+@media (hover: hover) {
+  .pt-btn-sharp:not([disabled]):hover {
+    background: var(--brand-accent-hover, #0b6878);
+    border-color: transparent;
+    color: var(--brand-accent-contrast, #ffffff);
+    box-shadow: var(--wp--preset--shadow--sharp, 6px 6px 0px rgba(0, 0, 0, 0.2));
+  }
+}
+
 .pt-btn-danger-outline {
   color: #b91c1c;
 }
@@ -224,16 +250,143 @@
   padding: 0.45rem 0.75rem;
 }
 
-/* Enlarged chevron spaced 0.75rem from right edge (matching left option margin) */
-.pt-select {
-  appearance: none;
-  -webkit-appearance: none;
-  padding: 0 2.35rem 0 0.75rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 16px 16px;
+/* Custom Site-Themed Dropdowns (.pt-dropdown) */
+.pt-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.pt-card:has(.pt-dropdown.is-open) {
+  position: relative;
+  z-index: 25;
+}
+
+.pt-dropdown-trigger {
+  width: 100%;
+  height: 38px;
+  min-height: 38px;
+  padding: 0 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background-color: var(--wp--preset--color--base, #f0efed);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: var(--radius-default, 8px);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--wp--preset--color--contrast, #111111);
+  text-align: left;
   cursor: pointer;
+  box-sizing: border-box;
+}
+
+.pt-dropdown-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pt-dropdown-chevron {
+  flex-shrink: 0;
+  color: var(--wp--preset--color--contrast-2, #636363);
+  transition: transform 0.14s ease, color 0.14s ease;
+}
+
+.pt-dropdown.is-open .pt-dropdown-trigger {
+  border-color: var(--brand-accent, #0a4651) !important;
+}
+
+.pt-dropdown.is-open .pt-dropdown-chevron {
+  transform: rotate(180deg);
+  color: var(--brand-accent, #0a4651);
+}
+
+.pt-dropdown-trigger:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
+.pt-dropdown:not(.is-open) .pt-dropdown-trigger:focus:not(:focus-visible) {
+  border-color: var(--wp--preset--color--accent, #cfcabe);
+}
+
+.pt-dropdown-trigger:focus-visible {
+  outline: none !important;
+  border-color: var(--brand-accent, #0a4651) !important;
+}
+
+.pt-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(300px, calc(100vw - 2rem));
+  max-height: 240px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  background: var(--wp--preset--color--base-2, #ffffff);
+  border: 1px solid var(--wp--preset--color--accent, #cfcabe);
+  border-radius: var(--radius-popover, 12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+  z-index: 60;
+  box-sizing: border-box;
+}
+
+.pt-dropdown-menu:focus {
+  outline: none;
+}
+
+.pt-dropdown-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: var(--radius-default, 8px);
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--wp--preset--color--contrast, #111111);
+  cursor: pointer;
+  user-select: none;
+}
+
+.pt-dropdown-option-text {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.pt-dropdown-option-check {
+  flex-shrink: 0;
+  opacity: 0;
+  color: var(--brand-accent, #0a4651);
+}
+
+.pt-dropdown-option.is-selected {
+  color: var(--brand-accent, #0a4651);
+  font-weight: 500;
+}
+
+.pt-dropdown-option.is-selected .pt-dropdown-option-check {
+  opacity: 1;
+}
+
+.pt-dropdown-option.is-active {
+  background: var(--brand-accent-muted, rgba(10, 70, 81, 0.12));
+  color: var(--brand-accent, #0a4651);
+}
+
+@media (hover: hover) {
+  .pt-dropdown-option:hover {
+    background: var(--brand-accent-muted, rgba(10, 70, 81, 0.12));
+    color: var(--brand-accent, #0a4651);
+  }
 }
 
 .pt-input-compact {
@@ -970,8 +1123,13 @@
    Dark Theme Refinements
    ========================================================================== */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .pt-select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d1d5db' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  :root:not([data-theme="light"]) .pt-btn-sharp,
+  :root:not([data-theme="light"]) .pt-btn-sharp:not([disabled]):hover {
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6);
+  }
+
+  :root:not([data-theme="light"]) .pt-dropdown-menu {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
   }
 
   :root:not([data-theme="light"]) .pt-preview-stage {
@@ -992,8 +1150,13 @@
   }
 }
 
-:root[data-theme="dark"] .pt-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d1d5db' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+:root[data-theme="dark"] .pt-btn-sharp,
+:root[data-theme="dark"] .pt-btn-sharp:not([disabled]):hover {
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6);
+}
+
+:root[data-theme="dark"] .pt-dropdown-menu {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
 }
 
 :root[data-theme="dark"] .pt-preview-stage {
@@ -1034,6 +1197,7 @@ html[data-font="mojangles"] .pt-main select,
 html[data-font="mojangles"] .pt-main button,
 html[data-font="mojangles"] .pt-main label,
 html[data-font="mojangles"] .pt-main p,
+html[data-font="mojangles"] .pt-main li,
 html[data-font="mojangles"] .pt-main span:not(.pt-chip),
 html[data-font="mojangles"] .pt-gallery-title {
   font-family: 'Minecraft', monospace !important;
